@@ -1153,8 +1153,8 @@ function openPr(key){
     tg.appendChild(s);
   });
   var col=p.op?'#059669':'#94a3b8';
-  var bg2=p.op?'#ecfdf5':'var(--bg3)';
-  var br=p.op?'#d1fae5':'var(--border)';
+  var bg2=p.op?'#ecfdf5':'#f5f4f0';
+  var br=p.op?'#d1fae5':'#e8e6f0';
   document.getElementById('pm-avl').innerHTML='<span style="background:'+bg2+';color:'+col+';border:1px solid '+br+';border-radius:8px;padding:4px 11px;font-size:12px;font-weight:600">'+p.av+'</span>';
   document.getElementById('pm-flw').textContent='+ Obserwuj';
   document.getElementById('pm-flw').style.background='';
@@ -1263,45 +1263,94 @@ function openHt(tag){
 
 // ===== SEARCH =====
 var searchData = [
-  {type:'artist',name:'Piotr Wróbel',sub:'3D Environment · CD Projekt RED',key:'pw',bg:'linear-gradient(135deg,#065f46,#10b981)',in:'PW'},
-  {type:'artist',name:'Anna Kędzierska',sub:'UI/UX Designer · Freelance',key:'ak',bg:'linear-gradient(135deg,#831843,#ec4899)',in:'AK'},
-  {type:'artist',name:'Michał Nowak',sub:'Technical Artist · Remote',key:'mn',bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)',in:'MN'},
-  {type:'artist',name:'Karol Zając',sub:'VFX Artist · Wrocław',key:'kz',bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)',in:'KZ'},
-  {type:'artist',name:'Ela Lis',sub:'Pixel Artist · Kraków',key:'el',bg:'linear-gradient(135deg,#065f46,#34d399)',in:'EL'},
-  {type:'job',name:'Senior 3D Character Artist',sub:'Techland · 8 000–14 000 PLN',co:'Techland',lc:'Wrocław'},
-  {type:'job',name:'UI/UX Designer — Games',sub:'11 bit studios · Remote',co:'11 bit studios',lc:'Warszawa'},
-  {type:'job',name:'Concept Artist',sub:'Flying Wild Hog · Hybrid',co:'Flying Wild Hog',lc:'Kraków'},
-  {type:'job',name:'VFX Artist',sub:'Bloober Team · On-site',co:'Bloober Team',lc:'Kraków'},
-  {type:'tag',name:'#Unreal5',sub:'2.8k postów'},
-  {type:'tag',name:'#ConceptArt',sub:'1.9k postów'},
-  {type:'tag',name:'#PixelArt',sub:'760 postów'},
-  {type:'tag',name:'#GameDev',sub:'3.4k postów'}
+  {type:'artist',name:'Piotr Wrobel',sub:'3D Environment - CD Projekt RED',key:'pw',av:'PW',bg:'linear-gradient(135deg,#065f46,#10b981)'},
+  {type:'artist',name:'Anna Kedzierska',sub:'UI/UX Designer - Freelance',key:'ak',av:'AK',bg:'linear-gradient(135deg,#831843,#ec4899)'},
+  {type:'artist',name:'Michal Nowak',sub:'Technical Artist - Remote',key:'mn',av:'MN',bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)'},
+  {type:'artist',name:'Karol Zajac',sub:'VFX Artist - Wroclaw',key:'kz',av:'KZ',bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)'},
+  {type:'artist',name:'Ela Lis',sub:'Pixel Artist - Krakow',key:'el',av:'EL',bg:'linear-gradient(135deg,#065f46,#34d399)'},
+  {type:'job',name:'Senior 3D Character Artist',sub:'Techland - 8 000-14 000 PLN',co:'Techland',lc:'Wroclaw'},
+  {type:'job',name:'UI/UX Designer Games',sub:'11 bit studios - Remote',co:'11 bit studios',lc:'Warszawa'},
+  {type:'job',name:'Concept Artist',sub:'Flying Wild Hog - Hybrid',co:'Flying Wild Hog',lc:'Krakow'},
+  {type:'job',name:'VFX Artist',sub:'Bloober Team - On-site',co:'Bloober Team',lc:'Krakow'},
+  {type:'tag',name:'Unreal5',sub:'2.8k postow'},
+  {type:'tag',name:'ConceptArt',sub:'1.9k postow'},
+  {type:'tag',name:'PixelArt',sub:'760 postow'},
+  {type:'tag',name:'GameDev',sub:'3.4k postow'}
 ];
 function doSearch(q){
   var res=document.getElementById('search-res');
   if(!q||q.length<2){
-    res.innerHTML='<div class="stit">Popularne wyszukiwania</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"><span onclick="searchFor('Unreal 5')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#Unreal5</span><span onclick="searchFor('Concept Art')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#ConceptArt</span><span onclick="searchFor('Remote')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">Oferty Remote</span></div>';
+    res.innerHTML='<div class="stit">Popularne wyszukiwania</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">'
+      +'<span onclick="searchFor(this)" data-q="Unreal5" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#Unreal5</span>'
+      +'<span onclick="searchFor(this)" data-q="ConceptArt" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#ConceptArt</span>'
+      +'<span onclick="searchFor(this)" data-q="Remote" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">Oferty Remote</span>'
+      +'</div>';
     return;
   }
   var ql=q.toLowerCase();
-  var found=searchData.filter(function(i){
-    return i.name.toLowerCase().includes(ql)||(i.sub&&i.sub.toLowerCase().includes(ql));
+  var found=searchData.filter(function(item){
+    return item.name.toLowerCase().includes(ql)||(item.sub&&item.sub.toLowerCase().includes(ql));
   });
-  if(!found.length){res.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3)">Brak wyników dla "'+q+'"</div>';return;}
-  var html='<div class="stit">Wyniki ('+found.length+')</div>';
-  found.forEach(function(i){
-    if(i.type==='artist'){
-      html+='<div class="sri" onclick="cm('m-search');openPr(''+i.key+'')"><div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:'+i.bg+'">'+i.in+'</div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:var(--acc3);color:var(--acc);padding:2px 8px;border-radius:5px;font-weight:600">Artysta</div></div>';
-    } else if(i.type==='job'){
-      html+='<div class="sri" onclick="cm('m-search');openJob(''+i.name+'',''+i.co+'',''+i.lc+'','On-site','Pełny etat','—','Sprawdź ofertę','Kliknij aby zobaczyć szczegóły oferty.',''+i.co.slice(0,2)+'','linear-gradient(135deg,#7c3aed,#c084fc)')"><div class="ib" style="width:36px;height:36px;border-radius:10px;background:var(--acc3);color:var(--acc);border:none"><i class="ti ti-briefcase" style="font-size:16px"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:#ecfdf5;color:#059669;padding:2px 8px;border-radius:5px;font-weight:600">Oferta</div></div>';
+  if(!found.length){
+    res.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3)">Brak wynikow dla tego zapytania</div>';
+    return;
+  }
+  var out='<div class="stit">Wyniki ('+found.length+')</div>';
+  found.forEach(function(item){
+    var div=document.createElement('div');
+    div.className='sri';
+    if(item.type==='artist'){
+      div.innerHTML='<div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:'+item.bg+'">'+item.av+'</div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:var(--acc3);color:var(--acc);padding:2px 8px;border-radius:5px;font-weight:600">Artysta</div>';
+      div.onclick=function(){cm('m-search');openPr(item.key);};
+    } else if(item.type==='job'){
+      div.innerHTML='<div style="width:36px;height:36px;border-radius:10px;background:var(--acc3);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-briefcase" style="color:var(--acc);font-size:16px"></i></div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:#ecfdf5;color:#059669;padding:2px 8px;border-radius:5px;font-weight:600">Oferta</div>';
+      div.onclick=function(){
+        cm('m-search');
+        openJob(item.name,item.co,item.lc,'On-site','Pelny etat','-','Sprawdz oferte','Kliknij aby zobaczyc szczegoly.',item.co.slice(0,2),'linear-gradient(135deg,#7c3aed,#c084fc)');
+      };
     } else {
-      var tag=i.name.replace('#','');
-      html+='<div class="sri" onclick="cm('m-search');openHt(''+tag+'')"><div class="ib" style="width:36px;height:36px;border-radius:10px;background:var(--spark2);color:var(--spark);border:none;font-size:16px"><i class="ti ti-hash"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:var(--spark2);color:var(--spark);padding:2px 8px;border-radius:5px;font-weight:600">Hashtag</div></div>';
+      div.innerHTML='<div style="width:36px;height:36px;border-radius:10px;background:var(--spark2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-hash" style="color:var(--spark);font-size:16px"></i></div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">#'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:var(--spark2);color:var(--spark);padding:2px 8px;border-radius:5px;font-weight:600">Hashtag</div>';
+      div.onclick=function(){cm('m-search');openHt(item.name);};
     }
+    res.appendChild(div);
   });
-  res.innerHTML=html;
+  res.innerHTML='<div class="stit">Wyniki ('+found.length+')</div>';
+  found.forEach(function(item){
+    var div=document.createElement('div');
+    div.className='sri';
+    if(item.type==='artist'){
+      div.innerHTML='<div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:'+item.bg+'">'+item.av+'</div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:var(--acc3);color:var(--acc);padding:2px 8px;border-radius:5px;font-weight:600">Artysta</div>';
+      div.onclick=(function(k){return function(){cm('m-search');openPr(k);};})(item.key);
+    } else if(item.type==='job'){
+      div.innerHTML='<div style="width:36px;height:36px;border-radius:10px;background:var(--acc3);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-briefcase" style="color:var(--acc);font-size:16px"></i></div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:#ecfdf5;color:#059669;padding:2px 8px;border-radius:5px;font-weight:600">Oferta</div>';
+      div.onclick=(function(n,c,l){return function(){cm('m-search');openJob(n,c,l,'On-site','Pelny etat','-','Sprawdz oferte','Szczegoly oferty.',c.slice(0,2),'linear-gradient(135deg,#7c3aed,#c084fc)');};})(item.name,item.co,item.lc);
+    } else {
+      div.innerHTML='<div style="width:36px;height:36px;border-radius:10px;background:var(--spark2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-hash" style="color:var(--spark);font-size:16px"></i></div>'
+        +'<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">#'+item.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text2)">'+item.sub+'</div></div>'
+        +'<div style="font-size:10px;background:var(--spark2);color:var(--spark);padding:2px 8px;border-radius:5px;font-weight:600">Hashtag</div>';
+      div.onclick=(function(t){return function(){cm('m-search');openHt(t);};})(item.name);
+    }
+    res.appendChild(div);
+  });
 }
-function searchFor(q){
+function searchFor(el){
+  var q=el.dataset?el.dataset.q:el;
   document.getElementById('search-inp').value=q;
   doSearch(q);
 }
@@ -1317,12 +1366,15 @@ function pubPost(){
 }
 
 // Auto-focus search input when modal opens
-document.getElementById('m-search').addEventListener('transitionend',function(){
-  if(this.classList.contains('on')){
-    var inp=document.getElementById('search-inp');
-    if(inp)inp.focus();
-  }
-});
+var mSearch = document.getElementById('m-search');
+if(mSearch){
+  mSearch.addEventListener('transitionend',function(){
+    if(this.classList.contains('on')){
+      var inp=document.getElementById('search-inp');
+      if(inp)setTimeout(function(){inp.focus();},50);
+    }
+  });
+}
 </script>
 </body>
 </html>
