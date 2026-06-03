@@ -1,280 +1,400 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lorti</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lorti — Network dla Artystów Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
+:root {
+  --bg: #f5f4f0; --bg2: #fff; --bg3: #f8f7fc; --bg4: #f0edfb;
+  --border: #e8e6f0; --border2: #ddd6fe;
+  --text: #1a1825; --text2: #5a5870; --text3: #a09ab8;
+  --acc: #7c3aed; --acc2: #c084fc; --acc3: #f0edfb;
+  --spark: #f97316; --spark2: #fef3c7; --spark3: #fed7aa;
+  --red: #ef4444; --green: #059669; --yellow: #d97706;
+  --shadow: rgba(124,58,237,.08);
+}
+[data-theme="dark"] {
+  --bg: #0f0e17; --bg2: #1a1828; --bg3: #221f30; --bg4: #2a2040;
+  --border: #2e2a42; --border2: #4c3a7a;
+  --text: #f0eef8; --text2: #a09ab8; --text3: #6b6880;
+  --acc: #9f5ff5; --acc2: #c084fc; --acc3: #2a1a4a;
+  --spark: #fb923c; --spark2: #431407; --spark3: #7c2d12;
+  --shadow: rgba(0,0,0,.3);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s}
 /* TOPBAR */
-.bar{background:#fff;border-bottom:1px solid #e8e6f0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:200}
-.logo{font-family:'Space Mono',monospace;font-size:21px;font-weight:700;cursor:pointer;letter-spacing:-1.5px}
-.logo b{color:#7c3aed}
-.tabs{display:flex;gap:2px}
-.tab{border:none;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#8b8aa0;padding:7px 15px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.bar{background:var(--bg2);border-bottom:1px solid var(--border);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200;gap:8px}
+.logo{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;cursor:pointer;letter-spacing:-1.5px;color:var(--text)}
+.logo b{color:var(--acc)}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:none;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text2);padding:7px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;flex-shrink:0}
 .tab i{font-size:16px}
-.tab:hover{background:#f5f4f0;color:#1a1825}
-.tab.on{background:#f0edfb;color:#7c3aed}
-.br{display:flex;align-items:center;gap:8px}
-.ib{background:#f5f4f0;border:1px solid #e8e6f0;color:#8b8aa0;width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;transition:all .15s}
-.ib:hover{background:#f0edfb;border-color:#c4b5fd;color:#7c3aed}
-.nd{width:8px;height:8px;background:#7c3aed;border-radius:50%;position:absolute;top:4px;right:4px;border:2px solid #f5f4f0}
-.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c084fc);color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.tab:hover{background:var(--bg);color:var(--text)}
+.tab.on{background:var(--acc3);color:var(--acc)}
+.br{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ib{background:var(--bg);border:1px solid var(--border);color:var(--text2);width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;transition:all .15s;flex-shrink:0}
+.ib:hover{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
+.nbdg{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;border-radius:10px;padding:1px 5px;border:2px solid var(--bg2);min-width:16px;text-align:center}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+/* SEARCH BAR */
+.searchbar{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:8px;margin:12px 16px 0;transition:border-color .15s}
+.searchbar:focus-within{border-color:var(--acc)}
+.searchbar i{color:var(--text3);font-size:16px}
+.searchbar input{background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);width:100%;placeholder:var(--text3)}
+.searchbar input::placeholder{color:var(--text3)}
 /* LAYOUT */
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
-.g3{display:grid;grid-template-columns:228px 1fr 268px;gap:22px;padding:24px 0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.g3{display:grid;grid-template-columns:220px 1fr 260px;gap:20px;padding:20px 0}
 .col{display:flex;flex-direction:column;gap:14px}
 /* CARDS */
-.card{background:#fff;border:1px solid #e8e6f0;border-radius:14px;overflow:hidden}
-.cp{padding:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:background .2s,border-color .2s}
+.cp{padding:14px}
 /* PROFILE SIDEBAR */
-.pbg{height:64px;background:linear-gradient(135deg,#ede9fe,#c4b5fd)}
-.ppic{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c084fc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;margin:-24px 0 0 16px;box-shadow:0 2px 8px rgba(124,58,237,.2)}
-.pi{padding:8px 16px 14px}
-.pn{font-weight:600;font-size:14px;margin-top:6px}
-.pr{font-size:12px;color:#8b8aa0;margin-top:2px}
-.ptg{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.tg{background:#f0edfb;border:1px solid #e0d9f7;border-radius:20px;padding:3px 9px;font-size:11px;color:#7c3aed;font-weight:500}
-.pst{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#e8e6f0;border-top:1px solid #e8e6f0}
-.ps{background:#fff;padding:10px;text-align:center;cursor:pointer}
-.ps:hover{background:#faf7ff}
-.psn{font-size:16px;font-weight:700}
-.psl{font-size:10px;color:#a09ab8;text-transform:uppercase;letter-spacing:.5px}
-/* NAV MENU */
-.stit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#b0aac0;margin-bottom:12px}
-.mi{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;color:#5a5870;font-size:13px;cursor:pointer;transition:all .15s;font-weight:500}
-.mi:hover{background:#f5f4f0;color:#1a1825}
-.mi.on{background:#f0edfb;color:#7c3aed}
+.pbg{height:60px;background:linear-gradient(135deg,#ede9fe,#c4b5fd)}
+[data-theme="dark"] .pbg{background:linear-gradient(135deg,#2a1a4a,#4c3a7a)}
+.pavwrap{padding:0 14px 12px}
+.pavimg{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;border:3px solid var(--bg2);margin:-23px 0 0 0;box-shadow:0 2px 8px var(--shadow)}
+.pname{font-weight:600;font-size:14px;color:var(--text);margin-top:6px}
+.prole{font-size:12px;color:var(--text2);margin-top:2px}
+.ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.tg{background:var(--acc3);border:1px solid var(--border2);border-radius:20px;padding:3px 9px;font-size:11px;color:var(--acc);font-weight:500}
+.pstats{display:grid;grid-template-columns:1fr 1fr;background:var(--border);gap:1px;border-top:1px solid var(--border)}
+.ps{background:var(--bg2);padding:10px;text-align:center;cursor:pointer;transition:background .15s}
+.ps:hover{background:var(--bg3)}
+.psn{font-size:15px;font-weight:700;color:var(--text)}
+.psl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+/* NAV */
+.stit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:10px}
+.mi{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500}
+.mi:hover{background:var(--bg);color:var(--text)}
+.mi.on{background:var(--acc3);color:var(--acc)}
 .mi i{font-size:16px}
-.nbdg{background:#7c3aed;color:#fff;font-size:10px;border-radius:10px;padding:1px 7px;margin-left:auto;font-weight:600}
+.mbdg{background:var(--acc);color:#fff;font-size:10px;border-radius:10px;padding:1px 7px;margin-left:auto;font-weight:600}
 /* FEED */
 .feed{display:flex;flex-direction:column;gap:14px}
-.fbar{background:#faf7ff;border:1px solid #ddd6fe;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
-.fbdg{background:#7c3aed;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;font-family:'Space Mono',monospace;flex-shrink:0}
-.ftxt{font-size:12px;color:#8b6ec8;flex:1}
-.ubtn{background:#7c3aed;border:none;color:#fff;font-size:12px;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap}
-.ubtn:hover{background:#6d28d9}
-.ftop{background:#fff;border:1px solid #e8e6f0;border-radius:14px;padding:14px;display:flex;gap:10px;align-items:center}
-.fin{background:#f8f7fc;border:1px solid #e8e6f0;border-radius:9px;padding:10px 14px;flex:1;color:#a09ab8;font-size:13px;cursor:pointer;transition:all .15s}
-.fin:hover{border-color:#c4b5fd}
-.fic{background:#f5f4f0;border:1px solid #e8e6f0;color:#8b8aa0;width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s}
-.fic:hover{background:#f0edfb;border-color:#c4b5fd;color:#7c3aed}
+/* FREE BANNER */
+.fbar{background:var(--acc3);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.fbdg{background:var(--acc);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;font-family:'Space Mono',monospace;flex-shrink:0}
+.ftxt{font-size:12px;color:var(--acc);flex:1}
+.ubtn{background:var(--acc);border:none;color:#fff;font-size:12px;padding:6px 12px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap;transition:all .15s}
+.ubtn:hover{opacity:.9}
+/* AD BANNER */
+.adbanner{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;position:relative}
+.adlbl{position:absolute;top:8px;right:8px;background:var(--bg3);color:var(--text3);font-size:9px;padding:2px 6px;border-radius:5px;font-weight:600;letter-spacing:.5px}
+.adcontent{padding:14px;display:flex;gap:12px;align-items:center}
+.adicon{width:44px;height:44px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+.adtit{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.adsub{font-size:11px;color:var(--text2)}
+.adcta{background:var(--acc);color:#fff;border:none;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px;display:inline-block}
+/* FEED TOP */
+.ftop{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center}
+.fin{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 14px;flex:1;color:var(--text3);font-size:13px;cursor:pointer;transition:all .15s}
+.fin:hover{border-color:var(--border2)}
+.fic{background:var(--bg);border:1px solid var(--border);color:var(--text2);width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s}
+.fic:hover{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
 /* POST */
-.post{background:#fff;border:1px solid #e8e6f0;border-radius:16px;overflow:hidden;transition:box-shadow .2s,border-color .2s}
-.post:hover{box-shadow:0 4px 24px rgba(124,58,237,.07);border-color:#ddd6fe}
-.ph{padding:16px 18px 0;display:flex;gap:12px;align-items:flex-start}
-.pav{width:42px;height:42px;border-radius:12px;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.post{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.post:hover{box-shadow:0 4px 24px var(--shadow);border-color:var(--border2)}
+.ph{padding:14px 16px 0;display:flex;gap:10px;align-items:flex-start}
+.pav{width:40px;height:40px;border-radius:11px;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
 .pm{flex:1}
 .par{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.pa{font-weight:600;font-size:14px;cursor:pointer}
-.pa:hover{color:#7c3aed}
-.prb{background:#f0edfb;color:#7c3aed;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px}
-.ps2{font-size:12px;color:#a09ab8;margin-top:2px}
-.ptm{background:#f5f4f0;color:#b0aac0;font-size:11px;padding:4px 9px;border-radius:7px;white-space:nowrap;align-self:flex-start}
-.pb2{padding:12px 18px 0;font-size:14px;color:#3a3850;line-height:1.65}
-.ht{color:#7c3aed;font-weight:500;cursor:pointer}
+.pa{font-weight:600;font-size:14px;cursor:pointer;color:var(--text)}
+.pa:hover{color:var(--acc)}
+.prb{background:var(--acc3);color:var(--acc);font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
+.ps2{font-size:12px;color:var(--text2);margin-top:2px}
+.ptm{background:var(--bg3);color:var(--text3);font-size:11px;padding:4px 8px;border-radius:7px;white-space:nowrap;align-self:flex-start}
+.pb2{padding:10px 16px 0;font-size:14px;color:var(--text2);line-height:1.65}
+.ht{color:var(--acc);font-weight:500;cursor:pointer}
 .ht:hover{text-decoration:underline}
-.pim{margin:14px 18px 0;border-radius:12px;overflow:hidden;border:1px solid #e8e6f0;position:relative;cursor:pointer}
+.pim{margin:12px 16px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);position:relative;cursor:pointer}
 .pim:hover .iov{opacity:1}
 .iov{position:absolute;inset:0;background:rgba(124,58,237,.08);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
-.iov i{font-size:32px;color:#7c3aed;background:#fff;border-radius:50%;padding:10px}
-.ilbl{position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,.93);color:#7c3aed;font-size:10px;padding:4px 9px;border-radius:6px;font-family:'Space Mono',monospace;font-weight:700;border:1px solid #ddd6fe}
-.pf{padding:12px 18px 14px;display:flex;align-items:center;gap:4px;margin-top:10px;border-top:1px solid #f5f4f0}
-.ab{background:none;border:none;color:#a09ab8;font-size:13px;display:flex;align-items:center;gap:5px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:6px 10px;border-radius:8px;transition:all .15s;font-weight:500}
-.ab:hover{background:#f5f4f0;color:#1a1825}
-.ab i{font-size:16px}
-.ab.lk{color:#7c3aed;background:#f0edfb}
-.ab.bk{color:#7c3aed}
+.iov i{font-size:28px;color:var(--acc);background:var(--bg2);border-radius:50%;padding:8px}
+.ilbl{position:absolute;bottom:8px;right:8px;background:rgba(255,255,255,.93);color:var(--acc);font-size:9px;padding:3px 8px;border-radius:5px;font-family:'Space Mono',monospace;font-weight:700;border:1px solid var(--border2)}
+[data-theme="dark"] .ilbl{background:rgba(26,24,40,.93)}
+.pf{padding:10px 16px 12px;display:flex;align-items:center;gap:4px;margin-top:8px;border-top:1px solid var(--border)}
+.ab{background:none;border:none;color:var(--text3);font-size:13px;display:flex;align-items:center;gap:5px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:5px 9px;border-radius:8px;transition:all .15s;font-weight:500}
+.ab:hover{background:var(--bg);color:var(--text)}
+.ab i{font-size:15px}
+/* ISKRA button */
+.ab.spark-btn{color:var(--spark)}
+.ab.spark-btn:hover{background:var(--spark2)}
+.ab.sparked{color:var(--spark);background:var(--spark2);font-weight:600}
 .sp{flex:1}
 /* RIGHT SIDEBAR */
-.ji{padding:12px;background:#f8f7fc;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.ji{padding:12px;background:var(--bg3);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .15s;border:1px solid transparent}
 .ji:last-of-type{margin-bottom:0}
-.ji:hover{border-color:#c4b5fd;background:#f0edfb}
-.jit{font-size:13px;font-weight:600}
-.jic{font-size:12px;color:#8b8aa0;margin-top:2px}
+.ji:hover{border-color:var(--border2);background:var(--acc3)}
+.jit{font-size:13px;font-weight:600;color:var(--text)}
+.jico{font-size:12px;color:var(--text2);margin-top:2px}
 .jtg{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
 .jt{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
 .jt.re{background:#ecfdf5;color:#059669;border:1px solid #d1fae5}
 .jt.on2{background:#eef2ff;color:#4f46e5;border:1px solid #e0e7ff}
 .jt.hy{background:#fff7ed;color:#d97706;border:1px solid #fed7aa}
-.jt.ty{background:#faf5ff;color:#7c3aed;border:1px solid #ede9fe}
-.jsal{font-size:11px;color:#a09ab8;margin-top:6px;font-weight:500}
-.trt{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:#f8f7fc;border-radius:8px;font-size:13px;color:#3a3850;cursor:pointer;transition:all .15s;font-weight:500;border:1px solid transparent;margin-bottom:5px}
-.trt:hover{background:#f0edfb;border-color:#ddd6fe;color:#7c3aed}
-.trc{font-size:11px;color:#b0aac0}
-.sgr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f4f0}
+.jt.ty{background:var(--acc3);color:var(--acc);border:1px solid var(--border2)}
+[data-theme="dark"] .jt.re{background:#064e3b;color:#34d399;border-color:#065f46}
+[data-theme="dark"] .jt.on2{background:#1e1b4b;color:#818cf8;border-color:#312e81}
+[data-theme="dark"] .jt.hy{background:#431407;color:#fb923c;border-color:#7c2d12}
+.jsal{font-size:11px;color:var(--text3);margin-top:6px;font-weight:500}
+.trt{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg3);border-radius:8px;font-size:13px;color:var(--text);cursor:pointer;transition:all .15s;font-weight:500;border:1px solid transparent;margin-bottom:5px}
+.trt:hover{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
+.trc{font-size:11px;color:var(--text3)}
+.sgr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
 .sgr:last-child{border-bottom:none;padding-bottom:0}
 .sgi{flex:1}
-.sgn{font-size:13px;font-weight:500}
-.sgrl{font-size:11px;color:#a09ab8;margin-top:1px}
-.flw{background:none;border:1px solid #ddd6fe;color:#7c3aed;font-size:12px;padding:4px 11px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap;transition:all .15s}
-.flw:hover{background:#7c3aed;color:#fff;border-color:#7c3aed}
-.vm{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:#f8f7fc;border:1px solid #e8e6f0;border-radius:9px;color:#8b8aa0;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s;margin-top:8px}
-.vm:hover{background:#f0edfb;border-color:#c4b5fd;color:#7c3aed}
+.sgn{font-size:13px;font-weight:500;color:var(--text)}
+.sgrl{font-size:11px;color:var(--text2);margin-top:1px}
+.flw{background:none;border:1px solid var(--border2);color:var(--acc);font-size:12px;padding:4px 11px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap;transition:all .15s}
+.flw:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
+.vm{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s;margin-top:8px}
+.vm:hover{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
 /* PAGES */
 .page{display:none}
 .page.on{display:block}
-.sechdr{background:#fff;border:1px solid #e8e6f0;border-radius:14px;padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
-.sect{font-size:18px;font-weight:700}
-.secs{font-size:13px;color:#8b8aa0;margin-top:2px}
-.frow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.fil{background:#f5f4f0;border:1px solid #e8e6f0;border-radius:8px;padding:6px 13px;font-size:12px;font-weight:500;color:#5a5870;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
-.fil:hover,.fil.on{background:#f0edfb;border-color:#c4b5fd;color:#7c3aed}
-.jfc{background:#fff;border:1.5px solid #e8e6f0;border-radius:14px;padding:18px;cursor:pointer;transition:all .2s;margin-bottom:12px}
-.jfc:hover{border-color:#c4b5fd;box-shadow:0 4px 20px rgba(124,58,237,.08)}
-.jfh{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
-.jfl{width:46px;height:46px;border-radius:12px;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.jft{font-size:15px;font-weight:700}
-.jfco{font-size:13px;color:#7c3aed;font-weight:500;margin-top:2px}
-.jfd{font-size:13px;color:#6a6880;line-height:1.6;margin-bottom:12px}
-.jff{display:flex;align-items:center;justify-content:space-between}
-.jfs{font-size:13px;font-weight:600}
+.sechdr{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.sect{font-size:18px;font-weight:700;color:var(--text)}
+.secs{font-size:13px;color:var(--text2);margin-top:2px}
+.frow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.fil{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 13px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.fil:hover,.fil.on{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
+.jfc{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.jfc:hover{border-color:var(--border2);box-shadow:0 4px 20px var(--shadow)}
+.jfh{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.jfl{width:44px;height:44px;border-radius:11px;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.jft{font-size:15px;font-weight:700;color:var(--text)}
+.jfco{font-size:13px;color:var(--acc);font-weight:500;margin-top:2px}
+.jfd{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.jff{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.jfs{font-size:13px;font-weight:600;color:var(--text)}
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tc{background:#fff;border:1.5px solid #e8e6f0;border-radius:14px;padding:16px;cursor:pointer;transition:all .2s}
-.tc:hover{border-color:#c4b5fd;box-shadow:0 4px 16px rgba(124,58,237,.08)}
-.tct{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.tcav{width:44px;height:44px;border-radius:12px;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tcn{font-size:14px;font-weight:600}
-.tcr{font-size:12px;color:#8b8aa0;margin-top:2px}
+.tc{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s}
+.tc:hover{border-color:var(--border2);box-shadow:0 4px 16px var(--shadow)}
+.tct{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tcav{width:42px;height:42px;border-radius:11px;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tcn{font-size:14px;font-weight:600;color:var(--text)}
+.tcr{font-size:12px;color:var(--text2);margin-top:2px}
 .tca{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;margin-top:4px;display:inline-block}
 .avail{background:#ecfdf5;color:#059669}
-.unavail{background:#f1f5f9;color:#94a3b8}
+.unavail{background:var(--bg3);color:var(--text3)}
+[data-theme="dark"] .avail{background:#064e3b;color:#34d399}
 .tcsk{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
-.sk{background:#f0edfb;border-radius:5px;padding:2px 7px;font-size:10px;color:#7c3aed;font-weight:500}
-.tcft{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f5f4f0;padding-top:10px;font-size:12px;color:#5a5870}
+.sk{background:var(--acc3);border-radius:5px;padding:2px 7px;font-size:10px;color:var(--acc);font-weight:500}
+.tcft{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:10px;font-size:12px;color:var(--text2)}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.pfi{border-radius:12px;overflow:hidden;border:1px solid #e8e6f0;cursor:pointer;transition:all .2s;background:#fff}
-.pfi:hover{border-color:#c4b5fd;transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.1)}
-.pfl{padding:8px 10px;font-size:11px;color:#5a5870;font-weight:500}
+.pfi{border-radius:12px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all .2s;background:var(--bg2)}
+.pfi:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow)}
+.pfl{padding:8px 10px;font-size:11px;color:var(--text2);font-weight:500;background:var(--bg2)}
 /* MODALS */
-.mov{position:fixed;inset:0;background:rgba(26,24,37,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;transition:opacity .2s;pointer-events:none}
+.mdl{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,.2);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);opacity:1}
 .mov.on{opacity:1;pointer-events:all}
-.mdl{background:#fff;border-radius:18px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(26,24,37,.2);transform:translateY(16px) scale(.97);transition:transform .22s,opacity .22s;opacity:0}
-.mov.on .mdl{transform:translateY(0) scale(1);opacity:1}
-.mdl.w{max-width:740px}
-.mh{padding:20px 22px 16px;border-bottom:1px solid #f0eef8;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2;border-radius:18px 18px 0 0}
-.mt{font-size:16px;font-weight:600}
-.mx{background:#f5f4f0;border:none;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#8b8aa0;font-size:18px;transition:all .15s}
-.mx:hover{background:#f0edfb;color:#7c3aed}
-.mb{padding:20px 22px}
+.mov.on .mdl{transform:translateY(0)}
+.mdl.center{border-radius:18px;max-height:90vh;align-self:center;transform:scale(.95) translateY(20px)}
+.mov.on .mdl.center{transform:scale(1) translateY(0)}
+.mov.center-mov{align-items:center}
+/* Modal drag handle */
+.mhandle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:10px auto 0}
+.mh{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:2;border-radius:20px 20px 0 0}
+.mt{font-size:16px;font-weight:600;color:var(--text)}
+.mx{background:var(--bg3);border:none;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:17px;transition:all .15s}
+.mx:hover{background:var(--acc3);color:var(--acc)}
+.mb{padding:16px 18px}
 /* JOB MODAL */
-.jmh{background:linear-gradient(135deg,#f0edfb,#faf7ff);border-radius:12px;padding:18px;margin-bottom:18px;display:flex;gap:14px;align-items:flex-start}
-.jml{width:50px;height:50px;border-radius:12px;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.jmt2{font-size:18px;font-weight:700;margin-bottom:4px}
-.jmc{font-size:14px;color:#7c3aed;font-weight:500}
-.jmm{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.chip{display:flex;align-items:center;gap:5px;background:#f5f4f0;border-radius:8px;padding:6px 10px;font-size:12px;color:#5a5870;font-weight:500}
-.chip i{font-size:14px;color:#8b8aa0}
-.jms{margin-bottom:16px}
-.jmlb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#b0aac0;margin-bottom:8px}
-.jmtx{font-size:13px;color:#3a3850;line-height:1.7}
+.jmhero{background:var(--acc3);border-radius:12px;padding:16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start}
+.jmlo{width:48px;height:48px;border-radius:11px;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.jmt2{font-size:17px;font-weight:700;color:var(--text);margin-bottom:3px}
+.jmc{font-size:14px;color:var(--acc);font-weight:500}
+.jmm{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{display:flex;align-items:center;gap:5px;background:var(--bg3);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text2);font-weight:500}
+.chip i{font-size:13px;color:var(--text3)}
+.jms{margin-bottom:14px}
+.jmlb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:6px}
+.jmtx{font-size:13px;color:var(--text2);line-height:1.7}
 .scl{display:flex;flex-wrap:wrap;gap:6px}
-.sc{background:#f0edfb;border:1px solid #e0d9f7;border-radius:7px;padding:4px 10px;font-size:12px;color:#7c3aed;font-weight:500}
-.apbtn{background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .15s;margin-top:4px}
-.apbtn:hover{background:#6d28d9}
-.aplm{text-align:center;font-size:11px;color:#b0aac0;margin-top:8px}
+.sc{background:var(--acc3);border:1px solid var(--border2);border-radius:7px;padding:4px 10px;font-size:12px;color:var(--acc);font-weight:500}
+.apbtn{background:var(--acc);color:#fff;border:none;border-radius:10px;padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .15s;margin-top:4px}
+.apbtn:hover{opacity:.9}
+.aplm{text-align:center;font-size:11px;color:var(--text3);margin-top:8px}
 /* COMMENTS */
-.cl{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
+.cl{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
 .ci{display:flex;gap:10px}
 .cav{width:34px;height:34px;border-radius:10px;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cbl{background:#f8f7fc;border-radius:0 12px 12px 12px;padding:10px 13px;flex:1}
-.cn{font-size:12px;font-weight:600;margin-bottom:3px}
-.ct{font-size:13px;color:#3a3850;line-height:1.5}
-.ctm{font-size:11px;color:#b0aac0;margin-top:4px}
-.cinr{display:flex;gap:8px;align-items:flex-end;border-top:1px solid #f0eef8;padding-top:14px}
-.cinp{flex:1;background:#f8f7fc;border:1.5px solid #e8e6f0;border-radius:10px;padding:9px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:#1a1825;resize:none;height:40px;transition:border-color .15s}
-.cinp:focus{outline:none;border-color:#c4b5fd}
-.csnd{background:#7c3aed;border:none;border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;flex-shrink:0;transition:all .15s}
-.csnd:hover{background:#6d28d9}
+.cbl{background:var(--bg3);border-radius:0 12px 12px 12px;padding:10px 12px;flex:1}
+.cn{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.ct{font-size:13px;color:var(--text2);line-height:1.5}
+.ctm{font-size:11px;color:var(--text3);margin-top:4px}
+.cinr{display:flex;gap:8px;align-items:flex-end;border-top:1px solid var(--border);padding-top:12px}
+.cinp{flex:1;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);resize:none;height:40px;transition:border-color .15s}
+.cinp:focus{outline:none;border-color:var(--border2)}
+.csnd{background:var(--acc);border:none;border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:16px;flex-shrink:0;transition:all .15s}
+.csnd:hover{opacity:.9}
 /* PROFILE MODAL */
-.pmb{height:80px;border-radius:12px;margin-bottom:36px;position:relative}
-.pma{width:64px;height:64px;border-radius:16px;color:#fff;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;border:4px solid #fff;position:absolute;bottom:-32px;left:18px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.pmst2{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;background:#f8f7fc;border-radius:12px;padding:14px}
+.pmb{height:75px;border-radius:12px;margin-bottom:34px;position:relative}
+.pma{width:60px;height:60px;border-radius:14px;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;border:3px solid var(--bg2);position:absolute;bottom:-30px;left:16px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.pmst2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0;background:var(--bg3);border-radius:12px;padding:12px}
 .pmsi{text-align:center}
-.pmsn{font-size:18px;font-weight:700}
-.pmsl{font-size:10px;color:#b0aac0;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.wg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
-.wi{background:#f8f7fc;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid #e8e6f0;transition:border-color .15s}
-.wi:hover{border-color:#c4b5fd}
-.wl{font-size:10px;color:#8b8aa0;padding:5px 8px;font-weight:500}
-.cbtn{background:#f0edfb;color:#7c3aed;border:1px solid #ddd6fe;border-radius:10px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.cbtn:hover{background:#7c3aed;color:#fff;border-color:#7c3aed}
+.pmsn{font-size:17px;font-weight:700;color:var(--text)}
+.pmsl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.wg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.wi{background:var(--bg3);border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:border-color .15s}
+.wi:hover{border-color:var(--border2)}
+.wl{font-size:10px;color:var(--text2);padding:5px 8px;font-weight:500;background:var(--bg2)}
+.cbtn{background:var(--acc3);color:var(--acc);border:1px solid var(--border2);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.cbtn:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
 /* NOTIF */
 .nls{display:flex;flex-direction:column;gap:1px}
-.ni{display:flex;gap:10px;align-items:flex-start;padding:12px;cursor:pointer;border-radius:9px;transition:all .15s}
-.ni:hover{background:#f8f7fc}
-.ni.unr{background:#faf7ff}
-.nico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.nit{flex:1;font-size:13px;color:#3a3850;line-height:1.5}
-.nit strong{color:#1a1825}
-.nim{font-size:11px;color:#b0aac0;margin-top:2px}
-/* PRO */
-.proh{text-align:center;padding:20px 0 10px}
-.probd{display:inline-block;background:linear-gradient(135deg,#7c3aed,#c084fc);color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:14px}
-.prot{font-size:22px;font-weight:700;margin-bottom:6px}
-.pros{font-size:14px;color:#8b8aa0}
-.ppl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
-.pp{border:1.5px solid #e8e6f0;border-radius:14px;padding:16px;cursor:pointer;transition:all .2s}
-.pp:hover,.pp.on{border-color:#7c3aed;background:#faf7ff}
-.ppn{font-size:13px;font-weight:600;margin-bottom:4px}
-.ppp{font-size:22px;font-weight:700;color:#7c3aed}
-.ppp span{font-size:13px;color:#b0aac0;font-weight:400}
-.pfs{margin:16px 0;display:flex;flex-direction:column;gap:8px}
-.pf2{display:flex;align-items:center;gap:8px;font-size:13px;color:#3a3850}
-.pf2 i{font-size:16px;color:#7c3aed;flex-shrink:0}
+.ni{display:flex;gap:10px;align-items:flex-start;padding:11px;cursor:pointer;border-radius:9px;transition:all .15s}
+.ni:hover{background:var(--bg3)}
+.ni.unr{background:var(--acc3)}
+.nico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.nit{flex:1;font-size:13px;color:var(--text2);line-height:1.5}
+.nit strong{color:var(--text)}
+.nim{font-size:11px;color:var(--text3);margin-top:2px}
+/* PRO MODAL */
+.proh{text-align:center;padding:16px 0 8px}
+.probd{display:inline-block;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:12px}
+.prot{font-size:21px;font-weight:700;color:var(--text);margin-bottom:5px}
+.pros{font-size:14px;color:var(--text2)}
+.ppl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.pp{border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s}
+.pp:hover,.pp.on{border-color:var(--acc);background:var(--acc3)}
+.ppn{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.ppp{font-size:21px;font-weight:700;color:var(--acc)}
+.ppp span{font-size:13px;color:var(--text3);font-weight:400}
+.pfs{margin:14px 0;display:flex;flex-direction:column;gap:8px}
+.pf2{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.pf2 i{font-size:16px;color:var(--acc);flex-shrink:0}
 /* MSGS */
-.msgl{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.msgl{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
 .msgi{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:10px;cursor:pointer;transition:all .15s;border:1px solid transparent}
-.msgi:hover{background:#f8f7fc;border-color:#e8e6f0}
-.msgi.unr{background:#faf7ff}
+.msgi:hover{background:var(--bg3);border-color:var(--border)}
+.msgi.unr{background:var(--acc3)}
 .msgc{flex:1;min-width:0}
-.msgsn{font-size:13px;font-weight:600}
-.msgpv{font-size:12px;color:#8b8aa0;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.msgtm{font-size:11px;color:#b0aac0;flex-shrink:0}
+.msgsn{font-size:13px;font-weight:600;color:var(--text)}
+.msgpv{font-size:12px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msgtm{font-size:11px;color:var(--text3);flex-shrink:0}
 /* CREATE */
-.cra{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#c084fc);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.crta{width:100%;background:#f8f7fc;border:1.5px solid #e8e6f0;border-radius:12px;padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:#1a1825;resize:none;min-height:110px;margin:14px 0;transition:border-color .15s}
-.crta:focus{outline:none;border-color:#c4b5fd}
+.cra{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crta{width:100%;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);resize:none;min-height:100px;margin:12px 0;transition:border-color .15s}
+.crta:focus{outline:none;border-color:var(--border2)}
 .crts{display:flex;gap:8px;flex-wrap:wrap}
-.crt{background:#f5f4f0;border:1px solid #e8e6f0;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:500;color:#5a5870;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s}
-.crt:hover{background:#f0edfb;border-color:#ddd6fe;color:#7c3aed}
-.crt i{font-size:15px}
-.psbtn{background:#7c3aed;color:#fff;border:none;border-radius:9px;padding:9px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.psbtn:hover{background:#6d28d9}
+.crt{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s}
+.crt:hover{background:var(--acc3);border-color:var(--border2);color:var(--acc)}
+.crt i{font-size:14px}
+.psbtn{background:var(--acc);color:#fff;border:none;border-radius:9px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.psbtn:hover{opacity:.9}
+/* SEARCH RESULTS */
+.sres{display:flex;flex-direction:column;gap:10px}
+.sri{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sri:hover{background:var(--bg3);border-color:var(--border)}
+/* DARK TOGGLE */
+.dtgl{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 10px;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2);font-weight:500;font-family:'DM Sans',sans-serif}
+.dtgl:hover{border-color:var(--border2);color:var(--text)}
+.dtgl i{font-size:15px}
+/* ISKRA COUNTER */
+.spark-count{font-size:13px;font-weight:600;color:var(--spark)}
 /* TOAST */
-#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1825;color:#fff;padding:11px 22px;border-radius:12px;font-size:13px;font-weight:500;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg2);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap}
+/* PRO BADGE on posts */
+.pro-badge{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;font-family:'Space Mono',monospace;letter-spacing:.3px}
+/* =================== MOBILE =================== */
+@media (max-width: 768px) {
+  .bar{padding:0 12px;height:50px}
+  .logo{font-size:18px}
+  .tabs{flex:1;justify-content:center}
+  .tab{padding:6px 10px;font-size:12px;gap:4px}
+  .tab span{display:none}
+  .g3{grid-template-columns:1fr;gap:0;padding:0}
+  .col:first-child,.col:last-child{display:none}
+  .feed{gap:10px;padding:12px 0}
+  .wrap{padding:0 12px}
+  .sechdr{padding:12px 14px;flex-direction:column;align-items:flex-start}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+  .tgrid{grid-template-columns:1fr}
+  .jfc{padding:14px}
+  .ph{padding:12px 14px 0}
+  .pb2{padding:8px 14px 0}
+  .pf{padding:8px 14px 10px}
+  .pim{margin:10px 14px 0}
+  .mov{align-items:flex-end}
+  .mdl{max-height:88vh;border-radius:20px 20px 0 0}
+  .mdl.center{border-radius:20px 20px 0 0;align-self:flex-end}
+  .pmst2{grid-template-columns:repeat(2,1fr)}
+  .ppl{grid-template-columns:1fr}
+  .wg{grid-template-columns:1fr 1fr}
+  .fbar{flex-wrap:wrap;gap:6px}
+  .fbar .ftxt{font-size:11px}
+  /* Mobile bottom nav */
+  .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);z-index:100;height:56px;align-items:center;justify-content:space-around;padding:0 8px}
+  .mobile-nav .tab{flex-direction:column;font-size:10px;padding:4px 12px;gap:2px;border-radius:8px}
+  .mobile-nav .tab i{font-size:20px}
+  .mobile-nav .tab span{display:block !important}
+  body{padding-bottom:64px}
+  .tabs{display:none}
+  .dtgl span{display:none}
+  .searchbar{margin:8px 12px 0}
+}
+@media (min-width: 769px) {
+  .mobile-nav{display:none !important}
+  .mov{align-items:center}
+  .mdl{border-radius:18px;max-height:90vh;transform:scale(.95) translateY(10px)}
+  .mov.on .mdl{transform:scale(1) translateY(0)}
+}
 </style>
 </head>
 <body>
+
+<!-- TOPBAR -->
 <div class="bar">
   <div class="logo" onclick="showPg('feed')">Lo<b>r</b>ti</div>
   <div class="tabs">
-    <button class="tab on" id="tab-feed" onclick="showPg('feed')"><i class="ti ti-layout-grid"></i>Feed</button>
-    <button class="tab" id="tab-jobs" onclick="showPg('jobs')"><i class="ti ti-briefcase"></i>Oferty</button>
-    <button class="tab" id="tab-talent" onclick="showPg('talent')"><i class="ti ti-users"></i>Talenty</button>
-    <button class="tab" id="tab-portfolio" onclick="showPg('portfolio')"><i class="ti ti-photo"></i>Portfolio</button>
+    <button class="tab on" id="tab-feed" onclick="showPg('feed')"><i class="ti ti-layout-grid"></i><span>Feed</span></button>
+    <button class="tab" id="tab-jobs" onclick="showPg('jobs')"><i class="ti ti-briefcase"></i><span>Oferty</span></button>
+    <button class="tab" id="tab-talent" onclick="showPg('talent')"><i class="ti ti-users"></i><span>Talenty</span></button>
+    <button class="tab" id="tab-portfolio" onclick="showPg('portfolio')"><i class="ti ti-photo"></i><span>Portfolio</span></button>
   </div>
   <div class="br">
-    <div class="ib" onclick="om('m-notif')"><i class="ti ti-bell"></i><div class="nd"></div></div>
-    <div class="ib" onclick="om('m-msgs')"><i class="ti ti-message"></i></div>
+    <button class="dtgl" onclick="toggleDark()"><i class="ti ti-moon" id="theme-icon"></i><span id="theme-txt">Ciemny</span></button>
+    <div class="ib" onclick="om('m-search')"><i class="ti ti-search"></i></div>
+    <div class="ib" onclick="om('m-notif')"><i class="ti ti-bell"></i><span class="nbdg" id="notif-count">3</span></div>
+    <div class="ib" onclick="om('m-msgs')"><i class="ti ti-message"></i><span class="nbdg" id="msg-count">3</span></div>
     <div class="av" onclick="om('m-myp')">MK</div>
   </div>
 </div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <button class="tab on" id="mtab-feed" onclick="showPg('feed')"><i class="ti ti-layout-grid"></i><span>Feed</span></button>
+  <button class="tab" id="mtab-jobs" onclick="showPg('jobs')"><i class="ti ti-briefcase"></i><span>Oferty</span></button>
+  <button class="tab" id="mtab-talent" onclick="showPg('talent')"><i class="ti ti-users"></i><span>Talenty</span></button>
+  <button class="tab" id="mtab-portfolio" onclick="showPg('portfolio')"><i class="ti ti-photo"></i><span>Portfolio</span></button>
+  <button class="tab" onclick="om('m-myp')"><i class="ti ti-user"></i><span>Profil</span></button>
+</div>
+
 <div class="wrap">
 
-<!-- FEED PAGE -->
+<!-- ===== FEED PAGE ===== -->
 <div id="page-feed" class="page on">
 <div class="g3">
+
+<!-- LEFT SIDEBAR -->
 <div class="col">
   <div class="card">
     <div class="pbg"></div>
-    <div class="pi"><div class="ppic">MK</div>
-    <div class="pn">Marta Kowalczyk</div><div class="pr">2D Concept Artist · Kraków</div>
-    <div class="ptg"><span class="tg">Concept Art</span><span class="tg">Characters</span><span class="tg">Unreal 5</span></div></div>
-    <div class="pst">
+    <div class="pavwrap">
+      <div class="pavimg">MK</div>
+      <div class="pname">Marta Kowalczyk</div>
+      <div class="prole">2D Concept Artist · Kraków</div>
+      <div class="ptags"><span class="tg">Concept Art</span><span class="tg">Characters</span><span class="tg">Unreal 5</span></div>
+    </div>
+    <div class="pstats">
       <div class="ps" onclick="om('m-myp')"><div class="psn">1.2k</div><div class="psl">Obserwujący</div></div>
       <div class="ps" onclick="showPg('portfolio')"><div class="psn">48</div><div class="psl">Projekty</div></div>
       <div class="ps" onclick="om('m-myp')"><div class="psn">94%</div><div class="psl">Profil</div></div>
@@ -284,93 +404,158 @@ body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
   <div class="card cp">
     <div class="stit">Nawigacja</div>
     <div class="mi on" onclick="showPg('feed')"><i class="ti ti-home"></i>Strona główna</div>
-    <div class="mi" onclick="showPg('jobs')"><i class="ti ti-briefcase"></i>Oferty pracy<span class="nbdg">7</span></div>
+    <div class="mi" onclick="showPg('jobs')"><i class="ti ti-briefcase"></i>Oferty pracy<span class="mbdg">7</span></div>
     <div class="mi" onclick="showPg('portfolio')"><i class="ti ti-photo"></i>Moje portfolio</div>
     <div class="mi" onclick="showPg('talent')"><i class="ti ti-users"></i>Sieć artystów</div>
-    <div class="mi" onclick="om('m-msgs')"><i class="ti ti-message"></i>Wiadomości<span class="nbdg">3</span></div>
+    <div class="mi" onclick="om('m-msgs')"><i class="ti ti-message"></i>Wiadomości<span class="mbdg">3</span></div>
     <div class="mi" onclick="om('m-saved')"><i class="ti ti-bookmark"></i>Zapisane</div>
   </div>
 </div>
 
+<!-- FEED CENTER -->
 <div class="feed">
-  <div class="fbar"><span class="fbdg">FREE</span><span class="ftxt">Konto darmowe · 5/10 aplikacji · Brak priorytetowej widoczności</span><button class="ubtn" onclick="om('m-pro')">Ulepsz do Pro →</button></div>
+  <!-- FREE BANNER -->
+  <div class="fbar" id="free-bar">
+    <span class="fbdg">FREE</span>
+    <span class="ftxt">Konto darmowe · 5/10 aplikacji · Brak priorytetowej widoczności</span>
+    <button class="ubtn" onclick="om('m-pro')">Ulepsz do Pro →</button>
+  </div>
+
+  <!-- AD BANNER (tylko Free) -->
+  <div class="adbanner" id="ad1">
+    <div class="adlbl">REKLAMA</div>
+    <div class="adcontent">
+      <div class="adicon" style="background:linear-gradient(135deg,#f59e0b,#fcd34d)">🎓</div>
+      <div>
+        <div class="adtit">Kurs Unreal Engine 5 — od zera do portfolio</div>
+        <div class="adsub">Ponad 40h materiału · Certyfikat ukończenia · 12 projektów</div>
+        <button class="adcta" onclick="toast('Przekierowuję na stronę kursu...')">Sprawdź kurs →</button>
+      </div>
+    </div>
+  </div>
+
   <div class="ftop">
-    <div class="av" style="width:38px;height:38px;font-size:12px;border-radius:10px">MK</div>
+    <div class="av" style="width:36px;height:36px;font-size:12px;border-radius:10px">MK</div>
     <div class="fin" onclick="om('m-create')">Co nowego tworzysz? Podziel się projektem...</div>
     <div class="fic" onclick="om('m-create')"><i class="ti ti-photo"></i></div>
   </div>
 
   <!-- POST 1 -->
   <div class="post">
-    <div class="ph"><div class="pav" style="background:linear-gradient(135deg,#065f46,#10b981)" onclick="openPr('pw')">PW</div>
-    <div class="pm"><div class="par"><span class="pa" onclick="openPr('pw')">Piotr Wróbel</span><span class="prb">3D Environment</span></div><div class="ps2">CD Projekt RED · Senior Artist · Warszawa</div></div>
-    <div class="ptm"><i class="ti ti-clock" style="font-size:12px;vertical-align:-1px"></i> 2h temu</div></div>
+    <div class="ph">
+      <div class="pav" style="background:linear-gradient(135deg,#065f46,#10b981)" onclick="openPr('pw')">PW</div>
+      <div class="pm">
+        <div class="par"><span class="pa" onclick="openPr('pw')">Piotr Wróbel</span><span class="prb">3D Environment</span><span class="pro-badge">PRO</span></div>
+        <div class="ps2">CD Projekt RED · Senior Artist · Warszawa</div>
+      </div>
+      <div class="ptm">2h temu</div>
+    </div>
     <div class="pb2">Skończyłem środowisko dla nowego projektu — post-apo miasto 2090. Pipeline: Houdini procedural → Unreal 5 → Lumen. Feedback mile widziany!<br>
     <span class="ht" onclick="openHt('Unreal5')">#Unreal5</span> <span class="ht" onclick="openHt('EnvironmentArt')">#EnvironmentArt</span> <span class="ht" onclick="openHt('GameDev')">#GameDev</span></div>
     <div class="pim" onclick="om('m-img1')">
-      <svg width="100%" height="200" viewBox="0 0 600 200"><rect width="600" height="200" fill="#111018"/><rect x="0" y="135" width="600" height="65" fill="#0d0b15"/><rect x="10" y="55" width="45" height="145" fill="#1c1928" rx="2"/><rect x="15" y="60" width="35" height="105" fill="#221f30" rx="1"/><rect x="65" y="30" width="60" height="170" fill="#1c1928" rx="2"/><rect x="70" y="35" width="50" height="125" fill="#221f30" rx="1"/><rect x="135" y="75" width="38" height="125" fill="#181524" rx="2"/><rect x="185" y="20" width="75" height="180" fill="#1c1928" rx="2"/><rect x="192" y="25" width="60" height="140" fill="#221f30" rx="1"/><rect x="270" y="45" width="50" height="155" fill="#181524" rx="2"/><rect x="330" y="60" width="65" height="140" fill="#1c1928" rx="2"/><rect x="405" y="35" width="55" height="165" fill="#181524" rx="2"/><rect x="470" y="75" width="40" height="125" fill="#1c1928" rx="2"/><rect x="520" y="45" width="55" height="155" fill="#181524" rx="2"/><rect x="22" y="70" width="8" height="6" rx="1" fill="#7c3aed" opacity=".6"/><rect x="78" y="50" width="10" height="7" rx="1" fill="#7c3aed" opacity=".7"/><rect x="198" y="40" width="12" height="8" rx="1" fill="#c084fc" opacity=".7"/><rect x="340" y="75" width="10" height="7" rx="1" fill="#c084fc" opacity=".5"/><ellipse cx="300" cy="137" rx="280" ry="11" fill="#7c3aed" opacity=".06"/></svg>
-      <div class="iov"><i class="ti ti-zoom-in"></i></div><div class="ilbl">Unreal 5 · Lumen</div>
+      <svg width="100%" height="190" viewBox="0 0 600 190"><rect width="600" height="190" fill="#111018"/><rect x="0" y="128" width="600" height="62" fill="#0d0b15"/><rect x="10" y="52" width="45" height="138" fill="#1c1928" rx="2"/><rect x="15" y="57" width="35" height="100" fill="#221f30" rx="1"/><rect x="65" y="28" width="60" height="162" fill="#1c1928" rx="2"/><rect x="70" y="33" width="50" height="118" fill="#221f30" rx="1"/><rect x="135" y="70" width="38" height="120" fill="#181524" rx="2"/><rect x="185" y="18" width="75" height="172" fill="#1c1928" rx="2"/><rect x="192" y="23" width="60" height="133" fill="#221f30" rx="1"/><rect x="270" y="42" width="50" height="148" fill="#181524" rx="2"/><rect x="330" y="57" width="65" height="133" fill="#1c1928" rx="2"/><rect x="405" y="32" width="55" height="158" fill="#181524" rx="2"/><rect x="470" y="70" width="40" height="120" fill="#1c1928" rx="2"/><rect x="520" y="42" width="55" height="148" fill="#181524" rx="2"/><rect x="22" y="66" width="8" height="6" rx="1" fill="#7c3aed" opacity=".6"/><rect x="78" y="46" width="10" height="7" rx="1" fill="#7c3aed" opacity=".7"/><rect x="198" y="36" width="12" height="8" rx="1" fill="#c084fc" opacity=".7"/><rect x="340" y="70" width="10" height="7" rx="1" fill="#c084fc" opacity=".5"/><ellipse cx="300" cy="130" rx="280" ry="10" fill="#7c3aed" opacity=".06"/></svg>
+      <div class="iov"><i class="ti ti-zoom-in"></i></div>
+      <div class="ilbl">Unreal 5 · Lumen</div>
     </div>
     <div class="pf">
-      <button class="ab lk" id="l1" onclick="tgL('l1','c1')"><i class="ti ti-heart"></i><span id="c1">247</span></button>
+      <button class="ab spark-btn sparked" id="sp1" onclick="tgSpark('sp1','sc1')"><i class="ti ti-flame"></i><span class="spark-count" id="sc1">247</span> Iskier</button>
       <button class="ab" onclick="om('m-com1')"><i class="ti ti-message-circle"></i> 18</button>
-      <button class="ab"><i class="ti ti-share"></i> Udostępnij</button>
+      <button class="ab"><i class="ti ti-share"></i></button>
       <div class="sp"></div>
-      <button class="ab bk" id="b1" onclick="tgB('b1')"><i class="ti ti-bookmark-filled"></i></button>
+      <button class="ab" id="b1" onclick="tgBk('b1')"><i class="ti ti-bookmark"></i></button>
+    </div>
+  </div>
+
+  <!-- AD 2 (między postami, tylko Free) -->
+  <div class="adbanner" id="ad2">
+    <div class="adlbl">REKLAMA</div>
+    <div class="adcontent">
+      <div class="adicon" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">🖊️</div>
+      <div>
+        <div class="adtit">Wacom Intuus Pro — rabat 15% dla artystów</div>
+        <div class="adsub">Kod: LORTI15 · Oferta ważna do końca miesiąca</div>
+        <button class="adcta" onclick="toast('Kopiuję kod: LORTI15 ✓')">Użyj kodu →</button>
+      </div>
     </div>
   </div>
 
   <!-- POST 2 -->
   <div class="post">
-    <div class="ph"><div class="pav" style="background:linear-gradient(135deg,#831843,#ec4899)" onclick="openPr('ak')">AK</div>
-    <div class="pm"><div class="par"><span class="pa" onclick="openPr('ak')">Anna Kędzierska</span><span class="prb">UI/UX Design</span><span style="background:#fef3c7;color:#d97706;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px">Dostępna</span></div><div class="ps2">Game UI Designer · Freelance · Gdańsk</div></div>
-    <div class="ptm"><i class="ti ti-clock" style="font-size:12px;vertical-align:-1px"></i> 5h temu</div></div>
-    <div class="pb2">Otwieram się na nowe projekty! Specjalizuję się w UI dla gier RPG. Najnowsze HUD koncepty — biopunk. Dostępna od marca 🎮<br>
+    <div class="ph">
+      <div class="pav" style="background:linear-gradient(135deg,#831843,#ec4899)" onclick="openPr('ak')">AK</div>
+      <div class="pm">
+        <div class="par"><span class="pa" onclick="openPr('ak')">Anna Kędzierska</span><span class="prb">UI/UX Design</span><span style="background:#fef3c7;color:#d97706;font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px">Dostępna</span></div>
+        <div class="ps2">Game UI Designer · Freelance · Gdańsk</div>
+      </div>
+      <div class="ptm">5h temu</div>
+    </div>
+    <div class="pb2">Otwieram się na nowe projekty! UI dla gier RPG i Action-Adventure. Najnowsze HUD koncepty — biopunk. Dostępna od marca 🎮<br>
     <span class="ht" onclick="openHt('GameUI')">#GameUI</span> <span class="ht" onclick="openHt('Biopunk')">#Biopunk</span> <span class="ht" onclick="openHt('HUDDesign')">#HUDDesign</span> <span class="ht" onclick="openHt('Freelance')">#Freelance</span></div>
     <div class="pim" onclick="om('m-img2')">
-      <svg width="100%" height="165" viewBox="0 0 580 165"><rect width="580" height="165" fill="#0f0d1a"/><rect x="12" y="12" width="165" height="100" rx="6" fill="#13101e" stroke="#7c3aed" stroke-width=".75"/><text x="22" y="30" font-size="9" fill="#c084fc" font-family="monospace" font-weight="700">STATS</text><rect x="22" y="37" width="78" height="7" rx="3" fill="#2a2838"/><rect x="22" y="37" width="56" height="7" rx="3" fill="#7c3aed" opacity=".9"/><text x="105" y="44" font-size="8" fill="#8b8aa0" font-family="monospace">HP</text><rect x="22" y="50" width="78" height="7" rx="3" fill="#2a2838"/><rect x="22" y="50" width="66" height="7" rx="3" fill="#10b981" opacity=".8"/><text x="105" y="57" font-size="8" fill="#8b8aa0" font-family="monospace">MP</text><rect x="22" y="63" width="78" height="7" rx="3" fill="#2a2838"/><rect x="22" y="63" width="38" height="7" rx="3" fill="#f59e0b" opacity=".8"/><text x="105" y="70" font-size="8" fill="#8b8aa0" font-family="monospace">SP</text><circle cx="283" cy="76" r="44" fill="#13101e" stroke="#1e1c2a" stroke-width="8"/><circle cx="283" cy="76" r="44" fill="none" stroke="#7c3aed" stroke-width="3" stroke-dasharray="195 82" stroke-linecap="round" stroke-dashoffset="55"/><text x="276" y="80" font-size="16" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text><text x="274" y="94" font-size="7" fill="#8b8aa0" font-family="monospace">LEVEL</text><rect x="393" y="12" width="170" height="100" rx="6" fill="#13101e" stroke="#2a2838" stroke-width=".5"/><text x="403" y="30" font-size="9" fill="#c084fc" font-family="monospace" font-weight="700">ABILITIES</text><rect x="403" y="36" width="40" height="40" rx="5" fill="#1a1028" stroke="#7c3aed" stroke-width=".75"/><circle cx="423" cy="56" r="9" fill="#7c3aed" opacity=".5"/><text x="416" y="85" font-size="7" fill="#8b8aa0" font-family="monospace">STRIKE</text><rect x="449" y="36" width="40" height="40" rx="5" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/><text x="462" y="85" font-size="7" fill="#8b8aa0" font-family="monospace">SHIELD</text><rect x="495" y="36" width="40" height="40" rx="5" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/><text x="510" y="85" font-size="7" fill="#8b8aa0" font-family="monospace">DASH</text><text x="12" y="157" font-size="9" fill="#6b6882" font-family="monospace">Biopunk RPG HUD · v3 · Figma</text></svg>
-      <div class="iov"><i class="ti ti-zoom-in"></i></div><div class="ilbl">HUD Concept</div>
+      <svg width="100%" height="155" viewBox="0 0 580 155"><rect width="580" height="155" fill="#0f0d1a"/><rect x="12" y="10" width="158" height="96" rx="6" fill="#13101e" stroke="#7c3aed" stroke-width=".75"/><text x="20" y="27" font-size="9" fill="#c084fc" font-family="monospace" font-weight="700">STATS</text><rect x="20" y="33" width="76" height="7" rx="3" fill="#2a2838"/><rect x="20" y="33" width="54" height="7" rx="3" fill="#7c3aed" opacity=".9"/><text x="100" y="40" font-size="8" fill="#8b8aa0" font-family="monospace">HP</text><rect x="20" y="46" width="76" height="7" rx="3" fill="#2a2838"/><rect x="20" y="46" width="64" height="7" rx="3" fill="#10b981" opacity=".8"/><text x="100" y="53" font-size="8" fill="#8b8aa0" font-family="monospace">MP</text><rect x="20" y="59" width="76" height="7" rx="3" fill="#2a2838"/><rect x="20" y="59" width="36" height="7" rx="3" fill="#f59e0b" opacity=".8"/><text x="100" y="66" font-size="8" fill="#8b8aa0" font-family="monospace">SP</text><circle cx="278" cy="72" r="42" fill="#13101e" stroke="#1e1c2a" stroke-width="8"/><circle cx="278" cy="72" r="42" fill="none" stroke="#7c3aed" stroke-width="3" stroke-dasharray="188 79" stroke-linecap="round" stroke-dashoffset="52"/><text x="271" y="76" font-size="15" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text><text x="269" y="89" font-size="7" fill="#8b8aa0" font-family="monospace">LEVEL</text><rect x="387" y="10" width="182" height="96" rx="6" fill="#13101e" stroke="#2a2838" stroke-width=".5"/><text x="397" y="27" font-size="9" fill="#c084fc" font-family="monospace" font-weight="700">ABILITIES</text><rect x="397" y="33" width="40" height="40" rx="5" fill="#1a1028" stroke="#7c3aed" stroke-width=".75"/><circle cx="417" cy="53" r="9" fill="#7c3aed" opacity=".5"/><text x="410" y="82" font-size="7" fill="#8b8aa0" font-family="monospace">STRIKE</text><rect x="443" y="33" width="40" height="40" rx="5" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/><text x="456" y="82" font-size="7" fill="#8b8aa0" font-family="monospace">SHIELD</text><rect x="489" y="33" width="40" height="40" rx="5" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/><text x="503" y="82" font-size="7" fill="#8b8aa0" font-family="monospace">DASH</text><text x="12" y="148" font-size="9" fill="#6b6882" font-family="monospace">Biopunk RPG HUD · v3 · Figma</text></svg>
+      <div class="iov"><i class="ti ti-zoom-in"></i></div>
+      <div class="ilbl">HUD Concept</div>
     </div>
     <div class="pf">
-      <button class="ab" id="l2" onclick="tgL('l2','c2')"><i class="ti ti-heart"></i><span id="c2">183</span></button>
+      <button class="ab spark-btn" id="sp2" onclick="tgSpark('sp2','sc2')"><i class="ti ti-flame"></i><span class="spark-count" id="sc2">183</span> Iskier</button>
       <button class="ab" onclick="om('m-com2')"><i class="ti ti-message-circle"></i> 24</button>
-      <button class="ab"><i class="ti ti-share"></i> Udostępnij</button>
+      <button class="ab"><i class="ti ti-share"></i></button>
       <div class="sp"></div>
-      <button class="ab" id="b2" onclick="tgB('b2')"><i class="ti ti-bookmark"></i></button>
+      <button class="ab" id="b2" onclick="tgBk('b2')"><i class="ti ti-bookmark"></i></button>
     </div>
   </div>
 
   <!-- POST 3 -->
   <div class="post">
-    <div class="ph"><div class="pav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)" onclick="openPr('mn')">MN</div>
-    <div class="pm"><div class="par"><span class="pa" onclick="openPr('mn')">Michał Nowak</span><span class="prb">Technical Art</span></div><div class="ps2">Technical Artist · Remote · ⭐ 4.9 (38 ocen)</div></div>
-    <div class="ptm"><i class="ti ti-clock" style="font-size:12px;vertical-align:-1px"></i> Wczoraj</div></div>
-    <div class="pb2">Tutorial: convincing water shader w Unreal 5 bez pluginów. Kluczowe: normal map blending + caustics. 3 tygodnie R&amp;D 💧<br><br>
-    <span style="background:#f0edfb;border-radius:8px;padding:8px 12px;display:block;font-size:13px;color:#5b21b6;border-left:3px solid #7c3aed">💡 <strong>Tip:</strong> World Position Offset + animated normal map = realistyczna woda.</span><br>
+    <div class="ph">
+      <div class="pav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)" onclick="openPr('mn')">MN</div>
+      <div class="pm">
+        <div class="par"><span class="pa" onclick="openPr('mn')">Michał Nowak</span><span class="prb">Technical Art</span></div>
+        <div class="ps2">Technical Artist · Remote · ⭐ 4.9</div>
+      </div>
+      <div class="ptm">Wczoraj</div>
+    </div>
+    <div class="pb2">Tutorial: convincing water shader w Unreal 5 bez pluginów. Normal map blending + caustics. 3 tygodnie R&amp;D 💧<br><br>
+    <span style="background:var(--acc3);border-radius:8px;padding:8px 12px;display:block;font-size:13px;color:var(--acc);border-left:3px solid var(--acc)">💡 <strong>Tip:</strong> World Position Offset + animated normal map = realistyczna woda.</span><br>
     <span class="ht" onclick="openHt('Unreal5')">#Unreal5</span> <span class="ht" onclick="openHt('ShaderDev')">#ShaderDev</span> <span class="ht" onclick="openHt('TechArt')">#TechArt</span></div>
     <div class="pf">
-      <button class="ab" id="l3" onclick="tgL('l3','c3')"><i class="ti ti-heart"></i><span id="c3">412</span></button>
+      <button class="ab spark-btn" id="sp3" onclick="tgSpark('sp3','sc3')"><i class="ti ti-flame"></i><span class="spark-count" id="sc3">412</span> Iskier</button>
       <button class="ab" onclick="om('m-com3')"><i class="ti ti-message-circle"></i> 41</button>
-      <button class="ab"><i class="ti ti-share"></i> Udostępnij</button>
+      <button class="ab"><i class="ti ti-share"></i></button>
       <div class="sp"></div>
-      <button class="ab" id="b3" onclick="tgB('b3')"><i class="ti ti-bookmark"></i></button>
+      <button class="ab" id="b3" onclick="tgBk('b3')"><i class="ti ti-bookmark"></i></button>
     </div>
   </div>
+
+  <!-- AD 3 -->
+  <div class="adbanner" id="ad3">
+    <div class="adlbl">REKLAMA</div>
+    <div class="adcontent">
+      <div class="adicon" style="background:linear-gradient(135deg,#059669,#34d399)">💼</div>
+      <div>
+        <div class="adtit">Artstation Pro — 2 miesiące gratis</div>
+        <div class="adsub">Promuj swoje prace przed rekruterami z całego świata</div>
+        <button class="adcta" onclick="toast('Otwieranie ArtStation...')">Aktywuj ofertę →</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
+<!-- RIGHT SIDEBAR -->
 <div class="col">
   <div class="card cp">
     <div class="stit">Oferty dla Ciebie</div>
-    <div class="ji" onclick="openJob('Senior 3D Character Artist','Techland','Wrocław','On-site','Pełny etat','8 000–14 000 PLN','Unreal Engine,ZBrush,Marvelous Designer,Substance Painter','Szukamy doświadczonego artysty postaci do pracy nad AAA tytułem akcji. 4+ lata doświadczenia.','TC','linear-gradient(135deg,#7c3aed,#c084fc)')">
-      <div class="jit">Senior 3D Character Artist</div><div class="jic">Techland · Wrocław</div>
-      <div class="jtg"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div><div class="jsal">8 000–14 000 PLN brutto</div>
+    <div class="ji" onclick="openJob('Senior 3D Character Artist','Techland','Wrocław','On-site','Pełny etat','8 000–14 000 PLN','Unreal Engine,ZBrush,Marvelous Designer,Substance Painter','Szukamy doświadczonego artysty postaci do pracy nad AAA tytułem akcji. Wymagane 4+ lata.','TC','linear-gradient(135deg,#7c3aed,#c084fc)')">
+      <div class="jit">Senior 3D Character Artist</div><div class="jico">Techland · Wrocław</div>
+      <div class="jtg"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div><div class="jsal">8 000–14 000 PLN</div>
     </div>
-    <div class="ji" onclick="openJob('UI/UX Designer — Games','11 bit studios','Warszawa','Remote','B2B','7 000–11 000 PLN netto','Figma,Unity,After Effects,Photoshop','Dołącz do zespołu tworzącego UI dla narracyjnych gier indie. Portfolio z game UI konieczne.','11','linear-gradient(135deg,#065f46,#10b981)')">
-      <div class="jit">UI/UX Designer — Games</div><div class="jic">11 bit studios · Warszawa</div>
+    <div class="ji" onclick="openJob('UI/UX Designer — Games','11 bit studios','Warszawa','Remote','B2B','7 000–11 000 PLN netto','Figma,Unity,After Effects,Photoshop','Dołącz do zespołu tworzącego UI dla narracyjnych gier indie.','11','linear-gradient(135deg,#065f46,#10b981)')">
+      <div class="jit">UI/UX Designer — Games</div><div class="jico">11 bit studios · Warszawa</div>
       <div class="jtg"><span class="jt re">Remote</span><span class="jt ty">B2B</span></div><div class="jsal">7 000–11 000 PLN netto</div>
     </div>
-    <div class="ji" onclick="openJob('Concept Artist','Flying Wild Hog','Kraków (Hybrid)','Hybrid','Kontrakt','6 000–10 000 PLN','Photoshop,Procreate,Clip Studio,Blender','Concept arty środowisk i postaci dla nowego projektu action. Tryb hybrydowy.','FW','linear-gradient(135deg,#831843,#ec4899)')">
-      <div class="jit">Concept Artist</div><div class="jic">Flying Wild Hog · Kraków</div>
+    <div class="ji" onclick="openJob('Concept Artist','Flying Wild Hog','Kraków','Hybrid','Kontrakt','6 000–10 000 PLN','Photoshop,Procreate,Clip Studio,Blender','Concept arty środowisk i postaci dla nowego projektu action.','FW','linear-gradient(135deg,#831843,#ec4899)')">
+      <div class="jit">Concept Artist</div><div class="jico">Flying Wild Hog · Kraków</div>
       <div class="jtg"><span class="jt hy">Hybrid</span><span class="jt ty">Kontrakt</span></div><div class="jsal">6 000–10 000 PLN</div>
     </div>
     <button class="vm" onclick="showPg('jobs')">Więcej ofert <i class="ti ti-arrow-right"></i></button>
@@ -379,82 +564,82 @@ body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
     <div class="stit">Trendy na Lorti</div>
     <div class="trt" onclick="openHt('Unreal5')">#Unreal5 <span class="trc">2.8k postów</span></div>
     <div class="trt" onclick="openHt('ConceptArt')">#ConceptArt <span class="trc">1.9k postów</span></div>
-    <div class="trt" onclick="openHt('GameJam')" style="color:#d97706">#GameJam <span class="trc" style="color:#d97706">🔥 Hot</span></div>
+    <div class="trt" onclick="openHt('GameJam')" style="color:var(--spark)">#GameJam <span class="trc" style="color:var(--spark)">🔥 Hot</span></div>
     <div class="trt" onclick="openHt('ZBrush')">#ZBrush <span class="trc">980 postów</span></div>
     <div class="trt" onclick="openHt('PixelArt')">#PixelArt <span class="trc">760 postów</span></div>
     <div class="trt" onclick="openHt('ShaderDev')">#ShaderDev <span class="trc">540 postów</span></div>
   </div>
   <div class="card cp">
     <div class="stit">Sugerowane znajomości</div>
-    <div class="sgr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#4c1d95,#8b5cf6)" onclick="openPr('kz')">KZ</div><div class="sgi"><div class="sgn">Karol Zając</div><div class="sgrl">VFX Artist · Blur Studio</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
-    <div class="sgr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#065f46,#34d399)" onclick="openPr('el')">EL</div><div class="sgi"><div class="sgn">Ela Lis</div><div class="sgrl">Pixel Artist · Freelance</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
-    <div class="sgr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#7c2d12,#f97316)" onclick="openPr('rm')">RM</div><div class="sgi"><div class="sgn">Robert Maj</div><div class="sgrl">Tech Artist · Platige Image</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
+    <div class="sgr"><div class="av" style="width:32px;height:32px;font-size:10px;border-radius:9px;background:linear-gradient(135deg,#4c1d95,#8b5cf6)" onclick="openPr('kz')">KZ</div><div class="sgi"><div class="sgn">Karol Zając</div><div class="sgrl">VFX Artist · Blur Studio</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
+    <div class="sgr"><div class="av" style="width:32px;height:32px;font-size:10px;border-radius:9px;background:linear-gradient(135deg,#065f46,#34d399)" onclick="openPr('el')">EL</div><div class="sgi"><div class="sgn">Ela Lis</div><div class="sgrl">Pixel Artist · Freelance</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
+    <div class="sgr"><div class="av" style="width:32px;height:32px;font-size:10px;border-radius:9px;background:linear-gradient(135deg,#7c2d12,#f97316)" onclick="openPr('rm')">RM</div><div class="sgi"><div class="sgn">Robert Maj</div><div class="sgrl">Tech Artist · Platige Image</div></div><button class="flw" onclick="flwBtn(this)">+ Śledź</button></div>
   </div>
 </div>
+
 </div>
 </div>
 
 <!-- JOBS PAGE -->
-<div id="page-jobs" class="page" style="padding:24px 0">
+<div id="page-jobs" class="page" style="padding:16px 0">
 <div class="sechdr"><div><div class="sect">Oferty pracy</div><div class="secs">147 aktywnych ofert · pasujących: 23</div></div><button class="ubtn" onclick="om('m-pro')">Pro: bez limitu</button></div>
 <div class="frow"><button class="fil on">Wszystkie</button><button class="fil" onclick="tgF(this)">3D Artist</button><button class="fil" onclick="tgF(this)">Concept Art</button><button class="fil" onclick="tgF(this)">UI/UX</button><button class="fil" onclick="tgF(this)">VFX</button><button class="fil" onclick="tgF(this)">Tech Art</button><button class="fil" onclick="tgF(this)">Remote</button><button class="fil" onclick="tgF(this)">Senior</button></div>
 <div>
 <div class="jfc" onclick="openJob('Senior 3D Character Artist','Techland','Wrocław','On-site','Pełny etat','8 000–14 000 PLN','Unreal Engine,ZBrush,Marvelous Designer,Substance Painter','Szukamy doświadczonego artysty postaci do pracy nad AAA tytułem akcji. 4+ lata doświadczenia w game dev.','TC','linear-gradient(135deg,#7c3aed,#c084fc)')">
-  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">TC</div><div style="flex:1"><div class="jft">Senior 3D Character Artist</div><div class="jfco">Techland</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div></div>
-  <div class="jfd">Szukamy doświadczonego artysty do AAA tytułu akcji. Praca z ZBrush, Substance, Unreal 5. Portfolio wymagane.</div>
+  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">TC</div><div style="flex:1"><div class="jft">Senior 3D Character Artist</div><div class="jfco">Techland</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div></div>
+  <div class="jfd">Szukamy doświadczonego artysty do AAA tytułu akcji. Praca z ZBrush, Substance, Unreal 5.</div>
   <div class="jff"><div class="jtg"><span class="jt ty">ZBrush</span><span class="jt ty">Unreal</span><span class="jt ty">Substance</span></div><div class="jfs">8 000–14 000 PLN</div></div>
 </div>
 <div class="jfc" onclick="openJob('UI/UX Designer — Games','11 bit studios','Warszawa','Remote','B2B','7 000–11 000 PLN netto','Figma,Unity,After Effects,Photoshop','Dołącz do zespołu tworzącego UI dla narracyjnych gier indie. Portfolio z game UI konieczne.','11','linear-gradient(135deg,#065f46,#10b981)')">
-  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#065f46,#10b981)">11</div><div style="flex:1"><div class="jft">UI/UX Designer — Games</div><div class="jfco">11 bit studios</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="jt re">Remote</span><span class="jt ty">B2B</span></div></div>
-  <div class="jfd">Dołącz do zespołu designerów tworzących UI dla narracyjnych gier indie. Portfolio z game UI konieczne.</div>
+  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#065f46,#10b981)">11</div><div style="flex:1"><div class="jft">UI/UX Designer — Games</div><div class="jfco">11 bit studios</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="jt re">Remote</span><span class="jt ty">B2B</span></div></div>
+  <div class="jfd">Dołącz do zespołu designerów tworzących UI dla narracyjnych gier indie.</div>
   <div class="jff"><div class="jtg"><span class="jt ty">Figma</span><span class="jt ty">Unity</span><span class="jt ty">After Effects</span></div><div class="jfs">7 000–11 000 PLN netto</div></div>
 </div>
-<div class="jfc" onclick="openJob('Concept Artist','Flying Wild Hog','Kraków (Hybrid)','Hybrid','Kontrakt','6 000–10 000 PLN','Photoshop,Procreate,Clip Studio,Blender','Tworzenie concept artów środowisk i postaci. Praca w trybie hybrydowym z biurem w Krakowie.','FW','linear-gradient(135deg,#831843,#ec4899)')">
-  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#831843,#ec4899)">FW</div><div style="flex:1"><div class="jft">Concept Artist</div><div class="jfco">Flying Wild Hog</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="jt hy">Hybrid</span><span class="jt ty">Kontrakt</span></div></div>
-  <div class="jfd">Tworzenie concept artów środowisk i postaci dla nowego projektu action. Biuro w Krakowie, tryb hybrydowy.</div>
-  <div class="jff"><div class="jtg"><span class="jt ty">Photoshop</span><span class="jt ty">Procreate</span><span class="jt ty">Blender</span></div><div class="jfs">6 000–10 000 PLN</div></div>
+<div class="jfc" onclick="openJob('Concept Artist','Flying Wild Hog','Kraków','Hybrid','Kontrakt','6 000–10 000 PLN','Photoshop,Procreate,Clip Studio,Blender','Tworzenie concept artów środowisk i postaci dla nowego projektu action.','FW','linear-gradient(135deg,#831843,#ec4899)')">
+  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#831843,#ec4899)">FW</div><div style="flex:1"><div class="jft">Concept Artist</div><div class="jfco">Flying Wild Hog</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="jt hy">Hybrid</span><span class="jt ty">Kontrakt</span></div></div>
+  <div class="jfd">Tworzenie concept artów środowisk i postaci dla nowego projektu action. Tryb hybrydowy, Kraków.</div>
+  <div class="jff"><div class="jtg"><span class="jt ty">Photoshop</span><span class="jt ty">Procreate</span></div><div class="jfs">6 000–10 000 PLN</div></div>
 </div>
 <div class="jfc" onclick="openJob('VFX Artist','Bloober Team','Kraków','On-site','Pełny etat','7 000–12 000 PLN','Houdini,Unreal 5,Niagara,Maya','Tworzenie efektów wizualnych dla gry horror psychologiczny. Praca z Houdini + Niagara.','BT','linear-gradient(135deg,#1e3a8a,#3b82f6)')">
-  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">BT</div><div style="flex:1"><div class="jft">VFX Artist</div><div class="jfco">Bloober Team</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div></div>
-  <div class="jfd">Tworzenie efektów wizualnych dla gry horror psychologiczny. Praca z Houdini + Unreal 5 Niagara.</div>
-  <div class="jff"><div class="jtg"><span class="jt ty">Houdini</span><span class="jt ty">Niagara</span><span class="jt ty">Maya</span></div><div class="jfs">7 000–12 000 PLN</div></div>
+  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">BT</div><div style="flex:1"><div class="jft">VFX Artist</div><div class="jfco">Bloober Team</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="jt on2">On-site</span><span class="jt ty">Pełny etat</span></div></div>
+  <div class="jfd">Tworzenie efektów wizualnych dla gry horror psychologiczny. Houdini + Unreal 5 Niagara.</div>
+  <div class="jff"><div class="jtg"><span class="jt ty">Houdini</span><span class="jt ty">Niagara</span></div><div class="jfs">7 000–12 000 PLN</div></div>
 </div>
-<div class="jfc" onclick="openJob('Environment Art Lead','CD Projekt RED','Warszawa','On-site','Pełny etat','14 000–22 000 PLN','Unreal 5,Houdini,Photogrammetry,SpeedTree','Lead dla działu environment art. Wymagane 7+ lat doświadczenia. AAA open world project.','CP','linear-gradient(135deg,#d97706,#f59e0b)')">
-  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#d97706,#f59e0b)">CP</div><div style="flex:1"><div class="jft">Environment Art Lead</div><div class="jfco">CD Projekt RED</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="jt on2">On-site</span><span class="jt ty">Lead</span></div></div>
-  <div class="jfd">Lead position dla działu environment art w jednym z największych studiów w Europie. AAA open world.</div>
-  <div class="jff"><div class="jtg"><span class="jt ty">Unreal 5</span><span class="jt ty">Houdini</span><span class="jt ty">Lead</span></div><div class="jfs">14 000–22 000 PLN</div></div>
+<div class="jfc" onclick="openJob('Environment Art Lead','CD Projekt RED','Warszawa','On-site','Pełny etat','14 000–22 000 PLN','Unreal 5,Houdini,Photogrammetry,SpeedTree','Lead dla działu environment art. Wymagane 7+ lat doświadczenia. AAA open world.','CP','linear-gradient(135deg,#d97706,#f59e0b)')">
+  <div class="jfh"><div class="jfl" style="background:linear-gradient(135deg,#d97706,#f59e0b)">CP</div><div style="flex:1"><div class="jft">Environment Art Lead</div><div class="jfco">CD Projekt RED</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span class="jt on2">On-site</span><span class="jt ty">Lead</span></div></div>
+  <div class="jfd">Lead position dla działu environment art. Jedno z największych studiów w Europie. AAA open world.</div>
+  <div class="jff"><div class="jtg"><span class="jt ty">Unreal 5</span><span class="jt ty">Houdini</span></div><div class="jfs">14 000–22 000 PLN</div></div>
 </div>
 </div>
 </div>
 
 <!-- TALENT PAGE -->
-<div id="page-talent" class="page" style="padding:24px 0">
-<div class="sechdr"><div><div class="sect">Talenty</div><div class="secs">3 420 profili artystów</div></div><input style="background:#f8f7fc;border:1px solid #e8e6f0;border-radius:9px;padding:8px 13px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:200px" placeholder="Szukaj artysty..."></div>
+<div id="page-talent" class="page" style="padding:16px 0">
+<div class="sechdr"><div><div class="sect">Talenty</div><div class="secs">3 420 profili artystów</div></div><input style="background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:8px 13px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:190px;color:var(--text)" placeholder="Szukaj artysty..."></div>
 <div class="frow"><button class="fil on">Wszyscy</button><button class="fil" onclick="tgF(this)">Dostępni</button><button class="fil" onclick="tgF(this)">3D</button><button class="fil" onclick="tgF(this)">2D / Concept</button><button class="fil" onclick="tgF(this)">UI/UX</button><button class="fil" onclick="tgF(this)">VFX</button><button class="fil" onclick="tgF(this)">Tech Art</button><button class="fil" onclick="tgF(this)">Pixel Art</button></div>
 <div class="tgrid">
-  <div class="tc" onclick="openPr('pw')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div><div class="tcn">Piotr Wróbel</div><div class="tcr">3D Environment Artist</div><span class="tca unavail">Niedostępny</span></div></div><div class="tcsk"><span class="sk">Unreal 5</span><span class="sk">Houdini</span><span class="sk">Lumen</span><span class="sk">Substance</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.9 · 56 ocen</span><span style="font-size:11px;color:#b0aac0">Warszawa</span></div></div>
-  <div class="tc" onclick="openPr('ak')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#831843,#ec4899)">AK</div><div><div class="tcn">Anna Kędzierska</div><div class="tcr">Game UI/UX Designer</div><span class="tca avail">Dostępna od marca</span></div></div><div class="tcsk"><span class="sk">Figma</span><span class="sk">Unity UI</span><span class="sk">After Effects</span><span class="sk">Photoshop</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 5.0 · 24 ocen</span><span style="font-size:11px;color:#b0aac0">Gdańsk · Remote</span></div></div>
-  <div class="tc" onclick="openPr('mn')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div><div class="tcn">Michał Nowak</div><div class="tcr">Technical Artist</div><span class="tca avail">Dostępny</span></div></div><div class="tcsk"><span class="sk">Shaders</span><span class="sk">Unreal 5</span><span class="sk">HLSL</span><span class="sk">Niagara</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.9 · 38 ocen</span><span style="font-size:11px;color:#b0aac0">Remote</span></div></div>
-  <div class="tc" onclick="openPr('kz')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div><div class="tcn">Karol Zając</div><div class="tcr">VFX Artist</div><span class="tca avail">Dostępny od maja</span></div></div><div class="tcsk"><span class="sk">Houdini</span><span class="sk">Niagara</span><span class="sk">Maya</span><span class="sk">Nuke</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.8 · 31 ocen</span><span style="font-size:11px;color:#b0aac0">Wrocław</span></div></div>
-  <div class="tc" onclick="openPr('el')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div><div class="tcn">Ela Lis</div><div class="tcr">Pixel Artist</div><span class="tca avail">Dostępna</span></div></div><div class="tcsk"><span class="sk">Aseprite</span><span class="sk">Photoshop</span><span class="sk">Animation</span><span class="sk">Tiled</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.7 · 19 ocen</span><span style="font-size:11px;color:#b0aac0">Kraków · Remote</span></div></div>
-  <div class="tc" onclick="openPr('rm')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#7c2d12,#f97316)">RM</div><div><div class="tcn">Robert Maj</div><div class="tcr">Technical Artist</div><span class="tca unavail">Niedostępny</span></div></div><div class="tcsk"><span class="sk">Pipeline</span><span class="sk">Python</span><span class="sk">Rigging</span><span class="sk">Maya</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.8 · 42 ocen</span><span style="font-size:11px;color:#b0aac0">Warszawa</span></div></div>
+  <div class="tc" onclick="openPr('pw')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div><div class="tcn">Piotr Wróbel</div><div class="tcr">3D Environment Artist</div><span class="tca unavail">Niedostępny</span></div></div><div class="tcsk"><span class="sk">Unreal 5</span><span class="sk">Houdini</span><span class="sk">Lumen</span><span class="sk">Substance</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.9 · 56 ocen</span><span style="color:var(--text3)">Warszawa</span></div></div>
+  <div class="tc" onclick="openPr('ak')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#831843,#ec4899)">AK</div><div><div class="tcn">Anna Kędzierska</div><div class="tcr">Game UI/UX Designer</div><span class="tca avail">Dostępna od marca</span></div></div><div class="tcsk"><span class="sk">Figma</span><span class="sk">Unity UI</span><span class="sk">After Effects</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 5.0 · 24 ocen</span><span style="color:var(--text3)">Gdańsk · Remote</span></div></div>
+  <div class="tc" onclick="openPr('mn')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div><div class="tcn">Michał Nowak</div><div class="tcr">Technical Artist</div><span class="tca avail">Dostępny</span></div></div><div class="tcsk"><span class="sk">Shaders</span><span class="sk">Unreal 5</span><span class="sk">HLSL</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.9 · 38 ocen</span><span style="color:var(--text3)">Remote</span></div></div>
+  <div class="tc" onclick="openPr('kz')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div><div class="tcn">Karol Zając</div><div class="tcr">VFX Artist</div><span class="tca avail">Dostępny od maja</span></div></div><div class="tcsk"><span class="sk">Houdini</span><span class="sk">Niagara</span><span class="sk">Maya</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.8 · 31 ocen</span><span style="color:var(--text3)">Wrocław</span></div></div>
+  <div class="tc" onclick="openPr('el')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div><div class="tcn">Ela Lis</div><div class="tcr">Pixel Artist</div><span class="tca avail">Dostępna</span></div></div><div class="tcsk"><span class="sk">Aseprite</span><span class="sk">Photoshop</span><span class="sk">Animation</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.7 · 19 ocen</span><span style="color:var(--text3)">Kraków · Remote</span></div></div>
+  <div class="tc" onclick="openPr('rm')"><div class="tct"><div class="tcav" style="background:linear-gradient(135deg,#7c2d12,#f97316)">RM</div><div><div class="tcn">Robert Maj</div><div class="tcr">Technical Artist</div><span class="tca unavail">Niedostępny</span></div></div><div class="tcsk"><span class="sk">Pipeline</span><span class="sk">Python</span><span class="sk">Rigging</span></div><div class="tcft"><span><i class="ti ti-star-filled" style="color:#f59e0b;font-size:13px"></i> 4.8 · 42 ocen</span><span style="color:var(--text3)">Warszawa</span></div></div>
 </div>
 </div>
 
 <!-- PORTFOLIO PAGE -->
-<div id="page-portfolio" class="page" style="padding:24px 0">
-<div class="sechdr"><div><div class="sect">Moje Portfolio</div><div class="secs">48 projektów · max 50 na Free</div></div><div style="display:flex;gap:8px"><button class="ubtn" onclick="om('m-pro')">Pro: bez limitu</button><button class="cbtn" onclick="om('m-create')"><i class="ti ti-plus" style="font-size:14px;vertical-align:-1px"></i> Nowy projekt</button></div></div>
+<div id="page-portfolio" class="page" style="padding:16px 0">
+<div class="sechdr"><div><div class="sect">Moje Portfolio</div><div class="secs">48 projektów · max 50 na Free</div></div><div style="display:flex;gap:8px"><button class="ubtn" onclick="om('m-pro')">Pro: bez limitu</button><button class="cbtn" onclick="om('m-create')"><i class="ti ti-plus" style="font-size:13px;vertical-align:-1px"></i> Nowy projekt</button></div></div>
 <div class="pgrid">
-  <div class="pfi" onclick="om('m-img1')"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#111018"/><rect x="10" y="25" width="22" height="85" fill="#1c1928"/><rect x="36" y="14" width="28" height="96" fill="#221f30"/><rect x="70" y="32" width="18" height="78" fill="#181524"/><rect x="95" y="8" width="36" height="102" fill="#1c1928"/><rect x="138" y="20" width="22" height="90" fill="#181524"/><rect x="168" y="28" width="30" height="82" fill="#1c1928"/><rect x="205" y="16" width="25" height="94" fill="#181524"/><rect x="238" y="30" width="20" height="80" fill="#1c1928"/><rect x="268" y="22" width="25" height="88" fill="#181524"/><rect x="40" y="22" width="6" height="4" rx="1" fill="#7c3aed" opacity=".7"/><rect x="100" y="16" width="6" height="4" rx="1" fill="#c084fc" opacity=".5"/><ellipse cx="150" cy="110" rx="130" ry="5" fill="#7c3aed" opacity=".05"/></svg><div class="pfl">Post-apo City 2090</div></div>
-  <div class="pfi" onclick="om('m-img2')"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0f0d1a"/><rect x="8" y="8" width="88" height="60" rx="4" fill="#13101e" stroke="#7c3aed" stroke-width=".5"/><rect x="16" y="20" width="42" height="5" rx="2" fill="#7c3aed" opacity=".7"/><rect x="16" y="30" width="68" height="4" rx="2" fill="#1e1c2a"/><rect x="16" y="30" width="48" height="4" rx="2" fill="#10b981" opacity=".6"/><rect x="16" y="38" width="68" height="4" rx="2" fill="#1e1c2a"/><rect x="16" y="38" width="33" height="4" rx="2" fill="#f59e0b" opacity=".7"/><circle cx="148" cy="46" r="28" fill="#13101e" stroke="#1e1c2a" stroke-width="5"/><circle cx="148" cy="46" r="28" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="118 58" stroke-linecap="round"/><text x="141" y="50" font-size="11" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text><rect x="208" y="8" width="85" height="60" rx="4" fill="#13101e" stroke="#2a2838" stroke-width=".5"/><rect x="216" y="18" width="22" height="22" rx="3" fill="#1a1028" stroke="#7c3aed" stroke-width=".5"/><circle cx="227" cy="29" r="6" fill="#7c3aed" opacity=".4"/></svg><div class="pfl">Biopunk HUD v3</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0a1628"/><circle cx="150" cy="52" r="38" fill="none" stroke="#3b82f6" stroke-width="1" opacity=".3"/><circle cx="150" cy="52" r="26" fill="none" stroke="#3b82f6" stroke-width=".5" opacity=".2"/><ellipse cx="150" cy="52" rx="46" ry="12" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4"/><ellipse cx="150" cy="52" rx="46" ry="12" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4" transform="rotate(60 150 52)"/><circle cx="150" cy="52" r="7" fill="#3b82f6" opacity=".7"/><circle cx="183" cy="40" r="4" fill="#93c5fd" opacity=".6"/></svg><div class="pfl">Sci-fi Spaceship</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0c1a0c"/><rect x="0" y="55" width="300" height="55" fill="#0a150a"/><rect x="8" y="36" width="14" height="74" fill="#1a2e1a" rx="1"/><rect x="28" y="26" width="11" height="84" fill="#162616" rx="1"/><rect x="48" y="46" width="9" height="64" fill="#1a2e1a" rx="1"/><rect x="88" y="16" width="7" height="94" fill="#162616" rx="1"/><rect x="148" y="22" width="9" height="88" fill="#162616" rx="1"/><ellipse cx="150" cy="55" rx="120" ry="4" fill="#22c55e" opacity=".04"/></svg><div class="pfl">Enchanted Forest</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#1a0a0a"/><rect x="100" y="12" width="100" height="86" rx="8" fill="#2a1020" stroke="#ec4899" stroke-width=".5"/><circle cx="150" cy="42" r="17" fill="#1a0818" stroke="#c084fc" stroke-width="1"/><circle cx="150" cy="42" r="9" fill="#2d1040" opacity=".8"/><rect x="120" y="66" width="60" height="5" rx="2" fill="#1e1028"/><rect x="120" y="66" width="44" height="5" rx="2" fill="#ec4899" opacity=".6"/><rect x="115" y="88" width="70" height="8" rx="4" fill="#831843" opacity=".7"/><text x="138" y="96" font-size="7" fill="#fce7f3" font-family="monospace">EQUIP</text></svg><div class="pfl">Character Sheet UI</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0a0818"/><rect x="12" y="12" width="10" height="10" fill="#7c3aed" opacity=".8"/><rect x="26" y="12" width="10" height="10" fill="#5b21b6" opacity=".6"/><rect x="12" y="26" width="10" height="10" fill="#5b21b6" opacity=".4"/><rect x="40" y="40" width="8" height="8" fill="#7c3aed" opacity=".9"/><rect x="52" y="32" width="8" height="8" fill="#c084fc" opacity=".5"/><rect x="80" y="15" width="6" height="6" fill="#7c3aed" opacity=".7"/><rect x="130" y="50" width="5" height="5" fill="#7c3aed" opacity=".9"/><rect x="138" y="42" width="5" height="5" fill="#c084fc" opacity=".6"/><rect x="200" y="20" width="4" height="4" fill="#c084fc" opacity=".5"/><text x="10" y="100" font-size="8" fill="#8b8aa0" font-family="monospace">pixel art · dungeon tiles</text></svg><div class="pfl">Dungeon Tileset Pack</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0d1117"/><rect x="14" y="12" width="272" height="86" rx="4" fill="#161b22"/><text x="24" y="32" font-size="8" fill="#7c3aed" font-family="monospace">// Water Shader — UE5</text><text x="24" y="46" font-size="7" fill="#60a5fa" font-family="monospace">float3 NormalBlend(float3 n1,</text><text x="24" y="58" font-size="7" fill="#e8e6f0" font-family="monospace">  float3 n2) return normalize(</text><text x="24" y="70" font-size="7" fill="#c084fc" font-family="monospace">    n1 + n2 * float3(0,0,1));</text></svg><div class="pfl">Water Shader Breakdown</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#1a1008"/><rect x="0" y="65" width="300" height="45" fill="#120c04"/><circle cx="150" cy="28" r="22" fill="#f59e0b" opacity=".15"/><circle cx="150" cy="28" r="16" fill="#f59e0b" opacity=".25"/><circle cx="150" cy="28" r="9" fill="#fcd34d" opacity=".6"/><rect x="146" y="50" width="8" height="36" fill="#7c2d12" opacity=".6"/><circle cx="90" cy="48" r="7" fill="#fcd34d" opacity=".3"/></svg><div class="pfl">Desert Ruins — Lighting</div></div>
-  <div class="pfi"><svg width="100%" height="110" viewBox="0 0 300 110"><rect width="300" height="110" fill="#0a0a12"/><rect x="50" y="18" width="200" height="74" rx="4" fill="#13111e" stroke="#2a2838" stroke-width=".5"/><rect x="60" y="28" width="38" height="38" rx="3" fill="#1a1828" stroke="#7c3aed" stroke-width=".5"/><circle cx="79" cy="47" r="11" fill="#7c3aed" opacity=".3"/><circle cx="79" cy="47" r="5" fill="#c084fc" opacity=".5"/><rect x="108" y="33" width="130" height="5" rx="2" fill="#1e1c2a"/><rect x="108" y="33" width="88" height="5" rx="2" fill="#7c3aed" opacity=".5"/><rect x="108" y="54" width="78" height="11" rx="3" fill="#7c3aed" opacity=".7"/><text x="122" y="64" font-size="8" fill="white" font-family="monospace">LEVEL UP</text></svg><div class="pfl">RPG Level Up Screen</div></div>
-</div>
+  <div class="pfi" onclick="om('m-img1')"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#111018"/><rect x="10" y="22" width="22" height="78" fill="#1c1928"/><rect x="36" y="12" width="28" height="88" fill="#221f30"/><rect x="70" y="28" width="18" height="72" fill="#181524"/><rect x="95" y="6" width="36" height="94" fill="#1c1928"/><rect x="138" y="18" width="22" height="82" fill="#181524"/><rect x="168" y="24" width="30" height="76" fill="#1c1928"/><rect x="205" y="14" width="25" height="86" fill="#181524"/><rect x="238" y="26" width="20" height="74" fill="#1c1928"/><rect x="268" y="20" width="25" height="80" fill="#181524"/><rect x="40" y="20" width="6" height="4" rx="1" fill="#7c3aed" opacity=".7"/></svg><div class="pfl">Post-apo City 2090</div></div>
+  <div class="pfi" onclick="om('m-img2')"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0f0d1a"/><rect x="8" y="8" width="88" height="56" rx="4" fill="#13101e" stroke="#7c3aed" stroke-width=".5"/><rect x="16" y="18" width="42" height="5" rx="2" fill="#7c3aed" opacity=".7"/><rect x="16" y="28" width="68" height="4" rx="2" fill="#1e1c2a"/><rect x="16" y="28" width="48" height="4" rx="2" fill="#10b981" opacity=".6"/><circle cx="148" cy="42" r="26" fill="#13101e" stroke="#1e1c2a" stroke-width="5"/><circle cx="148" cy="42" r="26" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="110 55" stroke-linecap="round"/><text x="141" y="46" font-size="11" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text><rect x="208" y="8" width="85" height="56" rx="4" fill="#13101e" stroke="#2a2838" stroke-width=".5"/></svg><div class="pfl">Biopunk HUD v3</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a1628"/><circle cx="150" cy="48" r="36" fill="none" stroke="#3b82f6" stroke-width="1" opacity=".3"/><ellipse cx="150" cy="48" rx="44" ry="11" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4"/><ellipse cx="150" cy="48" rx="44" ry="11" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4" transform="rotate(60 150 48)"/><circle cx="150" cy="48" r="7" fill="#3b82f6" opacity=".7"/></svg><div class="pfl">Sci-fi Spaceship</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0c1a0c"/><rect x="0" y="50" width="300" height="50" fill="#0a150a"/><rect x="8" y="32" width="14" height="68" fill="#1a2e1a" rx="1"/><rect x="28" y="22" width="11" height="78" fill="#162616" rx="1"/><rect x="88" y="14" width="7" height="86" fill="#162616" rx="1"/><rect x="148" y="20" width="9" height="80" fill="#162616" rx="1"/><ellipse cx="150" cy="50" rx="120" ry="4" fill="#22c55e" opacity=".04"/></svg><div class="pfl">Enchanted Forest</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#1a0a0a"/><rect x="100" y="10" width="100" height="80" rx="8" fill="#2a1020" stroke="#ec4899" stroke-width=".5"/><circle cx="150" cy="38" r="15" fill="#1a0818" stroke="#c084fc" stroke-width="1"/><rect x="120" y="60" width="60" height="5" rx="2" fill="#1e1028"/><rect x="120" y="60" width="44" height="5" rx="2" fill="#ec4899" opacity=".6"/><rect x="115" y="82" width="70" height="8" rx="4" fill="#831843" opacity=".7"/></svg><div class="pfl">Character Sheet UI</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0818"/><rect x="12" y="12" width="10" height="10" fill="#7c3aed" opacity=".8"/><rect x="26" y="12" width="10" height="10" fill="#5b21b6" opacity=".6"/><rect x="40" y="40" width="8" height="8" fill="#7c3aed" opacity=".9"/><rect x="80" y="15" width="6" height="6" fill="#7c3aed" opacity=".7"/><rect x="130" y="50" width="5" height="5" fill="#7c3aed" opacity=".9"/><text x="10" y="92" font-size="8" fill="#8b8aa0" font-family="monospace">pixel art · dungeon tiles</text></svg><div class="pfl">Dungeon Tileset Pack</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0d1117"/><rect x="14" y="10" width="272" height="80" rx="4" fill="#161b22"/><text x="24" y="28" font-size="8" fill="#7c3aed" font-family="monospace">// Water Shader — UE5</text><text x="24" y="42" font-size="7" fill="#60a5fa" font-family="monospace">float3 NormalBlend(float3 n1,</text><text x="24" y="54" font-size="7" fill="#c084fc" font-family="monospace">  n2) return normalize(n1+n2);</text></svg><div class="pfl">Water Shader Breakdown</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#1a1008"/><rect x="0" y="58" width="300" height="42" fill="#120c04"/><circle cx="150" cy="26" r="20" fill="#f59e0b" opacity=".15"/><circle cx="150" cy="26" r="14" fill="#f59e0b" opacity=".25"/><circle cx="150" cy="26" r="8" fill="#fcd34d" opacity=".6"/><rect x="146" y="46" width="8" height="32" fill="#7c2d12" opacity=".6"/></svg><div class="pfl">Desert Ruins — Lighting</div></div>
+  <div class="pfi"><svg width="100%" height="100" viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0a12"/><rect x="50" y="16" width="200" height="68" rx="4" fill="#13111e" stroke="#2a2838" stroke-width=".5"/><rect x="60" y="26" width="38" height="36" rx="3" fill="#1a1828" stroke="#7c3aed" stroke-width=".5"/><circle cx="79" cy="44" r="10" fill="#7c3aed" opacity=".3"/><rect x="108" y="31" width="130" height="5" rx="2" fill="#1e1c2a"/><rect x="108" y="31" width="88" height="5" rx="2" fill="#7c3aed" opacity=".5"/><rect x="108" y="50" width="78" height="11" rx="3" fill="#7c3aed" opacity=".7"/><text x="122" y="60" font-size="8" fill="white" font-family="monospace">LEVEL UP</text></svg><div class="pfl">RPG Level Up Screen</div></div>
 </div>
 </div>
 
@@ -464,205 +649,196 @@ body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
 
 <!-- IMG 1 -->
 <div class="mov" id="m-img1" onclick="cbg(event,'m-img1')">
-<div class="mdl w">
-  <div class="mh"><div class="mt">Post-apo City 2090 — Environment WIP</div><button class="mx" onclick="cm('m-img1')"><i class="ti ti-x"></i></button></div>
-  <svg width="100%" height="360" viewBox="0 0 740 360"><rect width="740" height="360" fill="#080610"/><rect x="0" y="210" width="740" height="150" fill="#060510"/>
-  <rect x="8" y="75" width="52" height="285" fill="#171424" rx="2"/><rect x="14" y="82" width="40" height="195" fill="#1e1a30" rx="1"/>
-  <rect x="70" y="35" width="72" height="325" fill="#171424" rx="2"/><rect x="76" y="42" width="60" height="220" fill="#1e1a30" rx="1"/>
-  <rect x="153" y="96" width="46" height="264" fill="#131120" rx="2"/>
-  <rect x="210" y="18" width="92" height="342" fill="#171424" rx="2"/><rect x="218" y="24" width="76" height="258" fill="#1e1a30" rx="1"/>
-  <rect x="314" y="52" width="58" height="308" fill="#131120" rx="2"/>
-  <rect x="382" y="67" width="76" height="293" fill="#171424" rx="2"/>
-  <rect x="468" y="32" width="65" height="328" fill="#131120" rx="2"/>
-  <rect x="544" y="86" width="52" height="274" fill="#171424" rx="2"/>
-  <rect x="607" y="47" width="67" height="313" fill="#131120" rx="2"/>
-  <rect x="685" y="76" width="50" height="284" fill="#171424" rx="2"/>
-  <rect x="22" y="95" width="10" height="8" rx="1" fill="#7c3aed" opacity=".7"/>
-  <rect x="86" y="56" width="12" height="9" rx="1" fill="#7c3aed" opacity=".8"/><rect x="104" y="76" width="12" height="9" rx="1" fill="#c084fc" opacity=".5"/>
-  <rect x="226" y="38" width="14" height="10" rx="1" fill="#7c3aed" opacity=".9"/><rect x="246" y="58" width="14" height="10" rx="1" fill="#c084fc" opacity=".6"/>
-  <rect x="392" y="86" width="11" height="8" rx="1" fill="#c084fc" opacity=".6"/>
-  <rect x="618" y="72" width="11" height="9" rx="1" fill="#7c3aed" opacity=".7"/>
-  <ellipse cx="370" cy="212" rx="350" ry="18" fill="#7c3aed" opacity=".05"/>
+<div class="mdl"><div class="mhandle"></div>
+  <div class="mh"><div class="mt">Post-apo City 2090</div><button class="mx" onclick="cm('m-img1')"><i class="ti ti-x"></i></button></div>
+  <svg width="100%" height="300" viewBox="0 0 740 300"><rect width="740" height="300" fill="#080610"/><rect x="0" y="175" width="740" height="125" fill="#060510"/>
+  <rect x="8" y="60" width="52" height="240" fill="#171424" rx="2"/><rect x="14" y="66" width="40" height="165" fill="#1e1a30" rx="1"/>
+  <rect x="70" y="28" width="72" height="272" fill="#171424" rx="2"/><rect x="76" y="34" width="60" height="185" fill="#1e1a30" rx="1"/>
+  <rect x="153" y="78" width="46" height="222" fill="#131120" rx="2"/>
+  <rect x="210" y="14" width="92" height="286" fill="#171424" rx="2"/><rect x="218" y="20" width="76" height="216" fill="#1e1a30" rx="1"/>
+  <rect x="314" y="42" width="58" height="258" fill="#131120" rx="2"/>
+  <rect x="382" y="54" width="76" height="246" fill="#171424" rx="2"/>
+  <rect x="468" y="26" width="65" height="274" fill="#131120" rx="2"/>
+  <rect x="544" y="70" width="52" height="230" fill="#171424" rx="2"/>
+  <rect x="607" y="38" width="67" height="262" fill="#131120" rx="2"/>
+  <rect x="22" y="78" width="10" height="8" rx="1" fill="#7c3aed" opacity=".7"/>
+  <rect x="86" y="46" width="12" height="9" rx="1" fill="#7c3aed" opacity=".8"/>
+  <rect x="226" y="30" width="14" height="10" rx="1" fill="#7c3aed" opacity=".9"/>
+  <rect x="392" y="70" width="11" height="8" rx="1" fill="#c084fc" opacity=".6"/>
+  <rect x="618" y="58" width="11" height="9" rx="1" fill="#7c3aed" opacity=".7"/>
+  <ellipse cx="370" cy="177" rx="350" ry="15" fill="#7c3aed" opacity=".05"/>
   </svg>
-  <div style="padding:16px 22px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <div style="flex:1"><div style="font-size:13px;font-weight:600">Piotr Wróbel · CD Projekt RED</div><div style="font-size:12px;color:#8b8aa0">Unreal 5 + Lumen + Houdini procedural pipeline</div></div>
-    <button class="ab lk"><i class="ti ti-heart"></i> 247</button>
+  <div style="padding:14px 18px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Piotr Wróbel · CD Projekt RED</div><div style="font-size:12px;color:var(--text2)">Unreal 5 + Lumen + Houdini procedural</div></div>
     <button class="cbtn" onclick="cm('m-img1');om('m-com1')"><i class="ti ti-message-circle" style="font-size:14px;vertical-align:-1px"></i> Komentarze (18)</button>
   </div>
-</div>
-</div>
+</div></div>
 
 <!-- IMG 2 -->
 <div class="mov" id="m-img2" onclick="cbg(event,'m-img2')">
-<div class="mdl w">
-  <div class="mh"><div class="mt">Biopunk RPG HUD — concept v3</div><button class="mx" onclick="cm('m-img2')"><i class="ti ti-x"></i></button></div>
-  <svg width="100%" height="320" viewBox="0 0 740 320"><rect width="740" height="320" fill="#0d0a18"/>
-  <rect x="20" y="18" width="212" height="190" rx="8" fill="#13101e" stroke="#7c3aed" stroke-width="1"/>
-  <text x="34" y="44" font-size="11" fill="#c084fc" font-family="monospace" font-weight="700">STATS</text>
-  <rect x="34" y="54" width="105" height="9" rx="4" fill="#2a2838"/><rect x="34" y="54" width="76" height="9" rx="4" fill="#7c3aed" opacity=".9"/>
-  <text x="145" y="63" font-size="9" fill="#c084fc" font-family="monospace">HP 1080</text>
-  <rect x="34" y="70" width="105" height="9" rx="4" fill="#2a2838"/><rect x="34" y="70" width="92" height="9" rx="4" fill="#10b981" opacity=".8"/>
-  <text x="145" y="79" font-size="9" fill="#10b981" font-family="monospace">MP 840</text>
-  <rect x="34" y="86" width="105" height="9" rx="4" fill="#2a2838"/><rect x="34" y="86" width="52" height="9" rx="4" fill="#f59e0b" opacity=".8"/>
-  <text x="145" y="95" font-size="9" fill="#f59e0b" font-family="monospace">SP 540</text>
-  <rect x="34" y="108" width="76" height="52" rx="5" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
-  <circle cx="72" cy="134" r="14" fill="#7c3aed" opacity=".25"/>
-  <text x="36" y="176" font-size="8" fill="#8b8aa0" font-family="monospace">Zone: District 07</text>
-  <text x="36" y="190" font-size="8" fill="#6b6882" font-family="monospace">Sector B · DANGER</text>
-  <circle cx="370" cy="108" r="76" fill="#13101e" stroke="#1e1c2a" stroke-width="12"/>
-  <circle cx="370" cy="108" r="76" fill="none" stroke="#7c3aed" stroke-width="4" stroke-dasharray="342 136" stroke-linecap="round" stroke-dashoffset="86"/>
-  <circle cx="370" cy="108" r="57" fill="#0d0a18"/>
-  <text x="356" y="115" font-size="24" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text>
-  <text x="352" y="132" font-size="9" fill="#8b8aa0" font-family="monospace">LEVEL</text>
-  <rect x="508" y="18" width="212" height="190" rx="8" fill="#13101e" stroke="#2a2838" stroke-width=".5"/>
-  <text x="522" y="44" font-size="11" fill="#c084fc" font-family="monospace" font-weight="700">ABILITIES</text>
-  <rect x="522" y="54" width="56" height="56" rx="7" fill="#1a1028" stroke="#7c3aed" stroke-width="1"/>
-  <circle cx="550" cy="82" r="15" fill="#7c3aed" opacity=".4"/>
-  <text x="536" y="122" font-size="9" fill="#8b8aa0" font-family="monospace">STRIKE</text>
-  <rect x="586" y="54" width="56" height="56" rx="7" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
-  <text x="600" y="122" font-size="9" fill="#8b8aa0" font-family="monospace">SHIELD</text>
-  <rect x="650" y="54" width="56" height="56" rx="7" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
-  <text x="666" y="122" font-size="9" fill="#8b8aa0" font-family="monospace">DASH</text>
-  <rect x="522" y="134" width="188" height="14" rx="4" fill="#1e1c2a"/>
-  <rect x="522" y="134" width="135" height="14" rx="4" fill="#7c3aed" opacity=".6"/>
-  <text x="524" y="145" font-size="9" fill="#e8e6f0" font-family="monospace">EXP 72%</text>
-  <rect x="20" y="240" width="700" height="56" rx="8" fill="#13101e" stroke="#2a2838" stroke-width=".5"/>
-  <text x="34" y="260" font-size="9" fill="#8b8aa0" font-family="monospace">INVENTORY</text>
-  <rect x="34" y="268" width="34" height="20" rx="4" fill="#1a1028" stroke="#7c3aed" stroke-width=".5"/>
-  <rect x="74" y="268" width="34" height="20" rx="4" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
-  <rect x="114" y="268" width="34" height="20" rx="4" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
-  <text x="600" y="262" font-size="9" fill="#6b6882" font-family="monospace">Anna Kędzierska · Figma</text>
+<div class="mdl"><div class="mhandle"></div>
+  <div class="mh"><div class="mt">Biopunk RPG HUD — v3</div><button class="mx" onclick="cm('m-img2')"><i class="ti ti-x"></i></button></div>
+  <svg width="100%" height="280" viewBox="0 0 740 280"><rect width="740" height="280" fill="#0d0a18"/>
+  <rect x="20" y="16" width="210" height="185" rx="8" fill="#13101e" stroke="#7c3aed" stroke-width="1"/>
+  <text x="34" y="40" font-size="11" fill="#c084fc" font-family="monospace" font-weight="700">STATS</text>
+  <rect x="34" y="50" width="104" height="9" rx="4" fill="#2a2838"/><rect x="34" y="50" width="75" height="9" rx="4" fill="#7c3aed" opacity=".9"/>
+  <text x="144" y="59" font-size="9" fill="#c084fc" font-family="monospace">HP 1080</text>
+  <rect x="34" y="66" width="104" height="9" rx="4" fill="#2a2838"/><rect x="34" y="66" width="91" height="9" rx="4" fill="#10b981" opacity=".8"/>
+  <text x="144" y="75" font-size="9" fill="#10b981" font-family="monospace">MP 840</text>
+  <rect x="34" y="82" width="104" height="9" rx="4" fill="#2a2838"/><rect x="34" y="82" width="51" height="9" rx="4" fill="#f59e0b" opacity=".8"/>
+  <text x="144" y="91" font-size="9" fill="#f59e0b" font-family="monospace">SP 540</text>
+  <circle cx="370" cy="100" r="74" fill="#13101e" stroke="#1e1c2a" stroke-width="12"/>
+  <circle cx="370" cy="100" r="74" fill="none" stroke="#7c3aed" stroke-width="4" stroke-dasharray="335 132" stroke-linecap="round" stroke-dashoffset="84"/>
+  <circle cx="370" cy="100" r="56" fill="#0d0a18"/>
+  <text x="357" y="107" font-size="23" fill="#e8e6f0" font-family="monospace" font-weight="700">82</text>
+  <text x="353" y="123" font-size="9" fill="#8b8aa0" font-family="monospace">LEVEL</text>
+  <rect x="510" y="16" width="210" height="185" rx="8" fill="#13101e" stroke="#2a2838" stroke-width=".5"/>
+  <text x="524" y="40" font-size="11" fill="#c084fc" font-family="monospace" font-weight="700">ABILITIES</text>
+  <rect x="524" y="50" width="55" height="55" rx="7" fill="#1a1028" stroke="#7c3aed" stroke-width="1"/>
+  <circle cx="551" cy="77" r="14" fill="#7c3aed" opacity=".4"/>
+  <text x="537" y="118" font-size="9" fill="#8b8aa0" font-family="monospace">STRIKE</text>
+  <rect x="586" y="50" width="55" height="55" rx="7" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
+  <text x="600" y="118" font-size="9" fill="#8b8aa0" font-family="monospace">SHIELD</text>
+  <rect x="648" y="50" width="55" height="55" rx="7" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
+  <text x="663" y="118" font-size="9" fill="#8b8aa0" font-family="monospace">DASH</text>
+  <rect x="524" y="130" width="186" height="13" rx="4" fill="#1e1c2a"/>
+  <rect x="524" y="130" width="133" height="13" rx="4" fill="#7c3aed" opacity=".6"/>
+  <text x="526" y="141" font-size="9" fill="#e8e6f0" font-family="monospace">EXP 72%</text>
+  <rect x="20" y="222" width="700" height="44" rx="8" fill="#13101e" stroke="#2a2838" stroke-width=".5"/>
+  <text x="34" y="240" font-size="9" fill="#8b8aa0" font-family="monospace">INVENTORY</text>
+  <rect x="34" y="248" width="32" height="10" rx="3" fill="#1a1028" stroke="#7c3aed" stroke-width=".5"/>
+  <rect x="72" y="248" width="32" height="10" rx="3" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
+  <rect x="110" y="248" width="32" height="10" rx="3" fill="#1a1028" stroke="#2a2838" stroke-width=".5"/>
   </svg>
-  <div style="padding:16px 22px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <div style="flex:1"><div style="font-size:13px;font-weight:600">Anna Kędzierska · Game UI Designer</div><div style="font-size:12px;color:#8b8aa0">Biopunk RPG HUD · Figma + After Effects</div></div>
-    <button class="ab"><i class="ti ti-heart"></i> 183</button>
+  <div style="padding:14px 18px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">Anna Kędzierska · Game UI Designer</div><div style="font-size:12px;color:var(--text2)">Biopunk RPG HUD · Figma</div></div>
     <button class="cbtn" onclick="cm('m-img2');om('m-com2')"><i class="ti ti-message-circle" style="font-size:14px;vertical-align:-1px"></i> Komentarze (24)</button>
   </div>
-</div>
-</div>
+</div></div>
 
 <!-- COM 1 -->
 <div class="mov" id="m-com1" onclick="cbg(event,'m-com1')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Komentarze (18)</div><button class="mx" onclick="cm('m-com1')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Komentarze (18)</div><button class="mx" onclick="cm('m-com1')"><i class="ti ti-x"></i></button></div>
 <div class="mb"><div class="cl" id="cl1">
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Niesamowita atmosfera! Jaka gęstość foliage? Lumen świetnie radzi sobie z indirect light 🔥</div><div class="ctm">1h temu · 12 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#831843,#ec4899)">AK</div><div class="cbl"><div class="cn">Anna Kędzierska</div><div class="ct">Ten post-apo vibe jest absolutnie niesamowity. Jak długo robiłeś cały pipeline z Houdini?</div><div class="ctm">2h temu · 8 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div class="cbl"><div class="cn">Ela Lis</div><div class="ct">Przepiękne! Ten budynek z oświetleniem okien to mistrzostwo. LODy proceduralne?</div><div class="ctm">3h temu · 6 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div class="cbl"><div class="cn">Michał Nowak</div><div class="ct">Jak robiłeś refleksy na mokrej nawierzchni? Screen-space + ray trace mixed?</div><div class="ctm">4h temu · 5 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#7c2d12,#f97316)">RM</div><div class="cbl"><div class="cn">Robert Maj</div><div class="ct">Zatrudnij mnie 😄 Świetny klimat. Jaki był czas buildu oświetlenia?</div><div class="ctm">5h temu · 4 ❤️</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Niesamowita atmosfera! Jaka gęstość foliage? Lumen świetnie radzi z indirect light 🔥</div><div class="ctm">1h temu · 12 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#831843,#ec4899)">AK</div><div class="cbl"><div class="cn">Anna Kędzierska</div><div class="ct">Ten post-apo vibe jest niesamowity. Jak długo robiłeś pipeline z Houdini?</div><div class="ctm">2h temu · 8 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div class="cbl"><div class="cn">Ela Lis</div><div class="ct">Przepiękne! Ten budynek z oświetleniem okien to mistrzostwo.</div><div class="ctm">3h temu · 6 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div class="cbl"><div class="cn">Michał Nowak</div><div class="ct">Jak robiłeś refleksy na mokrej nawierzchni? Screen-space + ray trace mixed?</div><div class="ctm">4h temu · 5 🔥</div></div></div>
 </div>
-<div class="cinr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><textarea class="cinp" id="ci1" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl1','ci1')"><i class="ti ti-send"></i></button></div>
+<div class="cinr"><div class="av" style="width:32px;height:32px;font-size:11px;border-radius:9px">MK</div><textarea class="cinp" id="ci1" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl1','ci1')"><i class="ti ti-send"></i></button></div>
 </div></div></div>
 
 <!-- COM 2 -->
 <div class="mov" id="m-com2" onclick="cbg(event,'m-com2')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Komentarze (24)</div><button class="mx" onclick="cm('m-com2')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Komentarze (24)</div><button class="mx" onclick="cm('m-com2')"><i class="ti ti-x"></i></button></div>
 <div class="mb"><div class="cl" id="cl2">
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">S9</div><div class="cbl"><div class="cn">Studio9 Games</div><div class="ct">Jesteśmy bardzo zainteresowani Twoją pracą! Wysyłamy wiadomość bezpośrednią 🎮</div><div class="ctm">1h temu · 18 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">JK</div><div class="cbl"><div class="cn">Jakub Kowalski</div><div class="ct">Ten HUD jest absolutnie perfekcyjny! Biopunk 100%. Jak długo robiłaś system inventory?</div><div class="ctm">2h temu · 14 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">ML</div><div class="cbl"><div class="cn">Marek Lewandowski</div><div class="ct">Jakie narzędzia poza Figmą? Prototyp animowany w After Effects?</div><div class="ctm">3h temu · 7 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div class="cbl"><div class="cn">Ela Lis</div><div class="ct">Minimap w lewym dolnym rogu jest przepiękny ❤️ Możemy współpracować?</div><div class="ctm">4h temu · 9 ❤️</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">S9</div><div class="cbl"><div class="cn">Studio9 Games</div><div class="ct">Jesteśmy bardzo zainteresowani Twoją pracą! Wysyłamy wiadomość 🎮</div><div class="ctm">1h temu · 18 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">JK</div><div class="cbl"><div class="cn">Jakub Kowalski</div><div class="ct">Ten HUD jest absolutnie perfekcyjny! Biopunk 100%.</div><div class="ctm">2h temu · 14 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#34d399)">EL</div><div class="cbl"><div class="cn">Ela Lis</div><div class="ct">Minimap w lewym dolnym rogu jest przepiękny ❤️ Możemy współpracować?</div><div class="ctm">4h temu · 9 🔥</div></div></div>
 </div>
-<div class="cinr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><textarea class="cinp" id="ci2" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl2','ci2')"><i class="ti ti-send"></i></button></div>
+<div class="cinr"><div class="av" style="width:32px;height:32px;font-size:11px;border-radius:9px">MK</div><textarea class="cinp" id="ci2" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl2','ci2')"><i class="ti ti-send"></i></button></div>
 </div></div></div>
 
 <!-- COM 3 -->
 <div class="mov" id="m-com3" onclick="cbg(event,'m-com3')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Komentarze (41)</div><button class="mx" onclick="cm('m-com3')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-message-circle" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Komentarze (41)</div><button class="mx" onclick="cm('m-com3')"><i class="ti ti-x"></i></button></div>
 <div class="mb"><div class="cl" id="cl3">
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div class="cbl"><div class="cn">Piotr Wróbel</div><div class="ct">Michał, używasz tego samego triku co my w CDPR! Świetny breakdown. Dodaj Temporal AA do normal map żeby uniknąć shimmeringu.</div><div class="ctm">30min temu · 22 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#831843,#ec4899)">TS</div><div class="cbl"><div class="cn">Tomasz Skowroński</div><div class="ct">Caustics wyglądały u mnie plastikowo. Jak radziłeś sobie z intensity falloff pod wodą?</div><div class="ctm">1h temu · 15 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#7c2d12,#f97316)">RM</div><div class="cbl"><div class="cn">Robert Maj</div><div class="ct">Super tutorial! Jak optymalizowałeś performance? Shader jest dość heavy...</div><div class="ctm">2h temu · 10 ❤️</div></div></div>
-  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Zrobiłem podobny shader w Houdini — Michał, warto byłoby się porównać notatkami 👀</div><div class="ctm">3h temu · 8 ❤️</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div class="cbl"><div class="cn">Piotr Wróbel</div><div class="ct">Michał, używasz tego samego triku co my w CDPR! Dodaj Temporal AA do normal map.</div><div class="ctm">30min temu · 22 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#831843,#ec4899)">TS</div><div class="cbl"><div class="cn">Tomasz Skowroński</div><div class="ct">Caustics wyglądały u mnie plastikowo. Jak radziłeś z intensity falloff pod wodą?</div><div class="ctm">1h temu · 15 🔥</div></div></div>
+  <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Zrobiłem podobny shader w Houdini — warto byłoby się porównać notatkami 👀</div><div class="ctm">3h temu · 8 🔥</div></div></div>
 </div>
-<div class="cinr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><textarea class="cinp" id="ci3" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl3','ci3')"><i class="ti ti-send"></i></button></div>
+<div class="cinr"><div class="av" style="width:32px;height:32px;font-size:11px;border-radius:9px">MK</div><textarea class="cinp" id="ci3" placeholder="Dodaj komentarz..."></textarea><button class="csnd" onclick="addCom('cl3','ci3')"><i class="ti ti-send"></i></button></div>
 </div></div></div>
 
 <!-- PROFILE -->
 <div class="mov" id="m-profile" onclick="cbg(event,'m-profile')">
-<div class="mdl"><div class="mh"><div class="mt" id="pm-tit">Profil</div><button class="mx" onclick="cm('m-profile')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt" id="pm-tit">Profil</div><button class="mx" onclick="cm('m-profile')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
   <div id="pm-ban" class="pmb"><div id="pm-av" class="pma"></div></div>
-  <div id="pm-nm" style="font-size:18px;font-weight:700;margin-top:8px"></div>
-  <div id="pm-rl" style="font-size:13px;color:#8b8aa0;margin-top:3px"></div>
+  <div id="pm-nm" style="font-size:18px;font-weight:700;color:var(--text);margin-top:8px"></div>
+  <div id="pm-rl" style="font-size:13px;color:var(--text2);margin-top:3px"></div>
   <div class="pmst2">
     <div class="pmsi"><div id="pm-s1" class="pmsn">—</div><div class="pmsl">Obserwujący</div></div>
     <div class="pmsi"><div id="pm-s2" class="pmsn">—</div><div class="pmsl">Projekty</div></div>
     <div class="pmsi"><div id="pm-s3" class="pmsn">—</div><div class="pmsl">Ocena</div></div>
-    <div class="pmsi"><div id="pm-s4" class="pmsn">—</div><div class="pmsl">Ocen</div></div>
+    <div class="pmsi"><div id="pm-s4" class="pmsn">—</div><div class="pmsl">Iskry</div></div>
   </div>
   <div id="pm-tgs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px"></div>
   <div id="pm-avl" style="margin-bottom:14px"></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
     <button class="apbtn" style="flex:1" onclick="om('m-conv')"><i class="ti ti-message" style="font-size:14px;vertical-align:-1px"></i> Wyślij wiadomość</button>
     <button class="cbtn" id="pm-flw" onclick="flwPr()">+ Obserwuj</button>
   </div>
   <div class="stit">Ostatnie prace</div>
   <div class="wg">
-    <div class="wi" onclick="om('m-img1')"><svg width="100%" height="65" viewBox="0 0 100 65"><rect width="100" height="65" fill="#111018"/><rect x="4" y="18" width="14" height="47" fill="#1c1928"/><rect x="22" y="10" width="18" height="55" fill="#221f30"/><rect x="46" y="20" width="12" height="45" fill="#1c1928"/><rect x="62" y="8" width="22" height="57" fill="#1c1928"/></svg><div class="wl">Environment 3D</div></div>
-    <div class="wi" onclick="om('m-img2')"><svg width="100%" height="65" viewBox="0 0 100 65"><rect width="100" height="65" fill="#0f0d1a"/><rect x="4" y="6" width="38" height="38" rx="3" fill="#13101e" stroke="#7c3aed" stroke-width=".5"/><circle cx="50" cy="32" r="18" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="60 56"/><rect x="58" y="6" width="38" height="38" rx="3" fill="#13101e" stroke="#2a2838" stroke-width=".5"/></svg><div class="wl">HUD Design</div></div>
-    <div class="wi"><svg width="100%" height="65" viewBox="0 0 100 65"><rect width="100" height="65" fill="#0a1628"/><circle cx="50" cy="30" r="20" fill="none" stroke="#3b82f6" stroke-width=".8" opacity=".3"/><ellipse cx="50" cy="30" rx="25" ry="7" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4"/><ellipse cx="50" cy="30" rx="25" ry="7" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4" transform="rotate(60 50 30)"/><circle cx="50" cy="30" r="5" fill="#3b82f6" opacity=".6"/></svg><div class="wl">3D Model</div></div>
+    <div class="wi" onclick="om('m-img1')"><svg width="100%" height="60" viewBox="0 0 100 60"><rect width="100" height="60" fill="#111018"/><rect x="4" y="16" width="14" height="44" fill="#1c1928"/><rect x="22" y="9" width="18" height="51" fill="#221f30"/><rect x="46" y="18" width="12" height="42" fill="#1c1928"/><rect x="62" y="7" width="22" height="53" fill="#1c1928"/></svg><div class="wl">Environment 3D</div></div>
+    <div class="wi" onclick="om('m-img2')"><svg width="100%" height="60" viewBox="0 0 100 60"><rect width="100" height="60" fill="#0f0d1a"/><rect x="4" y="5" width="36" height="35" rx="3" fill="#13101e" stroke="#7c3aed" stroke-width=".5"/><circle cx="50" cy="30" r="16" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="56 50"/><rect x="60" y="5" width="36" height="35" rx="3" fill="#13101e" stroke="#2a2838" stroke-width=".5"/></svg><div class="wl">HUD Design</div></div>
+    <div class="wi"><svg width="100%" height="60" viewBox="0 0 100 60"><rect width="100" height="60" fill="#0a1628"/><circle cx="50" cy="28" r="18" fill="none" stroke="#3b82f6" stroke-width=".8" opacity=".3"/><ellipse cx="50" cy="28" rx="23" ry="6" fill="none" stroke="#60a5fa" stroke-width=".5" opacity=".4"/><circle cx="50" cy="28" r="5" fill="#3b82f6" opacity=".6"/></svg><div class="wl">3D Model</div></div>
   </div>
-</div>
-</div></div>
+</div></div></div>
 
 <!-- MY PROFILE -->
 <div class="mov" id="m-myp" onclick="cbg(event,'m-myp')">
-<div class="mdl"><div class="mh"><div class="mt">Mój profil</div><button class="mx" onclick="cm('m-myp')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt">Mój profil</div><button class="mx" onclick="cm('m-myp')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
-  <div class="pmb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"><div class="pma" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">MK</div></div>
-  <div style="font-size:18px;font-weight:700;margin-top:8px">Marta Kowalczyk</div>
-  <div style="font-size:13px;color:#8b8aa0;margin-top:3px">2D Concept Artist · Kraków, Polska</div>
+  <div class="pmb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)"><div class="pma" style="background:linear-gradient(135deg,var(--acc),var(--acc2))">MK</div></div>
+  <div style="font-size:18px;font-weight:700;color:var(--text);margin-top:8px">Marta Kowalczyk</div>
+  <div style="font-size:13px;color:var(--text2);margin-top:3px">2D Concept Artist · Kraków, Polska</div>
   <div class="pmst2">
     <div class="pmsi"><div class="pmsn">1.2k</div><div class="pmsl">Obserwujący</div></div>
     <div class="pmsi"><div class="pmsn">48</div><div class="pmsl">Projekty</div></div>
     <div class="pmsi"><div class="pmsn">4.9</div><div class="pmsl">Ocena</div></div>
-    <div class="pmsi"><div class="pmsn">12</div><div class="pmsl">Wyróżnienia</div></div>
+    <div class="pmsi"><div class="pmsn">842</div><div class="pmsl">Iskry 🔥</div></div>
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px"><span class="tg">Concept Art</span><span class="tg">Characters</span><span class="tg">Environments</span><span class="tg">Unreal 5</span><span class="tg">Procreate</span></div>
-  <div style="background:#faf7ff;border:1px solid #ddd6fe;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#5b21b6"><strong>Uzupełnienie profilu: 94%</strong><br><span style="color:#8b6ec8;font-size:12px">Dodaj link do ArtStation aby osiągnąć 100% 🎯</span></div>
+  <div style="background:var(--acc3);border:1px solid var(--border2);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(--acc)"><strong>Uzupełnienie profilu: 94%</strong><br><span style="font-size:12px;opacity:.8">Dodaj link do ArtStation aby osiągnąć 100% 🎯</span></div>
   <div style="display:flex;gap:8px">
     <button class="apbtn" style="flex:1" onclick="cm('m-myp');om('m-pro')"><i class="ti ti-crown" style="font-size:14px;vertical-align:-1px"></i> Ulepsz do Pro</button>
     <button class="cbtn">Edytuj profil</button>
   </div>
-</div>
-</div></div>
+</div></div></div>
 
 <!-- JOB -->
 <div class="mov" id="m-job" onclick="cbg(event,'m-job')">
-<div class="mdl"><div class="mh"><div class="mt">Oferta pracy</div><button class="mx" onclick="cm('m-job')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt">Oferta pracy</div><button class="mx" onclick="cm('m-job')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
-  <div class="jmh"><div id="jm-lo" class="jml">?</div><div><div id="jm-ti" class="jmt2"></div><div id="jm-co" class="jmc"></div></div></div>
+  <div class="jmhero"><div id="jm-lo" class="jmlo">?</div><div><div id="jm-ti" class="jmt2"></div><div id="jm-co" class="jmc"></div></div></div>
   <div class="jmm"><div class="chip"><i class="ti ti-map-pin"></i><span id="jm-lc"></span></div><div class="chip"><i class="ti ti-clock"></i><span id="jm-md"></span></div><div class="chip"><i class="ti ti-building"></i><span id="jm-cn"></span></div><div class="chip"><i class="ti ti-currency-zloty"></i><span id="jm-sl"></span></div></div>
   <div class="jms"><div class="jmlb">Opis stanowiska</div><div id="jm-ds" class="jmtx"></div></div>
   <div class="jms"><div class="jmlb">Wymagane umiejętności</div><div id="jm-sk" class="scl"></div></div>
-  <div class="jms"><div class="jmlb">Oferujemy</div><div class="jmtx">Prywatna opieka medyczna, budżet konferencyjny, elastyczne godziny, sprzęt do wyboru, relokacja możliwa.</div></div>
-  <button class="apbtn" onclick="applyJ()">Aplikuj — zostało 5/10 aplikacji (Free)</button>
-  <div class="aplm">lub <span style="color:#7c3aed;cursor:pointer" onclick="cm('m-job');om('m-pro')">ulepsz do Pro</span> dla nieograniczonych aplikacji</div>
-</div>
-</div></div>
+  <div class="jms"><div class="jmlb">Oferujemy</div><div class="jmtx">Prywatna opieka medyczna, budżet konferencyjny, elastyczne godziny, sprzęt do wyboru.</div></div>
+  <button class="apbtn" id="apply-btn" onclick="applyJ()">Aplikuj — zostało 5/10 aplikacji (Free)</button>
+  <div class="aplm">lub <span style="color:var(--acc);cursor:pointer" onclick="cm('m-job');om('m-pro')">ulepsz do Pro</span> dla nieograniczonych aplikacji</div>
+</div></div></div>
 
 <!-- MESSAGES -->
 <div class="mov" id="m-msgs" onclick="cbg(event,'m-msgs')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-message" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Wiadomości</div><button class="mx" onclick="cm('m-msgs')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-message" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Wiadomości</div><button class="mx" onclick="cm('m-msgs')"><i class="ti ti-x"></i></button></div>
 <div class="mb"><div class="msgl">
   <div class="msgi unr" onclick="openConv('Flying Wild Hog','FW','linear-gradient(135deg,#831843,#ec4899)')">
-    <div class="av" style="width:38px;height:38px;font-size:12px;border-radius:11px;background:linear-gradient(135deg,#831843,#ec4899)">FW</div>
-    <div class="msgc"><div class="msgsn">Flying Wild Hog <span style="background:#ecfdf5;color:#059669;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600">Rekruter</span></div><div class="msgpv">Cześć Marta! Zapraszamy Cię na rozmowę kwalifikacyjną na stanowisko Concept Artist...</div></div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="msgtm">2h temu</div><div class="nd" style="position:static;border-color:transparent"></div></div>
+    <div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#831843,#ec4899)">FW</div>
+    <div class="msgc"><div class="msgsn">Flying Wild Hog <span style="background:#ecfdf5;color:#059669;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600">Rekruter</span></div><div class="msgpv">Cześć Marta! Zapraszamy Cię na rozmowę kwalifikacyjną...</div></div>
+    <div class="msgtm">2h temu</div>
   </div>
   <div class="msgi unr" onclick="openConv('Karol Zając','KZ','linear-gradient(135deg,#4c1d95,#8b5cf6)')">
-    <div class="av" style="width:38px;height:38px;font-size:12px;border-radius:11px;background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div>
-    <div class="msgc"><div class="msgsn">Karol Zając</div><div class="msgpv">Hej! Widziałem Twoje concept arty dla gry RPG — niesamowita robota...</div></div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="msgtm">Wczoraj</div><div class="nd" style="position:static;border-color:transparent"></div></div>
+    <div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div>
+    <div class="msgc"><div class="msgsn">Karol Zając</div><div class="msgpv">Hej! Widziałem Twoje concept arty — niesamowita robota...</div></div>
+    <div class="msgtm">Wczoraj</div>
   </div>
-  <div class="msgi unr" onclick="openConv('Lorti Team','LT','linear-gradient(135deg,#7c3aed,#c084fc)')">
-    <div class="av" style="width:38px;height:38px;font-size:12px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#c084fc)">LT</div>
-    <div class="msgc"><div class="msgsn">Lorti Team <span style="background:#f0edfb;color:#7c3aed;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600">System</span></div><div class="msgpv">Twój profil był dziś wyświetlony 47 razy! Ulepsz do Pro...</div></div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div class="msgtm">2 dni temu</div><div class="nd" style="position:static;border-color:transparent"></div></div>
+  <div class="msgi unr" onclick="openConv('Lorti Team','LT','linear-gradient(135deg,var(--acc),var(--acc2))')">
+    <div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#c084fc)">LT</div>
+    <div class="msgc"><div class="msgsn">Lorti Team <span style="background:var(--acc3);color:var(--acc);font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600">System</span></div><div class="msgpv">Twój profil był dziś wyświetlony 47 razy!</div></div>
+    <div class="msgtm">2 dni temu</div>
   </div>
   <div class="msgi" onclick="openConv('Anna Kędzierska','AK','linear-gradient(135deg,#831843,#ec4899)')">
-    <div class="av" style="width:38px;height:38px;font-size:12px;border-radius:11px;background:linear-gradient(135deg,#831843,#ec4899)">AK</div>
+    <div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:linear-gradient(135deg,#831843,#ec4899)">AK</div>
     <div class="msgc"><div class="msgsn">Anna Kędzierska</div><div class="msgpv">Super! To skontaktujmy się przy kolejnym projekcie 😊</div></div>
     <div class="msgtm">3 dni temu</div>
   </div>
@@ -671,73 +847,77 @@ body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
 
 <!-- CONVERSATION -->
 <div class="mov" id="m-conv" onclick="cbg(event,'m-conv')">
-<div class="mdl"><div class="mh">
-  <div style="display:flex;align-items:center;gap:10px"><div id="cv-av" class="av" style="width:36px;height:36px;font-size:12px;border-radius:10px"></div><div class="mt" id="cv-nm"></div></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh">
+  <div style="display:flex;align-items:center;gap:10px"><div id="cv-av" class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px"></div><div class="mt" id="cv-nm"></div></div>
   <button class="mx" onclick="cm('m-conv')"><i class="ti ti-x"></i></button>
 </div>
 <div class="mb">
-  <div id="cv-ms" class="cl" style="min-height:180px;max-height:300px;overflow-y:auto"></div>
-  <div class="cinr"><div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><textarea class="cinp" id="cv-in" placeholder="Napisz wiadomość..."></textarea><button class="csnd" onclick="sendMsg()"><i class="ti ti-send"></i></button></div>
+  <div id="cv-ms" class="cl" style="min-height:160px;max-height:280px;overflow-y:auto"></div>
+  <div class="cinr"><div class="av" style="width:32px;height:32px;font-size:11px;border-radius:9px">MK</div><textarea class="cinp" id="cv-in" placeholder="Napisz wiadomość..."></textarea><button class="csnd" onclick="sendMsg()"><i class="ti ti-send"></i></button></div>
 </div></div></div>
 
 <!-- NOTIFICATIONS -->
 <div class="mov" id="m-notif" onclick="cbg(event,'m-notif')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-bell" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Powiadomienia</div><button class="mx" onclick="cm('m-notif')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-bell" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Powiadomienia</div><button class="mx" onclick="cm('m-notif')"><i class="ti ti-x"></i></button></div>
 <div class="mb" style="padding:12px"><div class="nls">
-  <div class="ni unr"><div class="nico" style="background:#f0edfb"><i class="ti ti-heart" style="color:#7c3aed"></i></div><div><div class="nit"><strong>Piotr Wróbel</strong> i 23 inne osoby polubiły Twój post</div><div class="nim">15 min temu</div></div></div>
+  <div class="ni unr"><div class="nico" style="background:var(--spark2)"><i class="ti ti-flame" style="color:var(--spark)"></i></div><div><div class="nit"><strong>Piotr Wróbel</strong> i 23 inne osoby dały Iskrę Twojemu postowi 🔥</div><div class="nim">15 min temu</div></div></div>
   <div class="ni unr"><div class="nico" style="background:#ecfdf5"><i class="ti ti-briefcase" style="color:#059669"></i></div><div><div class="nit"><strong>Flying Wild Hog</strong> wysłał Ci ofertę pracy: Concept Artist</div><div class="nim">2h temu</div></div></div>
-  <div class="ni unr"><div class="nico" style="background:#f0edfb"><i class="ti ti-user-plus" style="color:#7c3aed"></i></div><div><div class="nit"><strong>Karol Zając</strong> zaczął Cię obserwować</div><div class="nim">3h temu</div></div></div>
-  <div class="ni"><div class="nico" style="background:#fef3c7"><i class="ti ti-star" style="color:#d97706"></i></div><div><div class="nit"><strong>Michał Nowak</strong> wyróżnił Twój projekt „Dragon Character Sheet"</div><div class="nim">Wczoraj</div></div></div>
+  <div class="ni unr"><div class="nico" style="background:var(--acc3)"><i class="ti ti-user-plus" style="color:var(--acc)"></i></div><div><div class="nit"><strong>Karol Zając</strong> zaczął Cię obserwować</div><div class="nim">3h temu</div></div></div>
+  <div class="ni"><div class="nico" style="background:var(--spark2)"><i class="ti ti-flame" style="color:var(--spark)"></i></div><div><div class="nit"><strong>Michał Nowak</strong> dał Iskrę Twojemu projektowi „Dragon Character Sheet" 🔥</div><div class="nim">Wczoraj</div></div></div>
   <div class="ni"><div class="nico" style="background:#ecfdf5"><i class="ti ti-message-circle" style="color:#059669"></i></div><div><div class="nit"><strong>Anna Kędzierska</strong> skomentowała Twój post</div><div class="nim">Wczoraj</div></div></div>
-  <div class="ni"><div class="nico" style="background:#f0edfb"><i class="ti ti-eye" style="color:#7c3aed"></i></div><div><div class="nit">Twój profil był wyświetlony <strong>47 razy</strong> w tym tygodniu (+18%)</div><div class="nim">2 dni temu</div></div></div>
-  <div class="ni"><div class="nico" style="background:#fef3c7"><i class="ti ti-trending-up" style="color:#d97706"></i></div><div><div class="nit">Post <strong>#ShaderTutorial</strong> osiągnął 412 polubień — Top 5%!</div><div class="nim">2 dni temu</div></div></div>
+  <div class="ni"><div class="nico" style="background:var(--acc3)"><i class="ti ti-eye" style="color:var(--acc)"></i></div><div><div class="nit">Twój profil był wyświetlony <strong>47 razy</strong> w tym tygodniu (+18%)</div><div class="nim">2 dni temu</div></div></div>
+  <div class="ni"><div class="nico" style="background:var(--spark2)"><i class="ti ti-trending-up" style="color:var(--spark)"></i></div><div><div class="nit">Post <strong>#ShaderTutorial</strong> zebrał 412 Iskier — Top 5%! 🔥</div><div class="nim">2 dni temu</div></div></div>
 </div></div></div></div>
 
 <!-- PRO -->
 <div class="mov" id="m-pro" onclick="cbg(event,'m-pro')">
-<div class="mdl"><div class="mh"><div class="mt">Lorti Pro</div><button class="mx" onclick="cm('m-pro')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt">Lorti Pro</div><button class="mx" onclick="cm('m-pro')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
   <div class="proh"><div class="probd">✦ LORTI PRO</div><div class="prot">Rozwiń swoją karierę artystyczną</div><div class="pros">Wyróżnij się, aplikuj bez limitu, buduj markę</div></div>
   <div class="ppl">
     <div class="pp on" onclick="selPl(this)"><div class="ppn">Miesięczny</div><div class="ppp">49 PLN<span>/mies.</span></div></div>
-    <div class="pp" onclick="selPl(this)" style="position:relative"><div style="position:absolute;top:-10px;right:10px;background:#7c3aed;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700">-20%</div><div class="ppn">Roczny</div><div class="ppp">39 PLN<span>/mies.</span></div></div>
+    <div class="pp" onclick="selPl(this)" style="position:relative"><div style="position:absolute;top:-10px;right:10px;background:var(--acc);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700">-20%</div><div class="ppn">Roczny</div><div class="ppp">39 PLN<span>/mies.</span></div></div>
   </div>
   <div class="pfs">
     <div class="pf2"><i class="ti ti-check"></i> Nieograniczone aplikacje na oferty pracy</div>
     <div class="pf2"><i class="ti ti-check"></i> Wyróżniony profil w wynikach wyszukiwania</div>
     <div class="pf2"><i class="ti ti-check"></i> Analytics — kto oglądał Twój profil i kiedy</div>
+    <div class="pf2"><i class="ti ti-check"></i> <strong>Brak reklam</strong> — czyste doświadczenie</div>
     <div class="pf2"><i class="ti ti-check"></i> Portfolio bez watermarku Lorti</div>
     <div class="pf2"><i class="ti ti-check"></i> Własna domena: marta.lorti.pl</div>
     <div class="pf2"><i class="ti ti-check"></i> Direct message do rekruterów bez połączenia</div>
-    <div class="pf2"><i class="ti ti-check"></i> Priorytetowe powiadomienia o nowych ofertach</div>
     <div class="pf2"><i class="ti ti-check"></i> Odznaka Pro na profilu i postach</div>
   </div>
-  <button class="apbtn" onclick="cm('m-pro');toast('✨ Dziękujemy! Przekierowanie do płatności...')">Rozpocznij 7-dniowy trial gratis →</button>
+  <button class="apbtn" onclick="activatePro()">Rozpocznij 7-dniowy trial gratis →</button>
   <div class="aplm">Możesz anulować w dowolnym momencie</div>
 </div></div></div>
 
 <!-- CREATE -->
 <div class="mov" id="m-create" onclick="cbg(event,'m-create')">
-<div class="mdl"><div class="mh"><div class="mt">Nowy post</div><button class="mx" onclick="cm('m-create')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt">Nowy post</div><button class="mx" onclick="cm('m-create')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div class="cra">MK</div><div><div style="font-size:14px;font-weight:600">Marta Kowalczyk</div><div style="font-size:12px;color:#8b8aa0">2D Concept Artist · Publiczny</div></div></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div class="cra">MK</div><div><div style="font-size:14px;font-weight:600;color:var(--text)">Marta Kowalczyk</div><div style="font-size:12px;color:var(--text2)">2D Concept Artist · Publiczny</div></div></div>
   <textarea class="crta" id="np-tx" placeholder="Co nowego tworzysz? Podziel się projektem, WIP, szukaj współpracy...&#10;&#10;#ConceptArt #GameDev #Unreal5"></textarea>
   <div class="crts">
-    <div class="crt"><i class="ti ti-photo"></i> Render / zdjęcie</div>
-    <div class="crt"><i class="ti ti-file-type-gif"></i> GIF / animacja</div>
-    <div class="crt"><i class="ti ti-link"></i> Link ArtStation</div>
+    <div class="crt"><i class="ti ti-photo"></i> Render</div>
+    <div class="crt"><i class="ti ti-file-type-gif"></i> GIF</div>
+    <div class="crt"><i class="ti ti-link"></i> ArtStation</div>
     <div class="crt"><i class="ti ti-tag"></i> Hashtagi</div>
-    <div class="crt"><i class="ti ti-users"></i> Oznacz artystę</div>
   </div>
   <div style="display:flex;justify-content:flex-end;margin-top:14px;gap:8px">
     <button class="cbtn" onclick="cm('m-create')">Anuluj</button>
-    <button class="psbtn" onclick="pubPost()">Opublikuj post</button>
+    <button class="psbtn" onclick="pubPost()">Opublikuj 🔥</button>
   </div>
 </div></div></div>
 
 <!-- SAVED -->
 <div class="mov" id="m-saved" onclick="cbg(event,'m-saved')">
-<div class="mdl"><div class="mh"><div class="mt"><i class="ti ti-bookmark" style="font-size:15px;vertical-align:-2px;margin-right:6px;color:#7c3aed"></i>Zapisane</div><button class="mx" onclick="cm('m-saved')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-bookmark" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Zapisane</div><button class="mx" onclick="cm('m-saved')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
   <div class="stit">Posty (3)</div>
   <div class="cl">
@@ -745,28 +925,80 @@ body{font-family:'DM Sans',sans-serif;background:#f5f4f0;color:#1a1825}
     <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div class="cbl"><div class="cn">Michał Nowak</div><div class="ct">Water Shader Tutorial — UE5, normal map blending + caustics</div></div></div>
     <div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Houdini Fire FX Breakdown — Niagara export pipeline</div></div></div>
   </div>
-  <div class="stit" style="margin-top:16px">Oferty (2)</div>
+  <div class="stit" style="margin-top:14px">Oferty (2)</div>
   <div class="cl">
     <div class="ci" style="cursor:pointer" onclick="cm('m-saved');openJob('Senior 3D Character Artist','Techland','Wrocław','On-site','Pełny etat','8 000–14 000 PLN','Unreal Engine,ZBrush','Szukamy artysty postaci do AAA.','TC','linear-gradient(135deg,#7c3aed,#c084fc)')"><div class="cav" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">TC</div><div class="cbl"><div class="cn">Techland · Wrocław</div><div class="ct">Senior 3D Character Artist · 8 000–14 000 PLN</div></div></div>
-    <div class="ci" style="cursor:pointer" onclick="cm('m-saved');openJob('VFX Artist','Bloober Team','Kraków','On-site','Pełny etat','7 000–12 000 PLN','Houdini,Niagara,Maya','Efekty VFX dla horror psychologiczny.','BT','linear-gradient(135deg,#1e3a8a,#3b82f6)')"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">BT</div><div class="cbl"><div class="cn">Bloober Team · Kraków</div><div class="ct">VFX Artist · 7 000–12 000 PLN</div></div></div>
+    <div class="ci" style="cursor:pointer" onclick="cm('m-saved');openJob('VFX Artist','Bloober Team','Kraków','On-site','Pełny etat','7 000–12 000 PLN','Houdini,Niagara,Maya','Efekty VFX.','BT','linear-gradient(135deg,#1e3a8a,#3b82f6)')"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">BT</div><div class="cbl"><div class="cn">Bloober Team · Kraków</div><div class="ct">VFX Artist · 7 000–12 000 PLN</div></div></div>
   </div>
 </div></div></div>
 
 <!-- HASHTAG -->
 <div class="mov" id="m-ht" onclick="cbg(event,'m-ht')">
-<div class="mdl"><div class="mh"><div class="mt" id="ht-ti">#Hashtag</div><button class="mx" onclick="cm('m-ht')"><i class="ti ti-x"></i></button></div>
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt" id="ht-ti">#Hashtag</div><button class="mx" onclick="cm('m-ht')"><i class="ti ti-x"></i></button></div>
 <div class="mb">
-  <div id="ht-mt" style="display:flex;gap:10px;margin-bottom:16px"></div>
+  <div id="ht-mt" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
   <div class="stit">Popularne posty</div>
   <div id="ht-ps" class="cl"></div>
+</div></div></div>
+
+<!-- SEARCH -->
+<div class="mov" id="m-search" onclick="cbg(event,'m-search')">
+<div class="mdl"><div class="mhandle"></div>
+<div class="mh"><div class="mt"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px;margin-right:5px;color:var(--acc)"></i>Szukaj</div><button class="mx" onclick="cm('m-search')"><i class="ti ti-x"></i></button></div>
+<div class="mb">
+  <div class="searchbar" style="margin:0 0 16px">
+    <i class="ti ti-search"></i>
+    <input type="text" id="search-inp" placeholder="Szukaj artystów, ofert, hashtagów..." oninput="doSearch(this.value)">
+  </div>
+  <div id="search-res">
+    <div class="stit">Popularne wyszukiwania</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <span onclick="searchFor('Unreal 5')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#Unreal5</span>
+      <span onclick="searchFor('Concept Art')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#ConceptArt</span>
+      <span onclick="searchFor('Pixel Art')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#PixelArt</span>
+      <span onclick="searchFor('Remote')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">Oferty Remote</span>
+      <span onclick="searchFor('Techland')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">Techland</span>
+    </div>
+  </div>
 </div></div></div>
 
 <div id="toast"></div>
 
 <script>
-// MODAL ENGINE
+// ===== DARK MODE =====
+var isDark = false;
+function toggleDark(){
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon').className = isDark ? 'ti ti-sun' : 'ti ti-moon';
+  document.getElementById('theme-txt').textContent = isDark ? 'Jasny' : 'Ciemny';
+  toast(isDark ? '🌙 Tryb ciemny włączony' : '☀️ Tryb jasny włączony');
+}
+
+// ===== PRO MODE =====
+var isPro = false;
+function activatePro(){
+  isPro = true;
+  cm('m-pro');
+  // Hide ads
+  ['ad1','ad2','ad3'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  // Hide free bar
+  var fb = document.getElementById('free-bar');
+  if(fb) fb.style.display = 'none';
+  // Update apply btn
+  var ab = document.getElementById('apply-btn');
+  if(ab) ab.textContent = 'Aplikuj (nieograniczone — Pro)';
+  // Update notif badge  
+  document.querySelectorAll('.pro-badge').forEach(function(b){ b.style.opacity='.5'; });
+  toast('✨ Lorti Pro aktywowany! Reklamy wyłączone.');
+}
+
+// ===== MODAL ENGINE =====
 function om(id){
-  // Close other modals first
   document.querySelectorAll('.mov.on').forEach(function(m){m.classList.remove('on');});
   var el=document.getElementById(id);
   if(el){el.classList.add('on');document.body.style.overflow='hidden';}
@@ -778,47 +1010,88 @@ function cm(id){
 }
 function cbg(e,id){if(e.target===e.currentTarget)cm(id);}
 
-// TOAST
+// ===== TOAST =====
 function toast(msg){
   var t=document.getElementById('toast');
   t.textContent=msg;
-  t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(0);background:#1a1825;color:#fff;padding:11px 22px;border-radius:12px;font-size:13px;font-weight:500;z-index:9999;transition:transform .3s;pointer-events:none;white-space:nowrap';
-  setTimeout(function(){t.style.transform='translateX(-50%) translateY(80px)';},2800);
+  t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._to);
+  t._to=setTimeout(function(){t.style.transform='translateX(-50%) translateY(80px)';},2800);
 }
 
-// LIKES & BOOKMARKS
-function tgL(bid,cid){
+// ===== ISKRY (like system) =====
+function tgSpark(bid,cid){
   var b=document.getElementById(bid),c=document.getElementById(cid);
   var n=parseInt(c.textContent);
-  if(b.classList.contains('lk')){b.classList.remove('lk');c.textContent=n-1;}
-  else{b.classList.add('lk');c.textContent=n+1;toast('Polubiono! ❤️');}
+  if(b.classList.contains('sparked')){
+    b.classList.remove('sparked');
+    c.textContent=n-1;
+    toast('Iskra cofnięta');
+  } else {
+    b.classList.add('sparked');
+    c.textContent=n+1;
+    toast('🔥 Dałeś Iskrę!');
+  }
 }
-function tgB(id){
+
+// ===== BOOKMARKS =====
+function tgBk(id){
   var b=document.getElementById(id),i=b.querySelector('i');
-  if(b.classList.contains('bk')){b.classList.remove('bk');i.className='ti ti-bookmark';toast('Usunięto z zakładek');}
-  else{b.classList.add('bk');i.className='ti ti-bookmark-filled';toast('Zapisano! 🔖');}
+  if(b.classList.contains('bk')){
+    b.classList.remove('bk');
+    i.className='ti ti-bookmark';
+    toast('Usunięto z zapisanych');
+  } else {
+    b.classList.add('bk');
+    i.className='ti ti-bookmark-filled';
+    i.style.color='var(--acc)';
+    toast('Zapisano! 🔖');
+  }
 }
+
+// ===== FOLLOW =====
 function flwBtn(btn){
-  if(btn.textContent==='+ Śledź'){btn.textContent='✓ Śledzisz';btn.style.background='#7c3aed';btn.style.color='#fff';btn.style.borderColor='#7c3aed';toast('Zacząłeś obserwować! 👋');}
-  else{btn.textContent='+ Śledź';btn.style.background='';btn.style.color='';btn.style.borderColor='';}
+  if(btn.textContent==='+ Śledź'){
+    btn.textContent='✓ Śledzisz';
+    btn.style.background='var(--acc)';
+    btn.style.color='#fff';
+    btn.style.borderColor='var(--acc)';
+    toast('Zacząłeś obserwować! 👋');
+  } else {
+    btn.textContent='+ Śledź';
+    btn.style.background='';
+    btn.style.color='';
+    btn.style.borderColor='';
+  }
 }
 function flwPr(){
   var b=document.getElementById('pm-flw');
-  if(b.textContent==='+ Obserwuj'){b.textContent='✓ Obserwujesz';b.style.background='#7c3aed';b.style.color='#fff';toast('Obserwujesz! 👋');}
-  else{b.textContent='+ Obserwuj';b.style.background='';b.style.color='';}
+  if(b.textContent==='+ Obserwuj'){
+    b.textContent='✓ Obserwujesz';
+    b.style.background='var(--acc)';
+    b.style.color='#fff';
+    toast('Obserwujesz! 👋');
+  } else {
+    b.textContent='+ Obserwuj';
+    b.style.background='';
+    b.style.color='';
+  }
 }
 
-// COMMENTS
+// ===== COMMENTS =====
 function addCom(lid,iid){
   var inp=document.getElementById(iid);
   var txt=inp.value.trim();if(!txt)return;
   var list=document.getElementById(lid);
   var d=document.createElement('div');d.className='ci';
-  d.innerHTML='<div class="cav" style="background:linear-gradient(135deg,#7c3aed,#c084fc)">MK</div><div class="cbl"><div class="cn">Marta Kowalczyk</div><div class="ct">'+txt+'</div><div class="ctm">Teraz · 0 ❤️</div></div>';
-  list.appendChild(d);d.scrollIntoView({behavior:'smooth'});inp.value='';toast('Komentarz dodany! 💬');
+  d.innerHTML='<div class="cav" style="background:linear-gradient(135deg,var(--acc),var(--acc2))">MK</div><div class="cbl"><div class="cn">Marta Kowalczyk</div><div class="ct">'+txt+'</div><div class="ctm">Teraz · 0 🔥</div></div>';
+  list.appendChild(d);
+  d.scrollIntoView({behavior:'smooth'});
+  inp.value='';
+  toast('Komentarz dodany! 💬');
 }
 
-// JOBS
+// ===== JOBS =====
 function openJob(ti,co,lc,md,cn,sl,sk,ds,lo,bg){
   document.getElementById('jm-ti').textContent=ti;
   document.getElementById('jm-co').textContent=co;
@@ -827,21 +1100,36 @@ function openJob(ti,co,lc,md,cn,sl,sk,ds,lo,bg){
   document.getElementById('jm-cn').textContent=cn;
   document.getElementById('jm-sl').textContent=sl;
   document.getElementById('jm-ds').textContent=ds;
-  var jlo=document.getElementById('jm-lo');jlo.textContent=lo;jlo.style.background=bg;
-  var skc=document.getElementById('jm-sk');skc.innerHTML='';
-  sk.split(',').forEach(function(s){var sp=document.createElement('span');sp.className='sc';sp.textContent=s.trim();skc.appendChild(sp);});
+  var jlo=document.getElementById('jm-lo');
+  jlo.textContent=lo;
+  jlo.style.background=bg;
+  var skc=document.getElementById('jm-sk');
+  skc.innerHTML='';
+  sk.split(',').forEach(function(s){
+    var sp=document.createElement('span');
+    sp.className='sc';
+    sp.textContent=s.trim();
+    skc.appendChild(sp);
+  });
   om('m-job');
 }
-function applyJ(){cm('m-job');toast('✅ Aplikacja wysłana! (5/10 na Free)');}
+function applyJ(){
+  if(isPro){
+    toast('✅ Aplikacja wysłana! (Pro — bez limitu)');
+  } else {
+    toast('✅ Aplikacja wysłana! (4/10 na Free)');
+  }
+  cm('m-job');
+}
 
-// PROFILES
+// ===== PROFILES =====
 var prData={
-  pw:{n:'Piotr Wróbel',r:'Senior 3D Environment Artist · CD Projekt RED · Warszawa',s1:'2.8k',s2:'62',s3:'4.9 ⭐',s4:'56',av:'Niedostępny',op:false,tg:['Unreal 5','Houdini','Lumen','Substance','Blender'],bg:'linear-gradient(135deg,#065f46,#10b981)',in:'PW'},
-  ak:{n:'Anna Kędzierska',r:'Game UI/UX Designer · Freelance · Gdańsk',s1:'1.6k',s2:'34',s3:'5.0 ⭐',s4:'24',av:'Dostępna od marca',op:true,tg:['Figma','Unity UI','After Effects','Photoshop'],bg:'linear-gradient(135deg,#831843,#ec4899)',in:'AK'},
-  mn:{n:'Michał Nowak',r:'Technical Artist · Remote',s1:'3.1k',s2:'28',s3:'4.9 ⭐',s4:'38',av:'Dostępny',op:true,tg:['Shaders','Unreal 5','HLSL','Niagara','Python'],bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)',in:'MN'},
-  kz:{n:'Karol Zając',r:'VFX Artist · Blur Studio · Wrocław',s1:'980',s2:'41',s3:'4.8 ⭐',s4:'31',av:'Dostępny od maja',op:true,tg:['Houdini','Niagara','Maya','Nuke'],bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)',in:'KZ'},
-  el:{n:'Ela Lis',r:'Pixel Artist · Freelance · Kraków',s1:'720',s2:'53',s3:'4.7 ⭐',s4:'19',av:'Dostępna',op:true,tg:['Aseprite','Photoshop','Animation','Tiled'],bg:'linear-gradient(135deg,#065f46,#34d399)',in:'EL'},
-  rm:{n:'Robert Maj',r:'Technical Artist · Platige Image · Warszawa',s1:'1.4k',s2:'37',s3:'4.8 ⭐',s4:'42',av:'Niedostępny',op:false,tg:['Pipeline','Python','Rigging','Maya'],bg:'linear-gradient(135deg,#7c2d12,#f97316)',in:'RM'}
+  pw:{n:'Piotr Wróbel',r:'Senior 3D Environment Artist · CD Projekt RED · Warszawa',s1:'2.8k',s2:'62',s3:'4.9⭐',s4:'1.2k🔥',av:'Niedostępny',op:false,tg:['Unreal 5','Houdini','Lumen','Substance','Blender'],bg:'linear-gradient(135deg,#065f46,#10b981)',in:'PW'},
+  ak:{n:'Anna Kędzierska',r:'Game UI/UX Designer · Freelance · Gdańsk',s1:'1.6k',s2:'34',s3:'5.0⭐',s4:'892🔥',av:'Dostępna od marca',op:true,tg:['Figma','Unity UI','After Effects','Photoshop'],bg:'linear-gradient(135deg,#831843,#ec4899)',in:'AK'},
+  mn:{n:'Michał Nowak',r:'Technical Artist · Remote',s1:'3.1k',s2:'28',s3:'4.9⭐',s4:'2.1k🔥',av:'Dostępny',op:true,tg:['Shaders','Unreal 5','HLSL','Niagara','Python'],bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)',in:'MN'},
+  kz:{n:'Karol Zając',r:'VFX Artist · Blur Studio · Wrocław',s1:'980',s2:'41',s3:'4.8⭐',s4:'756🔥',av:'Dostępny od maja',op:true,tg:['Houdini','Niagara','Maya','Nuke'],bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)',in:'KZ'},
+  el:{n:'Ela Lis',r:'Pixel Artist · Freelance · Kraków',s1:'720',s2:'53',s3:'4.7⭐',s4:'543🔥',av:'Dostępna',op:true,tg:['Aseprite','Photoshop','Animation','Tiled'],bg:'linear-gradient(135deg,#065f46,#34d399)',in:'EL'},
+  rm:{n:'Robert Maj',r:'Technical Artist · Platige Image · Warszawa',s1:'1.4k',s2:'37',s3:'4.8⭐',s4:'934🔥',av:'Niedostępny',op:false,tg:['Pipeline','Python','Rigging','Maya'],bg:'linear-gradient(135deg,#7c2d12,#f97316)',in:'RM'}
 };
 function openPr(key){
   var p=prData[key];if(!p)return;
@@ -852,34 +1140,45 @@ function openPr(key){
   document.getElementById('pm-s2').textContent=p.s2;
   document.getElementById('pm-s3').textContent=p.s3;
   document.getElementById('pm-s4').textContent=p.s4;
-  var av=document.getElementById('pm-av');av.style.background=p.bg;av.textContent=p.in;
+  var av=document.getElementById('pm-av');
+  av.style.background=p.bg;
+  av.textContent=p.in;
   document.getElementById('pm-ban').style.background=p.bg;
-  var tg=document.getElementById('pm-tgs');tg.innerHTML='';
-  p.tg.forEach(function(t){var s=document.createElement('span');s.className='tg';s.textContent=t;tg.appendChild(s);});
-  var col=p.op?'#059669':'#94a3b8',bg2=p.op?'#ecfdf5':'#f1f5f9',br=p.op?'#d1fae5':'#e2e8f0';
+  var tg=document.getElementById('pm-tgs');
+  tg.innerHTML='';
+  p.tg.forEach(function(t){
+    var s=document.createElement('span');
+    s.className='tg';
+    s.textContent=t;
+    tg.appendChild(s);
+  });
+  var col=p.op?'#059669':'#94a3b8';
+  var bg2=p.op?'#ecfdf5':'var(--bg3)';
+  var br=p.op?'#d1fae5':'var(--border)';
   document.getElementById('pm-avl').innerHTML='<span style="background:'+bg2+';color:'+col+';border:1px solid '+br+';border-radius:8px;padding:4px 11px;font-size:12px;font-weight:600">'+p.av+'</span>';
   document.getElementById('pm-flw').textContent='+ Obserwuj';
-  document.getElementById('pm-flw').style.background='';document.getElementById('pm-flw').style.color='';
+  document.getElementById('pm-flw').style.background='';
+  document.getElementById('pm-flw').style.color='';
   om('m-profile');
 }
 
-// CONVERSATIONS
+// ===== CONVERSATIONS =====
 var convData={
   'Flying Wild Hog':{av:'FW',bg:'linear-gradient(135deg,#831843,#ec4899)',msgs:[
     {mine:false,txt:'Cześć Marta! Zapraszamy Cię na rozmowę kwalifikacyjną na stanowisko Concept Artist. Termin — przyszły tydzień?',tm:'2h temu'},
-    {mine:true,txt:'Dziękuję! Tak, przyszły tydzień jest dla mnie OK. Środa lub czwartek?',tm:'1h temu'},
-    {mine:false,txt:'Świetnie! Środa 10:00 przez Teams. Prosimy o portfolio w PDF.',tm:'45min temu'}
+    {mine:true,txt:'Dziękuję! Środa lub czwartek pasowałoby najlepiej.',tm:'1h temu'},
+    {mine:false,txt:'Środa 10:00 przez Teams. Prosimy o portfolio w PDF.',tm:'45min temu'}
   ]},
   'Karol Zając':{av:'KZ',bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)',msgs:[
-    {mine:false,txt:'Hej! Widziałem Twoje concept arty — niesamowita robota. Chciałem zapytać czy byłabyś zainteresowana wspólnym projektem indie?',tm:'Wczoraj'},
-    {mine:true,txt:'Hej Karol! Opowiedz więcej, jestem zainteresowana 😊',tm:'Wczoraj'}
+    {mine:false,txt:'Hej! Widziałem Twoje concept arty — niesamowita robota. Projekt indie?',tm:'Wczoraj'},
+    {mine:true,txt:'Hej Karol! Opowiedz więcej 😊',tm:'Wczoraj'}
   ]},
   'Lorti Team':{av:'LT',bg:'linear-gradient(135deg,#7c3aed,#c084fc)',msgs:[
     {mine:false,txt:'Twój profil był dziś wyświetlony 47 razy! Ulepsz do Pro aby zobaczyć kto Cię odwiedził.',tm:'2 dni temu'}
   ]},
   'Anna Kędzierska':{av:'AK',bg:'linear-gradient(135deg,#831843,#ec4899)',msgs:[
     {mine:false,txt:'Hej Marta! Słyszałam że masz rozmowę w Flying Wild Hog — powodzenia! 🤞',tm:'3 dni temu'},
-    {mine:true,txt:'Tak, właśnie mi potwierdzili! Trochę się stresuję 😅',tm:'3 dni temu'},
+    {mine:true,txt:'Tak! Trochę się stresuję 😅',tm:'3 dni temu'},
     {mine:false,txt:'Super! Powodzenia! 😊',tm:'3 dni temu'}
   ]}
 };
@@ -887,46 +1186,57 @@ var curConv='';
 function openConv(name,init,bg){
   curConv=name;
   document.getElementById('cv-nm').textContent=name;
-  var cav=document.getElementById('cv-av');cav.textContent=init;cav.style.background=bg;
+  var cav=document.getElementById('cv-av');
+  cav.textContent=init;
+  cav.style.background=bg;
   var data=convData[name]||{msgs:[{mine:false,txt:'Cześć!',tm:'Teraz'}]};
-  var cont=document.getElementById('cv-ms');cont.innerHTML='';
+  var cont=document.getElementById('cv-ms');
+  cont.innerHTML='';
   data.msgs.forEach(function(m){
-    var d=document.createElement('div');d.className='ci';
+    var d=document.createElement('div');
+    d.className='ci';
     if(m.mine){
       d.style.flexDirection='row-reverse';
-      d.innerHTML='<div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><div class="cbl" style="background:#f0edfb;border-radius:12px 0 12px 12px;text-align:right"><div class="cn" style="color:#7c3aed">Ty</div><div class="ct">'+m.txt+'</div><div class="ctm">'+m.tm+'</div></div>';
+      d.innerHTML='<div class="av" style="width:30px;height:30px;font-size:10px;border-radius:9px">MK</div><div class="cbl" style="background:var(--acc3);border-radius:12px 0 12px 12px;text-align:right"><div class="cn" style="color:var(--acc)">Ty</div><div class="ct">'+m.txt+'</div><div class="ctm">'+m.tm+'</div></div>';
     } else {
       d.innerHTML='<div class="cav" style="background:'+bg+'">'+init+'</div><div class="cbl"><div class="cn">'+name+'</div><div class="ct">'+m.txt+'</div><div class="ctm">'+m.tm+'</div></div>';
     }
     cont.appendChild(d);
   });
-  cm('m-msgs');om('m-conv');
+  cm('m-msgs');
+  om('m-conv');
 }
 function sendMsg(){
-  var inp=document.getElementById('cv-in');var txt=inp.value.trim();if(!txt)return;
+  var inp=document.getElementById('cv-in');
+  var txt=inp.value.trim();
+  if(!txt)return;
   if(!convData[curConv])convData[curConv]={msgs:[]};
   convData[curConv].msgs.push({mine:true,txt:txt,tm:'Teraz'});
   var cont=document.getElementById('cv-ms');
-  var d=document.createElement('div');d.className='ci';d.style.flexDirection='row-reverse';
-  var cvAv=document.getElementById('cv-av');
-  d.innerHTML='<div class="av" style="width:34px;height:34px;font-size:11px;border-radius:10px">MK</div><div class="cbl" style="background:#f0edfb;border-radius:12px 0 12px 12px;text-align:right"><div class="cn" style="color:#7c3aed">Ty</div><div class="ct">'+txt+'</div><div class="ctm">Teraz</div></div>';
-  cont.appendChild(d);d.scrollIntoView({behavior:'smooth'});inp.value='';
+  var d=document.createElement('div');
+  d.className='ci';
+  d.style.flexDirection='row-reverse';
+  d.innerHTML='<div class="av" style="width:30px;height:30px;font-size:10px;border-radius:9px">MK</div><div class="cbl" style="background:var(--acc3);border-radius:12px 0 12px 12px;text-align:right"><div class="cn" style="color:var(--acc)">Ty</div><div class="ct">'+txt+'</div><div class="ctm">Teraz</div></div>';
+  cont.appendChild(d);
+  d.scrollIntoView({behavior:'smooth'});
+  inp.value='';
 }
 
-// PAGES
+// ===== PAGES =====
 function showPg(name){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   var pg=document.getElementById('page-'+name);if(pg)pg.classList.add('on');
   var tb=document.getElementById('tab-'+name);if(tb)tb.classList.add('on');
+  var mb=document.getElementById('mtab-'+name);if(mb)mb.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// HASHTAGS
+// ===== HASHTAGS =====
 var htDb={
   'Unreal5':{c:'2.8k postów',w:'+340 w tym tygodniu'},
   'ConceptArt':{c:'1.9k postów',w:'+180 w tym tygodniu'},
-  'GameJam':{c:'890 postów',w:'🔥 Trending — Global Game Jam'},
+  'GameJam':{c:'890 postów',w:'🔥 Trending'},
   'ZBrush':{c:'980 postów',w:'+90 w tym tygodniu'},
   'PixelArt':{c:'760 postów',w:'+55 w tym tygodniu'},
   'ShaderDev':{c:'540 postów',w:'+120 w tym tygodniu'},
@@ -941,18 +1251,78 @@ var htDb={
 function openHt(tag){
   var d=htDb[tag]||{c:'Nowy hashtag',w:''};
   document.getElementById('ht-ti').textContent='#'+tag;
-  document.getElementById('ht-mt').innerHTML='<div class="chip"><i class="ti ti-hash"></i>'+d.c+'</div><div class="chip"><i class="ti ti-trending-up"></i>'+d.w+'</div>';
+  document.getElementById('ht-mt').innerHTML=
+    '<div class="chip"><i class="ti ti-hash"></i>'+d.c+'</div>'+
+    '<div class="chip"><i class="ti ti-trending-up"></i>'+d.w+'</div>';
   document.getElementById('ht-ps').innerHTML=
-    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div class="cbl"><div class="cn">Piotr Wróbel</div><div class="ct">Post-apo środowisko z #'+tag+' — sprawdź mój ostatni WIP 🔥</div><div class="ctm">2h temu · 247 ❤️</div></div></div>'+
-    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div class="cbl"><div class="cn">Michał Nowak</div><div class="ct">Tutorial o #'+tag+' — 3 tygodnie R&D w skrócie 💧</div><div class="ctm">Wczoraj · 412 ❤️</div></div></div>'+
-    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Nowy projekt z #'+tag+' — niebawem breakdown!</div><div class="ctm">2 dni temu · 134 ❤️</div></div></div>';
+    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#065f46,#10b981)">PW</div><div class="cbl"><div class="cn">Piotr Wróbel</div><div class="ct">Post-apo środowisko z #'+tag+' 🔥</div><div class="ctm">2h temu · 247 🔥</div></div></div>'+
+    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">MN</div><div class="cbl"><div class="cn">Michał Nowak</div><div class="ct">Tutorial o #'+tag+' 💧</div><div class="ctm">Wczoraj · 412 🔥</div></div></div>'+
+    '<div class="ci"><div class="cav" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">KZ</div><div class="cbl"><div class="cn">Karol Zając</div><div class="ct">Nowy projekt z #'+tag+'</div><div class="ctm">2 dni temu · 134 🔥</div></div></div>';
   om('m-ht');
 }
 
-// MISC
+// ===== SEARCH =====
+var searchData = [
+  {type:'artist',name:'Piotr Wróbel',sub:'3D Environment · CD Projekt RED',key:'pw',bg:'linear-gradient(135deg,#065f46,#10b981)',in:'PW'},
+  {type:'artist',name:'Anna Kędzierska',sub:'UI/UX Designer · Freelance',key:'ak',bg:'linear-gradient(135deg,#831843,#ec4899)',in:'AK'},
+  {type:'artist',name:'Michał Nowak',sub:'Technical Artist · Remote',key:'mn',bg:'linear-gradient(135deg,#1e3a8a,#3b82f6)',in:'MN'},
+  {type:'artist',name:'Karol Zając',sub:'VFX Artist · Wrocław',key:'kz',bg:'linear-gradient(135deg,#4c1d95,#8b5cf6)',in:'KZ'},
+  {type:'artist',name:'Ela Lis',sub:'Pixel Artist · Kraków',key:'el',bg:'linear-gradient(135deg,#065f46,#34d399)',in:'EL'},
+  {type:'job',name:'Senior 3D Character Artist',sub:'Techland · 8 000–14 000 PLN',co:'Techland',lc:'Wrocław'},
+  {type:'job',name:'UI/UX Designer — Games',sub:'11 bit studios · Remote',co:'11 bit studios',lc:'Warszawa'},
+  {type:'job',name:'Concept Artist',sub:'Flying Wild Hog · Hybrid',co:'Flying Wild Hog',lc:'Kraków'},
+  {type:'job',name:'VFX Artist',sub:'Bloober Team · On-site',co:'Bloober Team',lc:'Kraków'},
+  {type:'tag',name:'#Unreal5',sub:'2.8k postów'},
+  {type:'tag',name:'#ConceptArt',sub:'1.9k postów'},
+  {type:'tag',name:'#PixelArt',sub:'760 postów'},
+  {type:'tag',name:'#GameDev',sub:'3.4k postów'}
+];
+function doSearch(q){
+  var res=document.getElementById('search-res');
+  if(!q||q.length<2){
+    res.innerHTML='<div class="stit">Popularne wyszukiwania</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"><span onclick="searchFor('Unreal 5')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#Unreal5</span><span onclick="searchFor('Concept Art')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">#ConceptArt</span><span onclick="searchFor('Remote')" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer">Oferty Remote</span></div>';
+    return;
+  }
+  var ql=q.toLowerCase();
+  var found=searchData.filter(function(i){
+    return i.name.toLowerCase().includes(ql)||(i.sub&&i.sub.toLowerCase().includes(ql));
+  });
+  if(!found.length){res.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3)">Brak wyników dla "'+q+'"</div>';return;}
+  var html='<div class="stit">Wyniki ('+found.length+')</div>';
+  found.forEach(function(i){
+    if(i.type==='artist'){
+      html+='<div class="sri" onclick="cm('m-search');openPr(''+i.key+'')"><div class="av" style="width:36px;height:36px;font-size:11px;border-radius:10px;background:'+i.bg+'">'+i.in+'</div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:var(--acc3);color:var(--acc);padding:2px 8px;border-radius:5px;font-weight:600">Artysta</div></div>';
+    } else if(i.type==='job'){
+      html+='<div class="sri" onclick="cm('m-search');openJob(''+i.name+'',''+i.co+'',''+i.lc+'','On-site','Pełny etat','—','Sprawdź ofertę','Kliknij aby zobaczyć szczegóły oferty.',''+i.co.slice(0,2)+'','linear-gradient(135deg,#7c3aed,#c084fc)')"><div class="ib" style="width:36px;height:36px;border-radius:10px;background:var(--acc3);color:var(--acc);border:none"><i class="ti ti-briefcase" style="font-size:16px"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:#ecfdf5;color:#059669;padding:2px 8px;border-radius:5px;font-weight:600">Oferta</div></div>';
+    } else {
+      var tag=i.name.replace('#','');
+      html+='<div class="sri" onclick="cm('m-search');openHt(''+tag+'')"><div class="ib" style="width:36px;height:36px;border-radius:10px;background:var(--spark2);color:var(--spark);border:none;font-size:16px"><i class="ti ti-hash"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--text)">'+i.name+'</div><div style="font-size:12px;color:var(--text2)">'+i.sub+'</div></div><div style="font-size:10px;background:var(--spark2);color:var(--spark);padding:2px 8px;border-radius:5px;font-weight:600">Hashtag</div></div>';
+    }
+  });
+  res.innerHTML=html;
+}
+function searchFor(q){
+  document.getElementById('search-inp').value=q;
+  doSearch(q);
+}
+
+// ===== MISC =====
 function tgF(btn){btn.classList.toggle('on');if(btn.classList.contains('on'))toast('Filtr: '+btn.textContent);}
 function selPl(el){document.querySelectorAll('.pp').forEach(function(p){p.classList.remove('on');});el.classList.add('on');}
-function pubPost(){var t=document.getElementById('np-tx');if(!t.value.trim()){toast('Napisz coś przed publikacją 📝');return;}cm('m-create');toast('Post opublikowany! 🎉');}
+function pubPost(){
+  var t=document.getElementById('np-tx');
+  if(!t.value.trim()){toast('Napisz coś przed publikacją 📝');return;}
+  cm('m-create');
+  toast('Post opublikowany! 🔥');
+}
+
+// Auto-focus search input when modal opens
+document.getElementById('m-search').addEventListener('transitionend',function(){
+  if(this.classList.contains('on')){
+    var inp=document.getElementById('search-inp');
+    if(inp)inp.focus();
+  }
+});
 </script>
 </body>
 </html>
