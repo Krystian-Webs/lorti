@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lorti Ads — Panel reklamodawcy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F5F4FF;color:#1a1035;min-height:100vh}
+:root{--v:#6d28d9;--v2:#7c3aed;--v3:#8b5cf6;--vl:#ede9fe;--vll:#f5f3ff;--border:#e5e1f8;--txt:#1a1035;--txt2:#6b7280;--txt3:#a89fc8;--shadow:0 1px 4px rgba(109,40,217,.08),0 4px 24px rgba(109,40,217,.06)}
+a{text-decoration:none;color:inherit}button{cursor:pointer;font-family:inherit}
+.bar{height:58px;background:#fff;border-bottom:1.5px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:16px;box-shadow:0 2px 12px rgba(109,40,217,.06)}
+.logo{font-size:22px;font-weight:900;letter-spacing:-1.5px;cursor:pointer}
+.logo span{color:var(--v)}
+.logo-sub{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-left:10px;padding-left:10px;border-left:1.5px solid var(--border)}
+.back-btn{display:flex;align-items:center;gap:6px;background:var(--vll);border:1.5px solid var(--border);color:var(--v);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.3px;margin-left:auto}
+.back-btn:hover{background:var(--v);color:#fff;border-color:var(--v)}
+
+.hero{background:linear-gradient(135deg,#3b0764,#4c1d95,#7c3aed,#a78bfa);padding:40px 28px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:900;color:#fff;letter-spacing:-1.5px;margin-bottom:10px;line-height:1.15}
+.hero p{font-size:14px;color:rgba(255,255,255,.75);max-width:520px;margin:0 auto 24px;line-height:1.65}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat-n{font-size:28px;font-weight:900;color:#fff}
+.hero-stat-l{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+
+.wrap{max-width:960px;margin:0 auto;padding:32px 20px}
+.step-bar{display:flex;align-items:center;gap:0;margin-bottom:36px;background:#fff;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.step{flex:1;padding:14px 10px;text-align:center;font-size:12px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;justify-content:center;gap:8px;border-right:1.5px solid var(--border);cursor:pointer;transition:all .15s}
+.step:last-child{border-right:none}
+.step.done{color:var(--v);background:var(--vll)}
+.step.active{color:#fff;background:var(--v)}
+.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.step.active .step-num{background:rgba(255,255,255,.3)}
+.step.done .step-num{background:var(--v);color:#fff}
+
+.card{background:#fff;border:1.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px}
+.cp{padding:20px}
+.card-title{font-size:16px;font-weight:900;letter-spacing:-.3px;margin-bottom:4px}
+.card-sub{font-size:12px;color:var(--txt3);margin-bottom:18px}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-row.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;font-weight:700;color:var(--txt);text-transform:uppercase;letter-spacing:.4px}
+.form-inp{background:var(--vll);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;font-family:inherit;color:var(--txt);outline:none;transition:border-color .15s}
+.form-inp:focus{border-color:var(--v3)}
+.form-inp::placeholder{color:var(--txt3)}
+select.form-inp{cursor:pointer}
+.form-hint{font-size:10px;color:var(--txt3)}
+
+.format-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.format-card{border:2px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;position:relative}
+.format-card:hover,.format-card.on{border-color:var(--v);background:var(--vll)}
+.format-card.on::after{content:'✓';position:absolute;top:10px;right:12px;background:var(--v);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.fc-ico{font-size:28px;margin-bottom:8px}
+.fc-name{font-size:13px;font-weight:800;margin-bottom:3px;letter-spacing:-.2px}
+.fc-desc{font-size:11px;color:var(--txt3);line-height:1.5}
+.fc-price{font-size:12px;font-weight:700;color:var(--v);margin-top:6px}
+
+.audience-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.aud-tag{border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--txt2);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.3px}
+.aud-tag:hover,.aud-tag.on{border-color:var(--v);background:var(--vll);color:var(--v)}
+
+.budget-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.budget-btn{border:2px solid var(--border);border-radius:10px;padding:8px 18px;font-size:13px;font-weight:700;color:var(--txt2);cursor:pointer;transition:all .2s}
+.budget-btn:hover,.budget-btn.on{border-color:var(--v);background:var(--vll);color:var(--v)}
+
+.preview-box{background:var(--vll);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.preview-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--txt3);background:#fff;padding:8px 14px;border-bottom:1.5px solid var(--border)}
+.preview-inner{padding:14px}
+.ad-preview-banner{display:flex;gap:10px;align-items:center;background:#fdfcff;border:1.5px solid var(--border);border-radius:11px;padding:12px}
+.ad-preview-icon{width:44px;height:44px;border-radius:12px;background:var(--v);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ad-preview-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.ad-preview-sub{font-size:11px;color:var(--txt3)}
+.ad-preview-cta{display:inline-block;margin-top:6px;background:var(--vll);color:var(--v);border:none;border-radius:7px;padding:4px 12px;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.3px}
+.ad-preview-tag{font-size:9px;color:var(--txt3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+
+.summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.sum-item{background:var(--vll);border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.sum-n{font-size:22px;font-weight:900;color:var(--v);margin-bottom:2px}
+.sum-l{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.7px}
+
+.order-box{background:var(--vll);border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.order-row{display:flex;justify-content:space-between;font-size:13px;color:var(--txt2);padding:4px 0}
+.order-row.total{border-top:1.5px solid var(--border);margin-top:8px;padding-top:12px;font-weight:900;font-size:16px;color:var(--txt)}
+
+.pay-methods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.pay-m{border:2px solid var(--border);border-radius:12px;padding:14px 8px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .2s}
+.pay-m:hover,.pay-m.on{border-color:var(--v);background:var(--vll)}
+.pay-m-lbl{font-size:9px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px}
+.pay-m.on .pay-m-lbl{color:var(--v)}
+.pay-inp{width:100%;background:var(--vll);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;font-family:inherit;color:var(--txt);outline:none;margin-bottom:10px;transition:border-color .15s}
+.pay-inp:focus{border-color:var(--v3)}
+.pay-inp::placeholder{color:var(--txt3)}
+.p24-banks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.p24b{border:1.5px solid var(--border);border-radius:10px;padding:9px 4px;cursor:pointer;text-align:center;font-size:10px;font-weight:700;color:var(--txt2);transition:all .15s}
+.p24b:hover,.p24b.on{border-color:var(--v);background:var(--vll);color:var(--v)}
+.wbtn{width:100%;border:2px solid var(--border);border-radius:12px;padding:13px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:700;font-family:inherit;margin-bottom:9px;transition:all .2s;cursor:pointer}
+.wbtn.apple{background:#000;color:#fff;border-color:#000}
+.wbtn.google{background:#fff;color:#111;border-color:#e8e8ec}
+.pay-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+
+.succ-box{text-align:center;padding:30px 20px}
+.succ-ico{width:70px;height:70px;border-radius:50%;background:#d1fae5;border:2px solid #6ee7b7;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;color:#059669}
+.succ-dash{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:20px 0}
+.succ-stat{background:var(--vll);border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.succ-stat-n{font-size:20px;font-weight:900;color:var(--v);margin-bottom:2px}
+.succ-stat-l{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.7px}
+.timeline{margin:16px 0}
+.tl-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1.5px solid var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--v);flex-shrink:0;margin-top:5px}
+.tl-dot.done{background:#059669}
+.tl-dot.pending{background:var(--border)}
+.tl-txt{font-size:12px;font-weight:600;color:var(--txt)}
+.tl-time{font-size:10px;color:var(--txt3);margin-top:2px}
+
+.btn-primary{background:var(--v);color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:13px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:opacity .15s;width:100%;display:block}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:#fff;color:var(--v);border:2px solid var(--border);border-radius:12px;padding:12px 24px;font-size:13px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.4px;transition:all .15s}
+.btn-secondary:hover{border-color:var(--v);background:var(--vll)}
+.nav-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(90px);background:#1a1035;color:#fff;padding:10px 20px;border-radius:12px;font-size:12px;font-weight:700;z-index:999;transition:transform .28s;pointer-events:none;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="logo" onclick="location.href='lorti.html'">Lo<span>·</span>rti</div>
+  <div class="logo-sub">Panel reklamodawcy</div>
+  <button class="back-btn" onclick="location.href='lorti.html'"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>&nbsp;Wróć do Lorti</button>
+</div>
+
+<div class="hero">
+  <div style="position:relative;z-index:1">
+    <div class="hero-tag"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>&nbsp;Lorti Ads</div>
+    <h1>Dotrzyj do 12 000+<br>artystów game dev</h1>
+    <p>Reklamuj swoje studio, kurs, narzędzia lub ofertę pracy. Precyzyjne targetowanie według specjalizacji, lokalizacji i doświadczenia.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-n">12 400</div><div class="hero-stat-l">Artystów miesięcznie</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">3.8%</div><div class="hero-stat-l">Średni CTR</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">48h</div><div class="hero-stat-l">Aktywacja kampanii</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">6 PLN</div><div class="hero-stat-l">Śr. CPM</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div id="step-bar" class="step-bar">
+  <div class="step active" id="st1"><div class="step-num">1</div>Format</div>
+  <div class="step" id="st2"><div class="step-num">2</div>Kreacja</div>
+  <div class="step" id="st3"><div class="step-num">3</div>Targetowanie</div>
+  <div class="step" id="st4"><div class="step-num">4</div>Budżet</div>
+  <div class="step" id="st5"><div class="step-num">5</div>Płatność</div>
+  <div class="step" id="st6"><div class="step-num">6</div>Kampania aktywna</div>
+</div>
+
+<!-- STEP 1: FORMAT -->
+<div id="page-s1" class="s-page">
+  <div class="card cp">
+    <div class="card-title">Wybierz format reklamy</div>
+    <div class="card-sub">Różne formaty docierają do różnych miejsc w aplikacji Lorti</div>
+    <div class="format-grid">
+      <div class="format-card on" id="fmt-banner" onclick="selFmt('banner')">
+        <div class="fc-ico">📢</div>
+        <div class="fc-name">Banner w feedzie</div>
+        <div class="fc-desc">Wyświetlany między postami artystów. Najwyższy zasięg, widoczny dla wszystkich użytkowników Free.</div>
+        <div class="fc-price">od 149 PLN / 7 dni</div>
+      </div>
+      <div class="format-card" id="fmt-spotlight" onclick="selFmt('spotlight')">
+        <div class="fc-ico">⭐</div>
+        <div class="fc-name">Spotlight — Polecane</div>
+        <div class="fc-desc">Wyróżniona pozycja w prawym sidebarze "Oferty dla Ciebie". Widoczna przy każdym załadowaniu.</div>
+        <div class="fc-price">od 299 PLN / 7 dni</div>
+      </div>
+      <div class="format-card" id="fmt-job" onclick="selFmt('job')">
+        <div class="fc-ico">📌</div>
+        <div class="fc-name">Wyróżniona oferta pracy</div>
+        <div class="fc-desc">Twoja oferta na górze listy w sekcji Oferty pracy. Specjalne oznaczenie "Wyróżnione".</div>
+        <div class="fc-price">od 99 PLN / 7 dni</div>
+      </div>
+      <div class="format-card" id="fmt-email" onclick="selFmt('email')">
+        <div class="fc-ico">📧</div>
+        <div class="fc-name">Newsletter Lorti</div>
+        <div class="fc-desc">Dedykowany mailing do wybranego segmentu artystów. Co tydzień 4 800+ odbiorców.</div>
+        <div class="fc-price">od 499 PLN / wysyłka</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="nextStep(2)">Dalej: Kreacja →</button>
+  </div>
+</div>
+
+<!-- STEP 2: KREACJA -->
+<div id="page-s2" class="s-page" style="display:none">
+  <div class="card cp">
+    <div class="card-title">Treść reklamy</div>
+    <div class="card-sub">Wypełnij treść która pojawi się w reklamie</div>
+    <div class="form-row">
+      <div class="form-group">
+        <div class="form-label">Nazwa firmy / studia</div>
+        <input type="text" class="form-inp" id="ad-company" placeholder="np. Techland, CD Projekt RED" oninput="updatePreview()">
+      </div>
+      <div class="form-group">
+        <div class="form-label">Emoji / ikona</div>
+        <input type="text" class="form-inp" id="ad-emoji" placeholder="np. 🎮 💼 🎓" maxlength="4" value="🎮" oninput="updatePreview()">
+      </div>
+    </div>
+    <div class="form-row full">
+      <div class="form-group">
+        <div class="form-label">Nagłówek reklamy</div>
+        <input type="text" class="form-inp" id="ad-title" placeholder="np. Szukamy Senior 3D Artist — CDPR" oninput="updatePreview()">
+        <div class="form-hint">Maks. 60 znaków — zwięzły i konkretny</div>
+      </div>
+    </div>
+    <div class="form-row full">
+      <div class="form-group">
+        <div class="form-label">Opis</div>
+        <input type="text" class="form-inp" id="ad-sub" placeholder="np. Senior poziom · Warszawa · Pełny etat · 14-22k PLN" oninput="updatePreview()">
+        <div class="form-hint">Maks. 80 znaków — dodaj kluczowe detale</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <div class="form-label">Tekst przycisku CTA</div>
+        <input type="text" class="form-inp" id="ad-cta" placeholder="np. Aplikuj →" value="Sprawdź →" oninput="updatePreview()">
+      </div>
+      <div class="form-group">
+        <div class="form-label">URL docelowy</div>
+        <input type="text" class="form-inp" id="ad-url" placeholder="https://careers.studio.com">
+      </div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Podgląd reklamy</div>
+    <div class="card-sub">Tak będzie wyglądać Twoja reklama w feedzie Lorti</div>
+    <div class="preview-box">
+      <div class="preview-lbl">Podgląd — Banner w feedzie</div>
+      <div class="preview-inner">
+        <div class="ad-preview-tag">Sponsorowane</div>
+        <div class="ad-preview-banner">
+          <div class="ad-preview-icon" id="prev-ico">🎮</div>
+          <div>
+            <div class="ad-preview-title" id="prev-title">Twój nagłówek pojawi się tutaj</div>
+            <div class="ad-preview-sub" id="prev-sub">Opis reklamy pojawi się tutaj</div>
+            <button class="ad-preview-cta" id="prev-cta">Sprawdź →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-secondary" onclick="nextStep(1)">← Wróć</button>
+    <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="nextStep(3)">Dalej: Targetowanie →</button>
+  </div>
+</div>
+
+<!-- STEP 3: TARGETOWANIE -->
+<div id="page-s3" class="s-page" style="display:none">
+  <div class="card cp">
+    <div class="card-title">Specjalizacja artystów</div>
+    <div class="card-sub">Wybierz specjalizacje do których chcesz dotrzeć (można zaznaczyć kilka)</div>
+    <div class="audience-tags">
+      <div class="aud-tag on" onclick="tgTag(this)">Wszyscy artyści</div>
+      <div class="aud-tag" onclick="tgTag(this)">3D Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Concept Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">UI/UX Designer</div>
+      <div class="aud-tag" onclick="tgTag(this)">VFX Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Technical Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Pixel Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Environment Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Character Artist</div>
+      <div class="aud-tag" onclick="tgTag(this)">Animator</div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Poziom doświadczenia</div>
+    <div class="card-sub">Targetuj artystów według seniority</div>
+    <div class="audience-tags">
+      <div class="aud-tag on" onclick="tgTag(this)">Wszyscy</div>
+      <div class="aud-tag" onclick="tgTag(this)">Junior (0–2 lata)</div>
+      <div class="aud-tag" onclick="tgTag(this)">Mid (2–5 lat)</div>
+      <div class="aud-tag" onclick="tgTag(this)">Senior (5+ lat)</div>
+      <div class="aud-tag" onclick="tgTag(this)">Lead / Art Director</div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Lokalizacja</div>
+    <div class="card-sub">Wybierz regiony</div>
+    <div class="audience-tags">
+      <div class="aud-tag on" onclick="tgTag(this)">Cała Polska</div>
+      <div class="aud-tag" onclick="tgTag(this)">Warszawa</div>
+      <div class="aud-tag" onclick="tgTag(this)">Kraków</div>
+      <div class="aud-tag" onclick="tgTag(this)">Wrocław</div>
+      <div class="aud-tag" onclick="tgTag(this)">Gdańsk / Trójmiasto</div>
+      <div class="aud-tag" onclick="tgTag(this)">Remote — Polska</div>
+      <div class="aud-tag" onclick="tgTag(this)">Europa</div>
+      <div class="aud-tag" onclick="tgTag(this)">Globalnie</div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Dostępność</div>
+    <div class="card-sub">Docieraj tylko do artystów aktywnie szukających pracy</div>
+    <div class="audience-tags">
+      <div class="aud-tag on" onclick="tgTag(this)">Wszyscy</div>
+      <div class="aud-tag" onclick="tgTag(this)">Tylko dostępni od zaraz</div>
+      <div class="aud-tag" onclick="tgTag(this)">Dostępni w ciągu 30 dni</div>
+      <div class="aud-tag" onclick="tgTag(this)">Otwarci na oferty</div>
+    </div>
+  </div>
+  <div class="card cp" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:30px">🎯</div>
+      <div>
+        <div style="font-weight:800;font-size:14px;margin-bottom:3px">Szacowany zasięg</div>
+        <div style="font-size:22px;font-weight:900;color:var(--v)" id="reach-est">~8 400 artystów</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:2px">na podstawie wybranych parametrów targetowania</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-secondary" onclick="nextStep(2)">← Wróć</button>
+    <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="nextStep(4)">Dalej: Budżet →</button>
+  </div>
+</div>
+
+<!-- STEP 4: BUDŻET -->
+<div id="page-s4" class="s-page" style="display:none">
+  <div class="card cp">
+    <div class="card-title">Czas trwania kampanii</div>
+    <div class="card-sub">Wybierz jak długo ma być wyświetlana reklama</div>
+    <div class="budget-row" id="dur-btns">
+      <div class="budget-btn" onclick="selDur(this,'3 dni')">3 dni</div>
+      <div class="budget-btn on" onclick="selDur(this,'7 dni')">7 dni</div>
+      <div class="budget-btn" onclick="selDur(this,'14 dni')">14 dni</div>
+      <div class="budget-btn" onclick="selDur(this,'30 dni')">30 dni</div>
+      <div class="budget-btn" onclick="selDur(this,'Niestandardowy')">Własny...</div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Budżet dzienny</div>
+    <div class="card-sub">Ile chcesz wydawać dziennie? Możesz zatrzymać kampanię w każdej chwili.</div>
+    <div class="budget-row" id="budget-btns">
+      <div class="budget-btn" onclick="selBudget(this,'25')">25 PLN/dzień</div>
+      <div class="budget-btn on" onclick="selBudget(this,'50')">50 PLN/dzień</div>
+      <div class="budget-btn" onclick="selBudget(this,'100')">100 PLN/dzień</div>
+      <div class="budget-btn" onclick="selBudget(this,'250')">250 PLN/dzień</div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Szacowane wyniki kampanii</div>
+    <div class="card-sub">Na podstawie historycznych danych dla podobnych reklam</div>
+    <div class="summary-grid">
+      <div class="sum-item"><div class="sum-n" id="est-imp">14 000–18 000</div><div class="sum-l">Wyświetleń</div></div>
+      <div class="sum-item"><div class="sum-n" id="est-clk">530–680</div><div class="sum-l">Kliknięć</div></div>
+      <div class="sum-item"><div class="sum-n" id="est-total">350 PLN</div><div class="sum-l">Budżet razem</div></div>
+    </div>
+    <div style="background:var(--vll);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--txt2);display:flex;gap:8px;align-items:center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>&nbsp;Stawki są rozliczane metodą CPM (koszt za 1000 wyświetleń). Płacisz tylko za rzeczywiście dostarczone wyświetlenia.
+    </div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-secondary" onclick="nextStep(3)">← Wróć</button>
+    <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="nextStep(5)">Dalej: Płatność →</button>
+  </div>
+</div>
+
+<!-- STEP 5: PŁATNOŚĆ -->
+<div id="page-s5" class="s-page" style="display:none">
+  <div class="card cp">
+    <div class="card-title">Podsumowanie zamówienia</div>
+    <div class="order-box">
+      <div class="order-row"><span>Format</span><span id="ord-fmt">Banner w feedzie</span></div>
+      <div class="order-row"><span>Czas trwania</span><span>7 dni</span></div>
+      <div class="order-row"><span>Budżet dzienny</span><span>50 PLN</span></div>
+      <div class="order-row"><span>Szacowany zasięg</span><span>~8 400 artystów</span></div>
+      <div class="order-row total"><span>Razem</span><span id="ord-total">350 PLN</span></div>
+    </div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Dane do faktury</div>
+    <div class="card-sub">Wymagane dla firm i działalności gospodarczych</div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-label">Nazwa firmy</div><input type="text" class="form-inp" placeholder="Nazwa sp. z o.o."></div>
+      <div class="form-group"><div class="form-label">NIP</div><input type="text" class="form-inp" placeholder="0000000000"></div>
+    </div>
+    <div class="form-row full"><div class="form-group"><div class="form-label">Adres</div><input type="text" class="form-inp" placeholder="ul. Przykładowa 1, 00-000 Warszawa"></div></div>
+  </div>
+  <div class="card cp">
+    <div class="card-title">Metoda płatności</div>
+    <div class="pay-methods">
+      <div class="pay-m on" id="adpm-card" onclick="selAdPay('card')"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><div class="pay-m-lbl">Karta</div></div>
+      <div class="pay-m" id="adpm-p24" onclick="selAdPay('p24')"><div style="font-size:22px;font-weight:900;color:#cc0000;font-family:Arial;letter-spacing:-1px">P24</div><div class="pay-m-lbl">Przelewy24</div></div>
+      <div class="pay-m" id="adpm-wallet" onclick="selAdPay('wallet')"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/><circle cx="16" cy="14" r="1" fill="currentColor"/></svg><div class="pay-m-lbl">Portfele</div></div>
+    </div>
+    <div id="adfc">
+      <input class="pay-inp" placeholder="Numer karty" maxlength="19" oninput="fmtCard2(this)">
+      <div class="pay-row2"><input class="pay-inp" placeholder="MM/RR" maxlength="5" oninput="fmtExp2(this)"><input class="pay-inp" placeholder="CVV" maxlength="3" type="password"></div>
+      <input class="pay-inp" placeholder="Imię i nazwisko na karcie">
+    </div>
+    <div id="adfp" style="display:none">
+      <div class="p24-banks">
+        <div class="p24b" onclick="selBank2(this)">PKO BP</div><div class="p24b" onclick="selBank2(this)">mBank</div>
+        <div class="p24b" onclick="selBank2(this)">ING</div><div class="p24b" onclick="selBank2(this)">Santander</div>
+        <div class="p24b" onclick="selBank2(this)">Alior</div><div class="p24b" onclick="selBank2(this)">BNP</div>
+        <div class="p24b" onclick="selBank2(this)">Pekao</div><div class="p24b" onclick="selBank2(this)">Millennium</div>
+      </div>
+    </div>
+    <div id="adfw" style="display:none">
+      <button class="wbtn apple" onclick="adPayWallet('Apple Pay')"><svg height="18" viewBox="0 0 50 18" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9.3 2.5c.7-.9 1.2-2 1.1-3.1-1 0-2.3.7-3 1.6-.7.8-1.2 1.9-1.1 3 1.1.1 2.2-.5 3-1.5zm.8 1.3c-1.6-.1-3 .9-3.8.9-.8 0-2-.9-3.3-.9C1.4 4 0 5.2 0 7.5c0 3.5 3.1 8 4.6 8 .7 0 1.4-.5 2.3-.5.9 0 1.5.5 2.3.5C11 15.5 14 11.5 14 8c-1.7-.3-3.5-1.7-3.9-4.2z"/><text x="17" y="14" font-size="12" font-weight="700" font-family="Arial">Pay</text></svg> Apple Pay</button>
+      <button class="wbtn google" onclick="adPayWallet('Google Pay')"><svg height="18" viewBox="0 0 90 22" xmlns="http://www.w3.org/2000/svg"><text x="0" y="17" font-size="15" font-weight="700" font-family="Arial"><tspan fill="#4285F4">G</tspan><tspan fill="#34A853">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#EA4335">g</tspan><tspan fill="#4285F4">l</tspan><tspan fill="#34A853">e </tspan><tspan fill="#3C4043">Pay</tspan></text></svg></button>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px;color:var(--txt3);margin-top:6px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>&nbsp;Bezpieczna płatność SSL · 256-bit AES · PCI DSS</div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-secondary" onclick="nextStep(4)">← Wróć</button>
+    <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="adPay()">Zapłać i uruchom kampanię →</button>
+  </div>
+</div>
+
+<!-- STEP 6: SUKCES -->
+<div id="page-s6" class="s-page" style="display:none">
+  <div class="card cp">
+    <div class="succ-box">
+      <div class="succ-ico"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="font-size:22px;font-weight:900;margin-bottom:6px;letter-spacing:-.5px">Kampania uruchomiona!</div>
+      <div style="font-size:13px;color:var(--txt2);margin-bottom:20px">Twoja reklama jest teraz aktywna w Lorti. Wyniki pojawiają się w czasie rzeczywistym.</div>
+      <div class="succ-dash">
+        <div class="succ-stat"><div class="succ-stat-n">aktywna</div><div class="succ-stat-l">Status kampanii</div></div>
+        <div class="succ-stat"><div class="succ-stat-n">0</div><div class="succ-stat-l">Wyświetleń (live)</div></div>
+        <div class="succ-stat"><div class="succ-stat-n">7 dni</div><div class="succ-stat-l">Pozostały czas</div></div>
+      </div>
+    </div>
+    <div style="border-top:1.5px solid var(--border);padding-top:16px">
+      <div style="font-size:13px;font-weight:800;margin-bottom:12px">Harmonogram kampanii</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot done"></div><div><div class="tl-txt">Płatność zrealizowana</div><div class="tl-time">Teraz</div></div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div><div class="tl-txt">Weryfikacja kreacji przez moderację Lorti</div><div class="tl-time">Do 2h</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-txt">Kampania widoczna dla artystów</div><div class="tl-time">Dziś do 18:00</div></div></div>
+        <div class="tl-item"><div class="tl-dot pending"></div><div><div class="tl-txt">Pierwsze raporty wyników</div><div class="tl-time">Jutro rano</div></div></div>
+        <div class="tl-item"><div class="tl-dot pending"></div><div><div class="tl-txt">Koniec kampanii — raport końcowy na e-mail</div><div class="tl-time">Za 7 dni</div></div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn-secondary" style="flex:1" onclick="nextStep(1);toast('Nowa kampania...')">+ Nowa kampania</button>
+      <button class="btn-primary" style="flex:1" onclick="location.href='lorti.html'">Wróć do Lorti</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+<div id="toast"></div>
+
+<script>
+var curStep=1,selFmtId='banner',adCurPay='card';
+var fmtPrices={banner:149,spotlight:299,job:99,email:499};
+var budgetDay=50,durDays=7;
+
+function nextStep(n){
+  document.querySelectorAll('.s-page').forEach(function(p){p.style.display='none';});
+  document.getElementById('page-s'+n).style.display='block';
+  for(var i=1;i<=6;i++){
+    var st=document.getElementById('st'+i);
+    st.classList.remove('active','done');
+    if(i<n)st.classList.add('done');
+    else if(i===n)st.classList.add('active');
+  }
+  curStep=n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function selFmt(id){
+  selFmtId=id;
+  ['banner','spotlight','job','email'].forEach(function(f){
+    document.getElementById('fmt-'+f).classList.toggle('on',f===id);
+  });
+  updateSummary();
+}
+
+function updatePreview(){
+  var ico=document.getElementById('ad-emoji').value||'🎮';
+  var title=document.getElementById('ad-title').value||'Twój nagłówek pojawi się tutaj';
+  var sub=document.getElementById('ad-sub').value||'Opis reklamy pojawi się tutaj';
+  var cta=document.getElementById('ad-cta').value||'Sprawdź →';
+  document.getElementById('prev-ico').textContent=ico;
+  document.getElementById('prev-title').textContent=title.substring(0,60);
+  document.getElementById('prev-sub').textContent=sub.substring(0,80);
+  document.getElementById('prev-cta').textContent=cta;
+}
+
+function tgTag(el){el.classList.toggle('on');updateReach();}
+function updateReach(){
+  var on=document.querySelectorAll('.aud-tag.on').length;
+  var base=Math.floor(2000+on*800+Math.random()*500);
+  document.getElementById('reach-est').textContent='~'+base.toLocaleString('pl')+' artystów';
+}
+
+function selDur(el,val){
+  document.querySelectorAll('#dur-btns .budget-btn').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  durDays=parseInt(val)||7;
+  updateSummary();
+}
+function selBudget(el,val){
+  document.querySelectorAll('#budget-btns .budget-btn').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  budgetDay=parseInt(val);
+  updateSummary();
+}
+function updateSummary(){
+  var total=budgetDay*durDays;
+  var imp=total*200+'–'+(total*260);
+  var clk=Math.floor(total*1.5)+'–'+Math.floor(total*2);
+  if(document.getElementById('est-imp'))document.getElementById('est-imp').textContent=imp;
+  if(document.getElementById('est-clk'))document.getElementById('est-clk').textContent=clk;
+  if(document.getElementById('est-total'))document.getElementById('est-total').textContent=total+' PLN';
+  if(document.getElementById('ord-total'))document.getElementById('ord-total').textContent=total+' PLN';
+  var fmtNames={banner:'Banner w feedzie',spotlight:'Spotlight — Polecane',job:'Wyróżniona oferta pracy',email:'Newsletter Lorti'};
+  if(document.getElementById('ord-fmt'))document.getElementById('ord-fmt').textContent=fmtNames[selFmtId]||'—';
+}
+
+function selAdPay(m){
+  adCurPay=m;
+  ['card','p24','wallet'].forEach(function(id){document.getElementById('adpm-'+id).classList.toggle('on',id===m);});
+  document.getElementById('adfc').style.display=m==='card'?'block':'none';
+  document.getElementById('adfp').style.display=m==='p24'?'block':'none';
+  document.getElementById('adfw').style.display=m==='wallet'?'block':'none';
+}
+function selBank2(el){document.querySelectorAll('.p24b').forEach(function(b){b.classList.remove('on');});el.classList.add('on');}
+function adPayWallet(n){toast('Otwieranie '+n+'...');setTimeout(function(){nextStep(6);},1000);}
+function adPay(){nextStep(6);}
+
+function fmtCard2(inp){var v=inp.value.replace(/\D/g,'').substring(0,16);inp.value=v.replace(/(.{4})/g,'$1 ').trim();}
+function fmtExp2(inp){var v=inp.value.replace(/\D/g,'');if(v.length>=2)v=v.substring(0,2)+'/'+v.substring(2,4);inp.value=v;}
+
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.transform='translateX(-50%) translateY(0)';clearTimeout(t._t);t._t=setTimeout(function(){t.style.transform='translateX(-50%) translateY(90px)';},2600);}
+
+// init
+updatePreview();
+updateSummary();
+</script>
+</body>
+</html>
