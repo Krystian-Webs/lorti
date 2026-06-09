@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="page-title">Marta Kowalczyk — Portfolio · Lorti Pro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a12;color:#f0eeff;min-height:100vh}
+:root{
+  --acc:#8b5cf6;--acc2:#a78bfa;--acc3:#c4b5fd;
+  --bg:#0a0a12;--bg2:#12111f;--bg3:#1a1830;
+  --border:rgba(139,92,246,.18);--border2:rgba(139,92,246,.08);
+  --txt:#f0eeff;--txt2:#a89fc8;--txt3:#6b5f8a;
+  --card:rgba(255,255,255,.03);
+  --shadow:0 4px 32px rgba(139,92,246,.12);
+}
+
+/* EDITOR BAR — only visible in edit mode */
+.editor-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(10,10,18,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:52px;display:flex;align-items:center;gap:10px;padding:0 20px;
+  transform:translateY(-100%);transition:transform .3s;
+}
+.editor-bar.show{transform:translateY(0)}
+.eb-logo{font-size:16px;font-weight:900;letter-spacing:-1px;color:#fff}
+.eb-logo span{color:var(--acc2)}
+.eb-domain{font-size:11px;color:var(--acc2);background:rgba(139,92,246,.15);border:1px solid var(--border);border-radius:7px;padding:3px 10px;font-weight:700;margin-right:4px}
+.eb-sep{width:1px;height:28px;background:var(--border);margin:0 4px}
+.eb-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);color:var(--txt2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit}
+.eb-btn:hover{border-color:var(--acc);color:var(--acc2);background:rgba(139,92,246,.08)}
+.eb-btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
+.eb-btn.primary:hover{background:var(--acc2);opacity:1}
+.eb-spacer{flex:1}
+.eb-mode{display:flex;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.eb-mode-btn{padding:5px 12px;font-size:10px;font-weight:700;color:var(--txt3);border:none;background:none;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;font-family:inherit;transition:all .15s}
+.eb-mode-btn.on{background:var(--acc);color:#fff}
+
+/* PREVIEW BANNER — shown when not in editor */
+.preview-banner{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:900;
+  background:rgba(10,10,18,.95);backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:16px;
+  padding:12px 20px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(139,92,246,.15);
+  white-space:nowrap;
+}
+.pb-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 8px #22c55e}
+.pb-txt{font-size:12px;color:var(--txt2)}
+.pb-txt strong{color:#fff}
+.pb-edit{display:flex;align-items:center;gap:5px;background:var(--acc);color:#fff;border:none;border-radius:9px;padding:7px 16px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.4px;transition:opacity .15s}
+.pb-edit:hover{opacity:.88}
+.pb-share{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--border);border-radius:9px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.pb-share:hover{border-color:var(--acc);color:var(--acc2)}
+
+/* MAIN SITE */
+body.edit-mode{padding-top:52px}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(109,40,217,.35) 0%,transparent 70%);pointer-events:none}
+.hero-bg2{position:absolute;inset:0;background:radial-gradient(circle 400px at 80% 80%,rgba(139,92,246,.08) 0%,transparent 60%);pointer-events:none}
+.hero-noise{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none}
+.hero-ava{width:96px;height:96px;border-radius:28px;background:linear-gradient(135deg,#4c1d95,#7c3aed,#c4b5fd);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;color:#fff;margin:0 auto 24px;position:relative;box-shadow:0 0 0 1px rgba(139,92,246,.4),0 8px 40px rgba(109,40,217,.4);letter-spacing:-1px}
+.hero-ava::after{content:'PRO';position:absolute;bottom:-8px;right:-8px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:8px;font-weight:800;padding:2px 7px;border-radius:6px;letter-spacing:.5px}
+.hero-name{font-size:clamp(32px,6vw,56px);font-weight:900;letter-spacing:-2px;line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#fff 0%,var(--acc3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-role{font-size:clamp(14px,2vw,18px);color:var(--txt2);margin-bottom:6px;font-weight:500}
+.hero-loc{display:inline-flex;align-items:center;gap:5px;color:var(--txt3);font-size:13px;margin-bottom:28px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
+.hero-tag{background:rgba(139,92,246,.12);border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:700;color:var(--acc2);letter-spacing:.2px}
+.hero-stats{display:flex;gap:32px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
+.hstat{text-align:center}
+.hstat-n{font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px}
+.hstat-l{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.h-btn{display:flex;align-items:center;gap:7px;border-radius:12px;padding:12px 24px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;letter-spacing:.2px}
+.h-btn.prim{background:var(--acc);color:#fff;border:none;box-shadow:0 4px 20px rgba(109,40,217,.4)}
+.h-btn.prim:hover{background:var(--acc2);transform:translateY(-1px);box-shadow:0 8px 30px rgba(109,40,217,.5)}
+.h-btn.sec{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--border)}
+.h-btn.sec:hover{background:rgba(255,255,255,.1);border-color:var(--acc)}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--txt3);font-size:10px;text-transform:uppercase;letter-spacing:.8px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;display:flex;align-items:center;padding:0 32px;gap:16px;transition:all .3s}
+.nav.scrolled{background:rgba(10,10,18,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-logo{font-size:16px;font-weight:900;letter-spacing:-1px;color:#fff;flex-shrink:0}
+.nav-logo span{color:var(--acc2)}
+.nav-links{display:flex;gap:4px;flex:1;justify-content:center}
+.nav-link{background:none;border:none;color:var(--txt2);font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.5px;transition:all .15s}
+.nav-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-link.on{color:var(--acc2)}
+.nav-contact{display:flex;align-items:center;gap:6px;background:rgba(139,92,246,.15);border:1px solid var(--border);color:var(--acc2);border-radius:9px;padding:7px 16px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.nav-contact:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
+body.edit-mode .nav{top:52px}
+
+/* SECTIONS */
+section{padding:80px 24px;max-width:960px;margin:0 auto}
+.sec-label{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--acc2);margin-bottom:12px}
+.sec-label::before{content:'';width:24px;height:2px;background:var(--acc)}
+.sec-title{font-size:clamp(24px,4vw,36px);font-weight:900;letter-spacing:-1.2px;margin-bottom:8px;line-height:1.2}
+.sec-sub{font-size:14px;color:var(--txt2);line-height:1.7;max-width:600px;margin-bottom:40px}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about-img{border-radius:20px;overflow:hidden;aspect-ratio:4/5;background:var(--bg3);border:1px solid var(--border);position:relative}
+.about-img img{width:100%;height:100%;object-fit:cover;display:block}
+.about-img-tag{position:absolute;bottom:12px;left:12px;background:rgba(10,10,18,.85);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-size:10px;color:var(--acc2);font-weight:700}
+.about-content h3{font-size:22px;font-weight:900;margin-bottom:12px;letter-spacing:-.5px}
+.about-bio{font-size:13px;color:var(--txt2);line-height:1.85;margin-bottom:24px}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.skill-item{background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:10px 12px}
+.skill-name{font-size:11px;font-weight:700;color:#fff;margin-bottom:5px}
+.skill-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.skill-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+
+/* PORTFOLIO GRID */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.port-item{border-radius:16px;overflow:hidden;cursor:pointer;position:relative;aspect-ratio:4/3;background:var(--bg3);border:1px solid var(--border2);transition:transform .25s,border-color .25s}
+.port-item:first-child{grid-column:span 2;aspect-ratio:16/9}
+.port-item:hover{transform:scale(1.02);border-color:var(--border)}
+.port-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.port-item:hover img{transform:scale(1.06)}
+.port-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,18,.95) 0%,transparent 50%);opacity:0;transition:opacity .25s;padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
+.port-item:hover .port-ov{opacity:1}
+.port-ov-title{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.port-ov-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+.port-ov-tag{font-size:9px;background:rgba(139,92,246,.4);color:var(--acc2);border-radius:5px;padding:2px 8px;font-weight:700}
+.port-add{border-radius:16px;aspect-ratio:4/3;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--txt3);font-size:12px;font-weight:700;transition:all .2s;text-transform:uppercase;letter-spacing:.4px}
+.port-add:hover{border-color:var(--acc);color:var(--acc2);background:rgba(139,92,246,.04)}
+
+/* BLOG / WPISY */
+.blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.blog-card{background:var(--card);border:1px solid var(--border2);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .2s}
+.blog-card:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:var(--shadow)}
+.blog-img{aspect-ratio:16/9;overflow:hidden;background:var(--bg3)}
+.blog-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.blog-card:hover .blog-img img{transform:scale(1.05)}
+.blog-body{padding:16px}
+.blog-tag{display:inline-block;background:rgba(139,92,246,.15);color:var(--acc2);border-radius:6px;padding:2px 9px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.blog-title{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;line-height:1.4}
+.blog-sub{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:10px}
+.blog-foot{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--txt3)}
+
+/* CONTACT */
+.contact-wrap{background:linear-gradient(135deg,rgba(76,29,149,.2),rgba(139,92,246,.08));border:1px solid var(--border);border-radius:24px;padding:48px;text-align:center}
+.contact-wrap h2{font-size:clamp(24px,4vw,36px);font-weight:900;margin-bottom:10px;letter-spacing:-1px}
+.contact-wrap p{font-size:14px;color:var(--txt2);margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+.contact-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.clink{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:11px;padding:10px 20px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;transition:all .2s;font-family:inherit}
+.clink:hover{background:var(--acc);border-color:var(--acc);transform:translateY(-2px)}
+.contact-form{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.c-inp{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;padding:12px 16px;font-size:13px;font-family:inherit;color:#fff;outline:none;transition:border-color .15s}
+.c-inp:focus{border-color:var(--acc)}
+.c-inp::placeholder{color:var(--txt3)}
+.c-ta{min-height:90px;resize:none}
+.c-send{background:var(--acc);color:#fff;border:none;border-radius:11px;padding:13px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .15s;text-transform:uppercase;letter-spacing:.5px}
+.c-send:hover{opacity:.88}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border2);padding:32px 24px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;flex-wrap:wrap;gap:12px}
+.foot-logo{font-size:14px;font-weight:900;letter-spacing:-1px}
+.foot-logo span{color:var(--acc2)}
+.foot-txt{font-size:11px;color:var(--txt3)}
+.foot-lorti{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--txt3);font-weight:700}
+.foot-lorti strong{color:var(--acc2)}
+
+/* EDIT OVERLAYS */
+.editable{position:relative;transition:outline .15s}
+body.edit-mode .editable:hover{outline:2px solid rgba(139,92,246,.5);outline-offset:4px;border-radius:4px;cursor:text}
+body.edit-mode .editable:hover::after{content:'Kliknij aby edytować';position:absolute;top:-24px;left:0;background:var(--acc);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;font-family:-apple-system,sans-serif;letter-spacing:.3px;text-transform:uppercase}
+
+/* COLOR PICKER PANEL */
+.color-panel{position:fixed;top:60px;right:16px;z-index:800;background:rgba(10,10,18,.96);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:16px;padding:16px;width:200px;display:none;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.color-panel.show{display:block}
+.cp-title{font-size:10px;font-weight:800;color:var(--txt2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.cp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:11px;color:var(--txt2)}
+.cp-swatch{width:28px;height:28px;border-radius:7px;cursor:pointer;border:2px solid rgba(255,255,255,.1);transition:transform .15s}
+.cp-swatch:hover{transform:scale(1.1)}
+.color-presets{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
+.preset{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.preset:hover,.preset.on{border-color:#fff;transform:scale(1.1)}
+
+/* ADD PROJECT MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center}
+.modal-ov.show{display:flex}
+.modal{background:#12111f;border:1px solid var(--border);border-radius:20px;padding:24px;width:100%;max-width:480px;box-shadow:0 16px 60px rgba(0,0,0,.5)}
+.modal h3{font-size:16px;font-weight:800;margin-bottom:16px}
+.modal-inp{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13px;font-family:inherit;color:#fff;outline:none;margin-bottom:10px;transition:border-color .15s}
+.modal-inp:focus{border-color:var(--acc)}
+.modal-inp::placeholder{color:var(--txt3)}
+.modal-btns{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+.modal-btn{border-radius:9px;padding:9px 20px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.4px;border:none;transition:opacity .15s}
+.modal-btn.cancel{background:rgba(255,255,255,.07);color:var(--txt2)}
+.modal-btn.ok{background:var(--acc);color:#fff}
+.modal-btn:hover{opacity:.85}
+
+/* SHARE MODAL */
+.share-url{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12px;font-family:monospace;color:var(--acc2);margin:12px 0;word-break:break-all}
+.copy-btn{width:100%;background:var(--acc);color:#fff;border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.4px}
+
+/* TOAST */
+#toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(90px);background:#1a1830;color:#fff;padding:10px 20px;border-radius:12px;font-size:12px;font-weight:700;z-index:9999;transition:transform .28s;pointer-events:none;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+
+@media(max-width:768px){
+  .about-grid{grid-template-columns:1fr}
+  .port-grid{grid-template-columns:1fr 1fr}
+  .port-item:first-child{grid-column:span 2}
+  .blog-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .nav-links{display:none}
+  footer{flex-direction:column;text-align:center}
+  .contact-wrap{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- EDITOR BAR (widoczny tylko w trybie edycji) -->
+<div class="editor-bar" id="editor-bar">
+  <div class="eb-logo">Lo<span>·</span>rti</div>
+  <div class="eb-domain" id="eb-domain-label">marta.lorti.pl</div>
+  <div class="eb-sep"></div>
+  <button class="eb-btn" onclick="toggleColorPanel()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20 4 4 0 0 1 0-8 4 4 0 0 0 0-8"/></svg>&nbsp;Kolorystyka</button>
+  <button class="eb-btn" onclick="openAddProject()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>&nbsp;Dodaj projekt</button>
+  <button class="eb-btn" onclick="openAddPost()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>&nbsp;Nowy wpis</button>
+  <div class="eb-spacer"></div>
+  <div class="eb-mode">
+    <button class="eb-mode-btn on" id="mode-edit" onclick="setMode('edit')">Edycja</button>
+    <button class="eb-mode-btn" id="mode-preview" onclick="setMode('preview')">Podgląd</button>
+  </div>
+  <div class="eb-sep"></div>
+  <button class="eb-btn" onclick="shareModal()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>&nbsp;Udostępnij</button>
+  <button class="eb-btn primary" onclick="toast('Zmiany zapisane! ✓')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>&nbsp;Zapisz</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo">Lo<span>·</span>rti</div>
+  <div class="nav-links">
+    <button class="nav-link on" onclick="scrollTo('hero')">Start</button>
+    <button class="nav-link" onclick="scrollTo('about')">O mnie</button>
+    <button class="nav-link" onclick="scrollTo('portfolio')">Portfolio</button>
+    <button class="nav-link" onclick="scrollTo('blog')">Wpisy</button>
+    <button class="nav-link" onclick="scrollTo('contact')">Kontakt</button>
+  </div>
+  <button class="nav-contact" onclick="scrollTo('contact')"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>&nbsp;Napisz do mnie</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg2"></div>
+  <div class="hero-noise"></div>
+  <div style="position:relative;z-index:1;width:100%;max-width:700px">
+    <div class="hero-ava editable" id="h-initials" onclick="editField('h-initials')">MK</div>
+    <h1 class="hero-name editable" id="h-name" onclick="editField('h-name')">Marta Kowalczyk</h1>
+    <div class="hero-role editable" id="h-role" onclick="editField('h-role')">2D Concept Artist &amp; Character Designer</div>
+    <div class="hero-loc"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>&nbsp;<span class="editable" id="h-loc" onclick="editField('h-loc')">Kraków, Polska</span></div>
+    <div class="hero-tags" id="hero-tags">
+      <span class="hero-tag">Concept Art</span>
+      <span class="hero-tag">Character Design</span>
+      <span class="hero-tag">Unreal Engine 5</span>
+      <span class="hero-tag">ZBrush</span>
+      <span class="hero-tag">Photoshop</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n editable" id="h-years" onclick="editField('h-years')">6</div><div class="hstat-l">lat exp.</div></div>
+      <div class="hstat"><div class="hstat-n editable" id="h-projects" onclick="editField('h-projects')">48</div><div class="hstat-l">projektów</div></div>
+      <div class="hstat"><div class="hstat-n editable" id="h-clients" onclick="editField('h-clients')">12</div><div class="hstat-l">klientów</div></div>
+      <div class="hstat"><div class="hstat-n editable" id="h-rating" onclick="editField('h-rating')">4.9</div><div class="hstat-l">ocena</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="h-btn prim" onclick="scrollTo('portfolio')"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>&nbsp;Zobacz portfolio</button>
+      <button class="h-btn sec" onclick="scrollTo('contact')"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>&nbsp;Skontaktuj się</button>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    Przewiń
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80" alt="">
+      <div class="about-img-tag">Projekt AAA · Unreal 5 · 2024</div>
+    </div>
+    <div class="about-content">
+      <div class="sec-label">O mnie</div>
+      <h3 class="editable" id="about-h" onclick="editField('about-h')">Tworzę światy,<br>które wciągają.</h3>
+      <p class="about-bio editable" id="about-bio" onclick="editField('about-bio')">Specjalizuję się w concept arcie postaci i środowisk dla gier AAA. Pracowałam przy projektach dla Techland, Bloober Team i kilkunastu studiów indie. Łączę tradycyjne malarstwo ze współczesnymi narzędziami cyfrowymi — Photoshop, Procreate, ZBrush i Unreal Engine 5.</p>
+      <div class="skill-grid">
+        <div class="skill-item"><div class="skill-name">Concept Art</div><div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div></div>
+        <div class="skill-item"><div class="skill-name">Character Design</div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-name">Unreal Engine 5</div><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+        <div class="skill-item"><div class="skill-name">ZBrush</div><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+        <div class="skill-item"><div class="skill-name">Photoshop</div><div class="skill-bar"><div class="skill-fill" style="width:98%"></div></div></div>
+        <div class="skill-item"><div class="skill-name">Procreate</div><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="sec-label">Portfolio</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px">
+    <div>
+      <h2 class="sec-title" style="margin-bottom:0">Wybrane projekty</h2>
+      <p style="font-size:13px;color:var(--txt2);margin-top:6px">Kliknij projekt aby zobaczyć szczegóły</p>
+    </div>
+  </div>
+  <div class="port-grid" id="port-grid">
+    <div class="port-item" onclick="viewProject(0)" style="grid-column:span 2;aspect-ratio:16/9">
+      <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Post-apo City 2090 — Environment Design</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">Unreal 5</span><span class="port-ov-tag">Lumen</span><span class="port-ov-tag">Houdini</span></div>
+      </div>
+    </div>
+    <div class="port-item" onclick="viewProject(1)">
+      <img src="https://images.unsplash.com/photo-1535223289429-462ea9301402?w=400&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Biopunk HUD v3</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">UI/UX</span><span class="port-ov-tag">Figma</span></div>
+      </div>
+    </div>
+    <div class="port-item" onclick="viewProject(2)">
+      <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Sci-fi Hangar</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">3D</span><span class="port-ov-tag">Blender</span></div>
+      </div>
+    </div>
+    <div class="port-item" onclick="viewProject(3)">
+      <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Desert Ruins — Lighting</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">Environment</span><span class="port-ov-tag">UE5</span></div>
+      </div>
+    </div>
+    <div class="port-item" onclick="viewProject(4)">
+      <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Neon City</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">Environment</span><span class="port-ov-tag">Maya</span></div>
+      </div>
+    </div>
+    <div class="port-item" onclick="viewProject(5)">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80" alt="">
+      <div class="port-ov">
+        <div class="port-ov-title">Water Shader</div>
+        <div class="port-ov-tags"><span class="port-ov-tag">HLSL</span><span class="port-ov-tag">UE5</span></div>
+      </div>
+    </div>
+    <div class="port-add" id="port-add" onclick="openAddProject()" style="display:none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Dodaj projekt</span>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG / WPISY -->
+<section id="blog">
+  <div class="sec-label">Wpisy</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px">
+    <div>
+      <h2 class="sec-title" style="margin-bottom:0">Z mojego procesu</h2>
+      <p style="font-size:13px;color:var(--txt2);margin-top:6px">Tutoriale, breakdowny, WIP i przemyslenia</p>
+    </div>
+  </div>
+  <div class="blog-grid" id="blog-grid">
+    <div class="blog-card">
+      <div class="blog-img"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=75" alt=""></div>
+      <div class="blog-body">
+        <div class="blog-tag">Tutorial</div>
+        <div class="blog-title">Jak zbudowalem post-apo srodowisko w UE5 w 2 tygodnie</div>
+        <div class="blog-sub">Pipeline od szkicu przez Houdini do finalnego renderu z Lumen — krok po kroku.</div>
+        <div class="blog-foot"><span>14 maja 2025</span><span style="color:var(--acc2)">Czytaj →</span></div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-img"><img src="https://images.unsplash.com/photo-1535223289429-462ea9301402?w=600&q=75" alt=""></div>
+      <div class="blog-body">
+        <div class="blog-tag">Breakdown</div>
+        <div class="blog-title">Biopunk HUD — od moodboardu do finalnego designu</div>
+        <div class="blog-sub">Jak podejsc do projektowania UI w stylu science fiction? Moje 5 zasad.</div>
+        <div class="blog-foot"><span>2 maja 2025</span><span style="color:var(--acc2)">Czytaj →</span></div>
+      </div>
+    </div>
+    <div class="blog-card" id="blog-add-card" style="display:none;border:2px dashed var(--border);align-items:center;justify-content:center;min-height:200px;cursor:pointer" onclick="openAddPost()">
+      <div style="text-align:center;color:var(--txt3)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><div style="margin-top:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px">Nowy wpis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-label" style="justify-content:center">Kontakt</div>
+    <h2 class="editable" id="contact-h" onclick="editField('contact-h')">Porozmawiajmy o projekcie</h2>
+    <p class="editable" id="contact-p" onclick="editField('contact-p')">Jestem dostepna na nowe projekty — concept art, character design, srodowiska AAA. Odpisuje w ciagu 24h.</p>
+    <div class="contact-links">
+      <button class="clink"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>&nbsp;marta@lorti.pl</button>
+      <button class="clink"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>&nbsp;ArtStation</button>
+      <button class="clink"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>&nbsp;LinkedIn</button>
+    </div>
+    <div class="contact-form">
+      <input type="text" class="c-inp" placeholder="Twoje imie i nazwisko">
+      <input type="email" class="c-inp" placeholder="Adres e-mail">
+      <textarea class="c-inp c-ta" placeholder="Opisz krotko swoj projekt..."></textarea>
+      <button class="c-send" onclick="toast('Wiadomosc wyslana! Odpisuje w ciagu 24h.')">Wyslij wiadomosc <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">Lo<span>·</span>rti</div>
+  <div class="foot-txt editable" id="foot-txt" onclick="editField('foot-txt')">© 2025 Marta Kowalczyk — Wszelkie prawa zastrzeżone</div>
+  <div class="foot-lorti">Powered by&nbsp;<strong>Lorti Pro</strong></div>
+</footer>
+
+<!-- COLOR PANEL -->
+<div class="color-panel" id="color-panel">
+  <div class="cp-title">Kolor akcentu</div>
+  <div class="color-presets">
+    <div class="preset on" style="background:#8b5cf6" onclick="setColor('#8b5cf6','#a78bfa','#c4b5fd')"></div>
+    <div class="preset" style="background:#3b82f6" onclick="setColor('#3b82f6','#60a5fa','#93c5fd')"></div>
+    <div class="preset" style="background:#ec4899" onclick="setColor('#ec4899','#f472b6','#fbcfe8')"></div>
+    <div class="preset" style="background:#10b981" onclick="setColor('#10b981','#34d399','#6ee7b7')"></div>
+    <div class="preset" style="background:#f59e0b" onclick="setColor('#f59e0b','#fbbf24','#fde68a')"></div>
+    <div class="preset" style="background:#ef4444" onclick="setColor('#ef4444','#f87171','#fca5a5')"></div>
+    <div class="preset" style="background:#06b6d4" onclick="setColor('#06b6d4','#22d3ee','#a5f3fc')"></div>
+    <div class="preset" style="background:#84cc16" onclick="setColor('#84cc16','#a3e635','#d9f99d')"></div>
+    <div class="preset" style="background:#f97316" onclick="setColor('#f97316','#fb923c','#fdba74')"></div>
+    <div class="preset" style="background:#e2e8f0" onclick="setColor('#e2e8f0','#f1f5f9','#f8fafc')"></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-ov" id="m-project">
+  <div class="modal">
+    <h3>Dodaj projekt</h3>
+    <input type="text" class="modal-inp" id="proj-title" placeholder="Nazwa projektu">
+    <input type="text" class="modal-inp" id="proj-tags" placeholder="Tagi np. UE5, ZBrush, Characters">
+    <input type="text" class="modal-inp" id="proj-url" placeholder="URL obrazu (np. z Unsplash)">
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal('m-project')">Anuluj</button>
+      <button class="modal-btn ok" onclick="addProject()">Dodaj</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="m-post">
+  <div class="modal">
+    <h3>Nowy wpis</h3>
+    <input type="text" class="modal-inp" id="post-title" placeholder="Tytuł wpisu">
+    <input type="text" class="modal-inp" id="post-tag" placeholder="Kategoria np. Tutorial, Breakdown, WIP">
+    <textarea class="modal-inp" style="min-height:70px;resize:none" id="post-desc" placeholder="Krotki opis..."></textarea>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal('m-post')">Anuluj</button>
+      <button class="modal-btn ok" onclick="addPost()">Opublikuj</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="m-share">
+  <div class="modal">
+    <h3><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>&nbsp;Udostepnij strone</h3>
+    <p style="font-size:12px;color:var(--txt2);margin-bottom:4px">Twoja strona jest dostepna pod adresem:</p>
+    <div class="share-url" id="share-url">marta.lorti.pl</div>
+    <button class="copy-btn" onclick="copyLink()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>&nbsp;Kopiuj link</button>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="modal-btn cancel" style="flex:1" onclick="closeModal('m-share')">Zamknij</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="m-edit">
+  <div class="modal">
+    <h3 id="edit-label">Edytuj tekst</h3>
+    <input type="text" class="modal-inp" id="edit-val" placeholder="">
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal('m-edit')">Anuluj</button>
+      <button class="modal-btn ok" onclick="saveEdit()">Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW BANNER -->
+<div class="preview-banner" id="preview-banner">
+  <div class="pb-dot"></div>
+  <div class="pb-txt">Podglad strony Pro &mdash; <strong id="pb-domain">marta.lorti.pl</strong></div>
+  <button class="pb-edit" onclick="enterEditMode()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>&nbsp;Edytuj strone</button>
+  <button class="pb-share" onclick="shareModal()"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>&nbsp;Udostepnij</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+var editMode=false,currentEditId='';
+
+// Detect if opened with ?edit param
+if(window.location.search.indexOf('edit')>=0){
+  document.addEventListener('DOMContentLoaded',function(){enterEditMode();});
+}
+
+function enterEditMode(){
+  editMode=true;
+  document.body.classList.add('edit-mode');
+  document.getElementById('editor-bar').classList.add('show');
+  document.getElementById('preview-banner').style.display='none';
+  document.getElementById('port-add').style.display='flex';
+  document.getElementById('blog-add-card').style.display='flex';
+  setMode('edit');
+}
+
+function setMode(m){
+  document.getElementById('mode-edit').classList.toggle('on',m==='edit');
+  document.getElementById('mode-preview').classList.toggle('on',m==='preview');
+  document.querySelectorAll('.editable').forEach(function(el){
+    el.style.pointerEvents=m==='edit'?'auto':'none';
+  });
+}
+
+function editField(id){
+  if(!editMode)return;
+  currentEditId=id;
+  var el=document.getElementById(id);
+  var labels={
+    'h-name':'Imie i nazwisko',
+    'h-role':'Specjalizacja',
+    'h-loc':'Lokalizacja',
+    'h-initials':'Inicjaly (2 znaki)',
+    'h-years':'Lata doswiadczenia',
+    'h-projects':'Liczba projektow',
+    'h-clients':'Liczba klientow',
+    'h-rating':'Ocena',
+    'about-h':'Naglowek sekcji O mnie',
+    'about-bio':'Bio (krotkie)',
+    'contact-h':'Naglowek kontaktu',
+    'contact-p':'Opis kontaktu',
+    'foot-txt':'Tekst stopki',
+  };
+  document.getElementById('edit-label').textContent=labels[id]||'Edytuj';
+  document.getElementById('edit-val').value=el.innerText||el.textContent;
+  document.getElementById('m-edit').classList.add('show');
+  setTimeout(function(){document.getElementById('edit-val').focus();},100);
+}
+
+function saveEdit(){
+  var el=document.getElementById(currentEditId);
+  var val=document.getElementById('edit-val').value.trim();
+  if(val){
+    el.textContent=val;
+    // Update domain preview if name changed
+    if(currentEditId==='h-name'){
+      var slug=val.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+      var domain=slug.substring(0,20)+'.lorti.pl';
+      document.getElementById('eb-domain-label').textContent=domain;
+      document.getElementById('pb-domain').textContent=domain;
+      document.getElementById('share-url').textContent=domain;
+      document.title=val+' — Portfolio · Lorti Pro';
+    }
+  }
+  closeModal('m-edit');
+  toast('Zaktualizowano!');
+}
+
+document.getElementById('edit-val').addEventListener('keydown',function(e){
+  if(e.key==='Enter')saveEdit();
+  if(e.key==='Escape')closeModal('m-edit');
+});
+
+function toggleColorPanel(){
+  document.getElementById('color-panel').classList.toggle('show');
+}
+
+function setColor(c1,c2,c3){
+  document.documentElement.style.setProperty('--acc',c1);
+  document.documentElement.style.setProperty('--acc2',c2);
+  document.documentElement.style.setProperty('--acc3',c3);
+  document.querySelectorAll('.preset').forEach(function(p){p.classList.remove('on');});
+  event.target.classList.add('on');
+  toast('Kolor zmieniony!');
+}
+
+function openAddProject(){
+  if(!editMode)return;
+  document.getElementById('m-project').classList.add('show');
+}
+
+function addProject(){
+  var title=document.getElementById('proj-title').value.trim();
+  var tags=document.getElementById('proj-tags').value.trim();
+  var url=document.getElementById('proj-url').value.trim()||'https://images.unsplash.com/photo-1579762593175-20226054cad0?w=400&q=80';
+  if(!title){toast('Podaj nazwe projektu');return;}
+  var grid=document.getElementById('port-grid');
+  var add=document.getElementById('port-add');
+  var item=document.createElement('div');
+  item.className='port-item';
+  var tagHtml=tags.split(',').map(function(t){return '<span class="port-ov-tag">'+t.trim()+'</span>';}).join('');
+  item.innerHTML='<img src="'+url+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><div class="port-ov"><div class="port-ov-title">'+title+'</div><div class="port-ov-tags">'+tagHtml+'</div></div>';
+  grid.insertBefore(item,add);
+  closeModal('m-project');
+  document.getElementById('proj-title').value='';
+  document.getElementById('proj-tags').value='';
+  document.getElementById('proj-url').value='';
+  toast('Projekt dodany!');
+}
+
+function openAddPost(){
+  if(!editMode)return;
+  document.getElementById('m-post').classList.add('show');
+}
+
+function addPost(){
+  var title=document.getElementById('post-title').value.trim();
+  var tag=document.getElementById('post-tag').value.trim()||'WIP';
+  var desc=document.getElementById('post-desc').value.trim();
+  if(!title){toast('Podaj tytul wpisu');return;}
+  var grid=document.getElementById('blog-grid');
+  var addCard=document.getElementById('blog-add-card');
+  var card=document.createElement('div');
+  card.className='blog-card';
+  card.innerHTML='<div class="blog-img"><img src="https://images.unsplash.com/photo-1563207153-f403bf289096?w=600&q=75" alt="" style="width:100%;height:100%;object-fit:cover"></div><div class="blog-body"><div class="blog-tag">'+tag+'</div><div class="blog-title">'+title+'</div><div class="blog-sub">'+desc+'</div><div class="blog-foot"><span>Dzisiaj</span><span style="color:var(--acc2)">Czytaj</span></div></div>';
+  grid.insertBefore(card,addCard);
+  closeModal('m-post');
+  document.getElementById('post-title').value='';
+  document.getElementById('post-tag').value='';
+  document.getElementById('post-desc').value='';
+  toast('Wpis opublikowany!');
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function shareModal(){document.getElementById('m-share').classList.add('show');}
+function copyLink(){
+  var url=document.getElementById('share-url').textContent;
+  if(navigator.clipboard){navigator.clipboard.writeText('https://'+url);}
+  toast('Link skopiowany!');
+}
+
+function viewProject(i){toast('Projekt '+i+' — powiekszenie (wkrotce)');}
+
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}
+
+// Scroll effects
+window.addEventListener('scroll',function(){
+  var nav=document.getElementById('main-nav');
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._t);
+  t._t=setTimeout(function(){t.style.transform='translateX(-50%) translateY(90px)';},2600);
+}
+</script>
+</body>
+</html>
